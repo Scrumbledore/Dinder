@@ -28,6 +28,8 @@ project.xcworkspace
 .idea
 .gradle
 local.properties
+android/build.gradle
+android/gradle/wrapper/gradle-wrapper.properties
 
 # node.js
 #
