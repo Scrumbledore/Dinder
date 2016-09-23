@@ -10,12 +10,24 @@ describe('the API server', function () {
             ? 'http://localhost'
             : config.apiRoot;
   });
+
   it('should respond to GET requests', function (done) {
     request(apiRoot + ':' + config.port + '/', function (err, res, body) {
       if (err) {
         done(err);
       }
-      expect(JSON.parse(body)).to.be.an('object');
+      expect(body).to.be.ok;
+      done();
+    });
+  });
+
+  it('response should be valid JSON', function (done) {
+    request(apiRoot + ':' + config.port + '/', function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      expect(body).to.be.a('string');
+      expect(JSON.parse(body)).to.be.ok;
       done();
     });
   });

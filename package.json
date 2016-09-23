@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "server": "nodemon -w server server/index.js",
-    "test": "mocha spec/**",
-    "test:es6": "mocha --require babel-core/register spec/**",
+    "test": "mocha **/spec/**",
+    "test:es6": "mocha --require babel-core/register **/spec/**",
     "lint": "eslint ./"
   },
   "dependencies": {
