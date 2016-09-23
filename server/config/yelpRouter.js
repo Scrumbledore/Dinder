@@ -38,7 +38,7 @@ function allImages (businessID){
       var newArray = [info.id].concat(info['photos']);
 
       stuff2.push(newArray);
-      //console.log(newArray,info['photos']);
+      console.log(newArray,info['photos']);
      });}
   )
 }
@@ -50,7 +50,7 @@ rp(businessOptions())
    info.businesses.forEach(business =>
       {stuff1.push([business.id,business.image_url]);}
       )
-   // console.log(data,stuff1);
+    console.log(data,stuff1);
     return stuff1;
  })
  .then(function(items){
