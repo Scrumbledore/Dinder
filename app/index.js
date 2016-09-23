@@ -10,6 +10,8 @@ import {
   Platform
 } from 'react-native';
 
+import Nav from './components/Nav';
+
 var config = require('../config.js');
 
 export default class Dinder extends Component {
@@ -51,7 +53,7 @@ export default class Dinder extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={{flex:1}}>
         <Text style={styles.welcome}>
           {this.state.welcomeMessage}
         </Text>
