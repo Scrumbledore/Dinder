@@ -20,7 +20,7 @@ export default class Dinder extends Component {
 
     var apiRoot = config.apiRoot;
 
-    if (process.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       apiRoot = Platform.OS === 'android'
               ? config.androidLocalRoot
               : config.iosLocalRoot;
