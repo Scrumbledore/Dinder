@@ -36,9 +36,9 @@ From within the root directory:
 ```sh
 npm install
 ```
-### Testing on Localhost - Android
+### Testing on Localhost
 
-The local server instance may be accessed using IP address 10.0.2.2, since 'localhost' will point to the virtual machine instance.
+Start a local server instance using nodemon, and watch for changes in ./server:
 
 ```sh
 npm run server
