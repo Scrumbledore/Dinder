@@ -47,48 +47,14 @@ export default class Dinder extends Component {
 
   componentDidMount() {
     this.getWelcomeMessage();
-    this.onRegisterClick = this.onRegisterClick.bind(this);
-    this.onLoginClick = this.onLoginClick.bind(this);
-  }
-
-  onRegisterClick() {
-    this.setState({
-      showRegisterComponent: !this.state.showRegisterComponent
-    });
-  }
-
-  onLoginClick() {
-    this.setState({
-      showLoginComponent: !this.state.showLoginComponent
-    });
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          {this.state.welcomeMessage}
         </Text>
-        <Button onPress={(e) => {this.onRegisterClick();} }
-                containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}}
-                style={{fontSize: 20, color: 'white'}}>
-           Register
-        </Button>
-        {this.state.showRegisterComponent ?
-           <Text style={styles.instructions}>
-            It works insert Register component here!
-           </Text> : null
-        }
-        <Button onPress={(e) => {this.onLoginClick();}}
-                containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}}
-                style={{fontSize: 20, color: 'white'}}>
-          Log in
-        </Button>
-        {this.state.showLoginComponent ?
-          <Text style={styles.instructions}>
-            It works insert Log in component here!
-          </Text> : null
-        }
+        <Nav />
       </View>
     );
   }
