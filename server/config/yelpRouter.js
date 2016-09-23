@@ -7,7 +7,8 @@ https://www.yelp.com/developers/documentation/v3/get_started
 */
 
 
-// Testing until we have database targers
+// Testing until we have database targets. Data structure is:
+// [id,...] ... is however images provided. stuff1 is targeting local busineses with a generic search only 1 is provided. Stuff2 is querying the particular business to get all images.
 var stuff1 = [];
 var stuff2 = [];
 
