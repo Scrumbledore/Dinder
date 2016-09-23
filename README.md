@@ -48,7 +48,7 @@ npm run server
 
 TBD: automation / continuous deployment
 
-## Linting with ESLint and the Hack Reactor style guide
+#### Linting with ESLint and the Hack Reactor style guide:
 
 ```sh
 npm run lint
