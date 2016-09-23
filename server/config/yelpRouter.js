@@ -19,37 +19,40 @@ var stuff2 = [];
 
 
 //hardcoding apiKey until better solution / deployment
-function businessOptions (query){
+function yelpOptions (query, branch){
   //default for testing.
   query = query || 'search?term=delis&latitude=37.786882&longitude=-122.399972';
+  branch = branch || '';
 
   var options = {
-    url: config.yelpRoot + query,
+    url: config.yelpRoot + branch + query,
     headers: {
       'Authorization': 'Bearer ' + config.yelpKey,
       'Content-Type' : 'application/x-www-form-urlencoded'
     }
   };
-
+  console.log(options);
   return options;
 }
 
 //Once we have all local businesses we have an array of ID's to query the business to get all pictures
 function allImages (businessID){
   businessID.forEach(business => {
-    rp(businessOptions(business[0]))
+    console.log(business)
+    rp(yelpOptions(business[0],'businesses/'))
      .then(item => {
       var info = JSON.parse(item);
       var newArray = [info.id].concat(info['photos']);
 
       stuff2.push(newArray);
       console.log(newArray,info['photos']);
-     });}
+     }).then(console.log(stuff1,stuff2));
+  }
   )
 }
 
 //Find initial businesses and business pictures.
-rp(businessOptions())
+rp(yelpOptions(null,'businesses/'))
  .then(function(data){
   var info = JSON.parse(data);
    info.businesses.forEach(business =>
