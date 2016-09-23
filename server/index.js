@@ -15,3 +15,5 @@ app.set('port', (process.env.PORT || 1337));
 // }).catch(function (err) {
 //   console.log(err);
 // });
+//
+module.exports.app = app;
