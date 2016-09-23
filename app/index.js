@@ -12,21 +12,34 @@ export default class Dinder extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      message: 'Loading...'
+    };
+  }
+
+  getWelcomeMessage() {
+    return fetch('http://10.0.2.2:1337/')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message);
+      this.setState({
+        message: data.message
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+
+  componentDidMount() {
+    this.getWelcomeMessage();
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to DINDER!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+          {this.state.message}
         </Text>
       </View>
     );
