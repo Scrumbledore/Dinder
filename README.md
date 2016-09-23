@@ -36,6 +36,13 @@ From within the root directory:
 ```sh
 npm install
 ```
+### Testing on Localhost - Android
+
+The local server instance is accessed with IP address 10.0.2.2, Localhost points to the virtual machine instance.
+
+```sh
+npm run server
+```
 
 ### Tasks
 
