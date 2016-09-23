@@ -6,7 +6,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Platform
 } from 'react-native';
 
 export default class Dinder extends Component {
@@ -21,7 +22,13 @@ export default class Dinder extends Component {
   }
 
   getWelcomeMessage() {
-    return fetch('http://10.0.2.2:1337/')
+    // if android use specific url for local
+    if (Platform.OS === 'android') {
+      var fetchUrl = 'http://10.0.2.2:1337/'
+    } else {
+      var fetchUrl = 'http://localhost:1337/'
+    }
+    return fetch(fetchUrl)
     .then((response) => response.json())
     .then((data) => {
       console.log(data.message);
