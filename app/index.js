@@ -37,7 +37,7 @@ export default class Dinder extends Component {
     .then((response) => response.json())
     .then((data) => {
       this.setState({
-        message: data.message
+        welcomeMessage: data.message
       });
     })
     .catch((err) => {
@@ -67,7 +67,7 @@ export default class Dinder extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          {this.state.message}
+          {this.state.welcomeMessage}
         </Text>
         <Button onPress={(e) => {this.onRegisterClick()} }
                 containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}}
