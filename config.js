@@ -1,4 +1,4 @@
-var secrets = require('secrets.json');
+var secrets = require('./secrets.json');
 
 module.exports = {
   apiRoot: 'https://fill_me_in',
