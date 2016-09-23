@@ -69,7 +69,7 @@ export default class Dinder extends Component {
         <Text style={styles.welcome}>
           {this.state.welcomeMessage}
         </Text>
-        <Button onPress={(e) => {this.onRegisterClick()} }
+        <Button onPress={(e) => {this.onRegisterClick();} }
                 containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}}
                 style={{fontSize: 20, color: 'white'}}>
            Register
@@ -79,7 +79,7 @@ export default class Dinder extends Component {
             It works insert Register component here!
            </Text> : null
         }
-        <Button onPress={(e) => {this.onLoginClick()}}
+        <Button onPress={(e) => {this.onLoginClick();}}
                 containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}}
                 style={{fontSize: 20, color: 'white'}}>
           Log in
