@@ -46,9 +46,9 @@ function allImages (businessID){
 
       stuff2.push(newArray);
       console.log(newArray,info['photos']);
-     }).then(console.log(stuff1,stuff2));
-  }
-  )
+     })
+     .then(console.log(stuff1,stuff2));
+  });
 }
 
 //Find initial businesses and business pictures.
