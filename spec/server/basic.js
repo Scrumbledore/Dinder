@@ -13,7 +13,7 @@ describe('the API server', function () {
   it('should respond to GET requests', function (done) {
     request(apiRoot + ':' + config.port + '/', function (err, res, body) {
       if (err) {
-        done(err)
+        done(err);
       }
       expect(JSON.parse(body)).to.be.an('object');
       done();
