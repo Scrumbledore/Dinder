@@ -1,5 +1,5 @@
 var secrets;
-if (process.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
   secrets = require('./secrets.json');
 }
 
