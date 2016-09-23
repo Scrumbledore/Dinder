@@ -53,6 +53,7 @@ export default class Dinder extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
+          {this.state.welcomeMessage}
         </Text>
         <Nav />
       </View>
