@@ -2,8 +2,11 @@ var request = require('request');
 var rp = require('request-promise');
 
 /*
-Yelp docs if you want to test:
+Yelp docs if you want to test different queries:
 https://www.yelp.com/developers/documentation/v3/get_started
+
+To test functionality run
+node server/config/yelpRouter.js
 */
 
 
