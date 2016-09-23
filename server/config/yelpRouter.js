@@ -1,6 +1,12 @@
 var request = require('request');
 var rp = require('request-promise');
 
+/*
+Yelp docs if you want to test:
+https://www.yelp.com/developers/documentation/v3/get_started
+*/
+
+
 // Testing until we have database targers
 var stuff1 = [];
 var stuff2 = [];
