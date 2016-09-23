@@ -26,7 +26,7 @@ function businessOptions (query){
   var options = {
     url: config.yelpRoot + query,
     headers: {
-      'Authorization': `Bearer ${config.yelpKey}`,
+      'Authorization': 'Bearer ' + config.yelpKey,
       'Content-Type' : 'application/x-www-form-urlencoded'
     }
   };
