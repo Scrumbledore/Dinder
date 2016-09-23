@@ -36,12 +36,22 @@ From within the root directory:
 ```sh
 npm install
 ```
-### Testing on Localhost
+### Running Locally
 
 Start a local server instance using nodemon, and watch for changes in ./server:
 
 ```sh
 npm run server
+```
+
+### Testing
+
+TBD: automation / continuous deployment
+
+## Linting with ESLint and the Hack Reactor style guide
+
+```sh
+npm run lint
 ```
 
 ### Tasks
