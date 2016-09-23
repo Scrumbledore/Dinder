@@ -1,5 +1,6 @@
 var request = require('request');
 var rp = require('request-promise');
+var config = require('../../config.js');
 
 /*
 Yelp docs if you want to test different queries:
@@ -15,16 +16,14 @@ node server/config/yelpRouter.js
 var stuff1 = [];
 var stuff2 = [];
 
-
-//hardcoding apiKey until better solution / deployment
 function businessOptions (query){
   //default for testing.
   query = query || 'search?term=delis&latitude=37.786882&longitude=-122.399972';
 
   var options = {
-    url: 'https://api.yelp.com/v3/businesses/' + query,
+    url: config.yelpRoot + query,
     headers: {
-      'Authorization': 'Bearer tYT1p0QgELEBfOByFAia8jmaRnuw_mh79hru5lQTGJfwjLl-OAQ3lnOiEGc4iJvuMO_WiXOOqjhM0FRE0Jj4bw30_Subfgbl99QSfAcDpDvs35_Hwb_4mvpMu57kV3Yx',
+      'Authorization': `Bearer ${config.yelpKey}`,
       'Content-Type' : 'application/x-www-form-urlencoded'
     }
   };

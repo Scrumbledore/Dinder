@@ -1,4 +1,5 @@
 var express = require('express');
+var config = require('../config.js');
 //var db = require('./database/database_config.js');
 
 var app = express();
@@ -6,7 +7,7 @@ var app = express();
 require('./config/middleware.js')(app, express);
 require('./config/routes.js')(app, express);
 
-app.set('port', (process.env.PORT || 1337));
+app.set('port', config.port);
 
 // db.sync().then(function () {
   app.listen(app.get('port'), function() {
@@ -17,3 +18,5 @@ app.set('port', (process.env.PORT || 1337));
 // });
 //
 module.exports.app = app;
+
+// commented lines are anticipating postgreSQL
