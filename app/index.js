@@ -1,6 +1,7 @@
 // import React, { Component, View, Text, StyleSheet } from 'react-native';
 
 import React, { Component } from 'react';
+import Button from 'react-native-button';
 import {
   AppRegistry,
   StyleSheet,
@@ -13,6 +14,8 @@ export default class Dinder extends Component {
     super(props);
 
     this.state = {
+      showRegisterComponent: false,
+      showLoginComponent:false,
       message: 'Loading...'
     };
   }
@@ -33,15 +36,54 @@ export default class Dinder extends Component {
 
   componentDidMount() {
     this.getWelcomeMessage();
+
+    };
+    this.onRegisterClick = this.onRegisterClick.bind(this);
+    this.onLoginClick = this.onLoginClick.bind(this);
+  }
+
+  onRegisterClick() {
+    this.setState({
+      showRegisterComponent: !this.state.showRegisterComponent,
+    });
+  }
+
+  onLoginClick() {
+    this.setState({
+      showLoginComponent: !this.state.showLoginComponent,
+    });
+
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
+
           {this.state.message}
+
+
         </Text>
+       <Button
+        onPress={(e) => {this.onRegisterClick();  console.log('abcdefg');} }
+        containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}} style={{fontSize: 20, color: 'white'}}>
+         Register
+      </Button>
+        {this.state.showRegisterComponent ?
+           <Text style={styles.instructions}>It works insert Register component here!  </Text> :
+           null
+        }
+       <Button
+        onPress={(e) => {this.onLoginClick(); console.log('Login clicked')}}
+        containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: 'blue'}}style={{fontSize: 20, color: 'white'}}>
+         Log in
+      </Button>
+        {this.state.showLoginComponent ?
+           <Text style={styles.instructions}>It works insert Log in component here! </Text> :
+           null
+        }
       </View>
+
     );
   }
 }
