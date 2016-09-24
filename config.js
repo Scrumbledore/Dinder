@@ -1,7 +1,7 @@
 var secrets;
-// if (process.NODE_ENV !== 'production') {
-//   secrets = require('./secrets.json');
-// }
+if (process.env.NODE_ENV !== 'production') {
+  secrets = require('./secrets.json');
+}
 
 module.exports = {
   apiRoot: 'https://fill_me_in',
@@ -9,5 +9,5 @@ module.exports = {
   iosLocalRoot: 'http://localhost',
   port: process.env.PORT || 1337,
   yelpRoot: 'https://api.yelp.com/v3/'
-  // yelpKey: process.env.YELPKEY || secrets.yelpKey
+  yelpKey: process.env.YELPKEY || secrets.yelpKey
 };
