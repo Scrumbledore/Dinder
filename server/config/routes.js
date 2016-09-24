@@ -1,4 +1,4 @@
-module.exports = function (app, express) {
+module.exports = function (app) {
   app.get('/', function (req, res) {
     console.log('hit');
     res.json({
