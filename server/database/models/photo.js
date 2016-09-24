@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = require('../database_config.js');
+var db = require('../database.js');
 
 var photo = db.define('photo', {
   info: Sequelize.STRING,
