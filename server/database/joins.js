@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = require('./database_config.js');
+var db = require('./database.js');
 
 var user = require('./models/user.js');
 var place = require('./models/place.js');

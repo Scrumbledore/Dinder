@@ -20,6 +20,7 @@ export default class Dinder extends Component {
 
     var apiRoot = config.apiRoot;
 
+    // for testing locally with npm run server
     if (process.env.NODE_ENV !== 'production') {
       apiRoot = Platform.OS === 'android'
               ? config.androidLocalRoot
@@ -35,6 +36,7 @@ export default class Dinder extends Component {
   }
 
   getWelcomeMessage() {
+    // initiate contact with a GET request to '/'
     return fetch(`${this.state.apiRoot}:${config.port}/`)
     .then((response) => response.json())
     .then((data) => {

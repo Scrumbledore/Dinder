@@ -2,17 +2,21 @@ var request = require('request');
 var expect = require('chai').expect;
 var config = require('../../config.js');
 
-var apiRoot;
+var api;
+var end;
 
 describe('the API server', function () {
   before(function () {
-    apiRoot = process.env.NODE_ENV !== 'production'
-            ? 'http://localhost'
-            : config.apiRoot;
+    api = (process.env.NODE_ENV !== 'production'
+        ? 'http://localhost'
+        : config.apiRoot)
+        + ':'
+        + config.port;
+    end = '/';
   });
 
   it('should respond to GET requests', function (done) {
-    request(apiRoot + ':' + config.port + '/', function (err, res, body) {
+    request(api + end, function (err, res, body) {
       if (err) {
         done(err);
       }
@@ -22,7 +26,7 @@ describe('the API server', function () {
   });
 
   it('response should be valid JSON', function (done) {
-    request(apiRoot + ':' + config.port + '/', function (err, res, body) {
+    request(api + end, function (err, res, body) {
       if (err) {
         done(err);
       }

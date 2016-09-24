@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = require('../database_config.js');
+var db = require('../database.js');
 
 var place = db.define('place', {
   lat: Sequelize.STRING,
