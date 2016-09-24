@@ -22,8 +22,11 @@
     "react": "15.3.2",
     "react-native": "0.33.0",
     "react-native-button": "^1.7.0",
+    "react-native-swipe-cards": "0.0.9",
+    "react-native-vector-icons": "^2.1.0",
     "request": "^2.75.0",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "rnpm": "^1.9.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -34,5 +37,8 @@
     "presets": [
       "es2015"
     ]
+
+
+
   }
 }
