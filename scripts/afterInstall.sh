@@ -1,7 +1,7 @@
 #!/bin/sh
 # After install
 echo After Install
-pm2 kill all
+pm2 delete all
 pwd
 cd app/dinder/
 sudo npm install
