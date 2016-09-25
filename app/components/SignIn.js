@@ -5,7 +5,7 @@ import { Icon, Button } from 'react-native-elements';
 import { Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import styles from '../styles/styles.js'
+import styles from '../styles/styles.js';
 
 export default class SignIn extends Component {
   constructor(props) {

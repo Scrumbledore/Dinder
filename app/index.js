@@ -18,7 +18,7 @@ class TabIcon extends Component {
   render() {
     return (
       <View>
-        <Icon name={"favorite"} size={24} color={this.props.selected ? 'steelblue' : 'black' } />
+        <Icon name={'favorite'} size={24} color={this.props.selected ? 'steelblue' : 'black' } />
         <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>{this.props.title}</Text>
       </View>
     );
@@ -65,39 +65,39 @@ export default class Dinder extends Component {
   render() {
     return (
       <Router hideNavBar={true} >
-        <Scene key="root" hideNavBar={true}>
+        <Scene key='root' hideNavBar={true}>
           <Scene
-            key="signin"
+            key='signin'
             component={SignIn}
             icon={TabIcon}
-            title="Sign In" />
+            title='Sign In' />
           <Scene 
-            key="signup"
+            key='signup'
             component={SignUp}
             icon={TabIcon}
-            title="Sign Up" />   
-          <Scene key="tabbar" tabs={true}>
+            title='Sign Up' />   
+          <Scene key='tabbar' tabs={true}>
             <Scene 
-              key="favorites"
+              key='favorites'
               component={Favorites}
               icon={TabIcon}
-              title="Favorites" /> 
+              title='Favorites' /> 
             <Scene 
-              key="food"
+              key='food'
               initial={true}
               component={Food}
               icon={TabIcon}
-              title="Food" />
+              title='Food' />
             <Scene 
-              key="recs"
+              key='recs'
               component={Recs}
               icon={TabIcon}
-              title="Recs" /> 
+              title='Recs' /> 
             <Scene 
-              key="menu"
+              key='menu'
               component={Menu}
               icon={TabIcon}
-              title="Menu" /> 
+              title='Menu' /> 
           </Scene>
         </Scene>
       </Router>
