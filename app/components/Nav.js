@@ -6,21 +6,11 @@ import {
 } from 'react-native';
 
 import Food from './Food';
-import Favorites from './Favorites';
-import Profile from './Profile';
-import Recs from './Recs';
-import Restaurant from './Restaurant';
-import Settings from './Settings';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 
 const ROUTES = {
   food: Food,
-  favorites: Favorites,
-  profile: Profile,
-  recs: Recs,
-  restaurant: Restaurant,
-  settings: Settings,
   signin: SignIn,
   signup:  SignUp,
   
