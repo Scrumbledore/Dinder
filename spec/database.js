@@ -12,7 +12,7 @@ var connection = new Sequelize(config.DB_NAME, config.DB_USERNAME, config.DB_PAS
   }
 });
 
-describe('the API server', function () {
+describe('the database server', function () {
 
   it('should authenticate', function (done) {
     connection.authenticate().then(function (conf) {
