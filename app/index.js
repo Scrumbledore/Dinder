@@ -1,17 +1,29 @@
-// import React, { Component, View, Text, StyleSheet } from 'react-native';
-
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Platform
-} from 'react-native';
+import { AppRegistry, Text, View, Platform} from 'react-native';
+import { Scene, Router, Actions, TabBar, Navigator } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import Nav from './components/Nav';
+import SignIn from './components/SignIn.js';
+import SignUp from './components/SignUp.js';
+import Food from './components/Food.js';
+import Favorites from './components/Favorites.js';
+import Recs from './components/Recs.js';
+import Menu from './components/Menu.js';
+
 
 var config = require('../config.js');
+
+// for tab menu below, not used elsewhere
+class TabIcon extends Component {
+  render() {
+    return (
+      <View>
+        <Icon name={"favorite"} size={24} color={this.props.selected ? 'steelblue' : 'black' } />
+        <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>{this.props.title}</Text>
+      </View>
+    );
+  }
+}
 
 export default class Dinder extends Component {
   constructor(props) {
@@ -28,8 +40,6 @@ export default class Dinder extends Component {
 
     this.state = {
       apiRoot: apiRoot,
-      showRegisterComponent: false,
-      showLoginComponent:false,
       welcomeMessage: 'Loading...'
     };
   }
@@ -54,36 +64,43 @@ export default class Dinder extends Component {
 
   render() {
     return (
-      <View style={{flex:1}}>
-        <Text style={styles.welcome}>
-          {this.state.welcomeMessage}
-        </Text>
-        <Nav />
-      </View>
+      <Router hideNavBar={true} >
+        <Scene key="root" hideNavBar={true}>
+          <Scene
+            key="signin"
+            component={SignIn}
+            icon={TabIcon}
+            title="Sign In" />
+          <Scene 
+            key="signup"
+            component={SignUp}
+            icon={TabIcon}
+            title="Sign Up" />   
+          <Scene key="tabbar" tabs={true}>
+            <Scene 
+              key="favorites"
+              component={Favorites}
+              icon={TabIcon}
+              title="Favorites" /> 
+            <Scene 
+              key="food"
+              initial={true}
+              component={Food}
+              icon={TabIcon}
+              title="Food" />
+            <Scene 
+              key="recs"
+              component={Recs}
+              icon={TabIcon}
+              title="Recs" /> 
+            <Scene 
+              key="menu"
+              component={Menu}
+              icon={TabIcon}
+              title="Menu" /> 
+          </Scene>
+        </Scene>
+      </Router>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
