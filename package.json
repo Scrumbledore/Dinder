@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "server": "nodemon -w server server/index.js",
-    "test": "mocha **/spec/**",
+    "test": "mocha spec/",
     "lint": "eslint ./"
   },
   "pre-commit": [

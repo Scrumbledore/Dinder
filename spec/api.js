@@ -1,6 +1,6 @@
 var request = require('request');
 var expect = require('chai').expect;
-var config = require('../../config.js');
+var config = require('../config.js');
 
 var api;
 var end;
@@ -12,10 +12,10 @@ describe('the API server', function () {
         : config.apiRoot)
         + ':'
         + config.port;
-    end = '/';
   });
 
   it('should respond to GET requests', function (done) {
+    end = '/';
     request(api + end, function (err, res, body) {
       if (err) {
         done(err);
@@ -25,7 +25,8 @@ describe('the API server', function () {
     });
   });
 
-  it('response should be valid JSON', function (done) {
+  it('should respond with valid JSON', function (done) {
+    end = '/';
     request(api + end, function (err, res, body) {
       if (err) {
         done(err);
