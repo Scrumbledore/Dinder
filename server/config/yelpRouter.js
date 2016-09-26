@@ -19,7 +19,7 @@ var stuff2 = [];
 
 
 //hardcoding apiKey until better solution / deployment
-function yelpOptions (query, branch){
+var yelpOptions = function(query, branch) {
   //default for testing.
   query = query || 'search?term=delis&latitude=37.786882&longitude=-122.399972';
   branch = branch || '';
@@ -28,39 +28,38 @@ function yelpOptions (query, branch){
     url: config.yelpRoot + branch + query,
     headers: {
       'Authorization': 'Bearer ' + config.yelpKey,
-      'Content-Type' : 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
   };
   console.log(options);
   return options;
-}
+};
 
 //Once we have all local businesses we have an array of ID's to query the business to get all pictures
-function allImages (businessID){
+var allImages = function(businessID) {
   businessID.forEach(business => {
-    console.log(business)
-    rp(yelpOptions(business[0],'businesses/'))
-     .then(item => {
-      var info = JSON.parse(item);
-      var newArray = [info.id].concat(info['photos']);
+    console.log(business);
+    rp(yelpOptions(business[0], 'businesses/'))
+      .then(item => {
+        var info = JSON.parse(item);
+        var newArray = [info.id].concat(info['photos']);
 
-      stuff2.push(newArray);
-      console.log(newArray,info['photos']);
-     })
-     .then(console.log(stuff1,stuff2));
+        stuff2.push(newArray);
+        console.log(newArray, info['photos']);
+      })
+      .then(console.log(stuff1, stuff2));
   });
-}
+};
 
 //Find initial businesses and business pictures.
-rp(yelpOptions(null,'businesses/'))
- .then(function(data){
-  var info = JSON.parse(data);
-   info.businesses.forEach(business =>
-      {stuff1.push([business.id,business.image_url]);}
-      )
-    console.log(data,stuff1);
+rp(yelpOptions(null, 'businesses/'))
+  .then(function(data) {
+    var info = JSON.parse(data);
+    info.businesses.forEach(business => { stuff1.push([business.id, business.image_url]); }
+    );
+    console.log(data, stuff1);
     return stuff1;
- })
- .then(function(items){
+  })
+ .then(function(items) {
    allImages(items);
  });

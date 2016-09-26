@@ -1,32 +1,21 @@
 import React, { Component } from 'react';
-import Button from 'react-native-button';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Tabs, Tab, Icon, Button } from 'react-native-elements';
+
+import styles from '../styles/styles.js';
 
 export default class Recs extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      message: 'Loading...'
-    };
   }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to the Recs page!
+          Welcome to the Recs Page!
         </Text>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
