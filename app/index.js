@@ -71,33 +71,33 @@ export default class Dinder extends Component {
             component={SignIn}
             icon={TabIcon}
             title='Sign In' />
-          <Scene 
+          <Scene
             key='signup'
             component={SignUp}
             icon={TabIcon}
-            title='Sign Up' />   
+            title='Sign Up' />
           <Scene key='tabbar' tabs={true}>
-            <Scene 
+            <Scene
               key='favorites'
               component={Favorites}
               icon={TabIcon}
-              title='Favorites' /> 
-            <Scene 
+              title='Favorites' />
+            <Scene
               key='food'
               initial={true}
               component={Food}
               icon={TabIcon}
               title='Food' />
-            <Scene 
+            <Scene
               key='recs'
               component={Recs}
               icon={TabIcon}
-              title='Recs' /> 
-            <Scene 
+              title='Recs' />
+            <Scene
               key='menu'
               component={Menu}
               icon={TabIcon}
-              title='Menu' /> 
+              title='Menu' />
           </Scene>
         </Scene>
       </Router>

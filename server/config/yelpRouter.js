@@ -18,8 +18,26 @@ var stuff1 = [];
 var stuff2 = [];
 
 
+/*
+var place = db.define('place', {
+  lat: Sequelize.STRING,
+  lon: Sequelize.STRING,
+  name: Sequelize.STRING,
+  address: Sequelize.STRING,
+  city: Sequelize.STRING,
+  state: Sequelize.STRING,
+  url: Sequelize.STRING
+});
+
+var photo = db.define('photo', {
+  info: Sequelize.STRING,
+  url: Sequelize.STRNG
+});
+
+*/
+
 //hardcoding apiKey until better solution / deployment
-var yelpOptions = function(query, branch) {
+var yelpOptions = function (query, branch) {
   //default for testing.
   query = query || 'search?term=delis&latitude=37.786882&longitude=-122.399972';
   branch = branch || '';
@@ -36,18 +54,25 @@ var yelpOptions = function(query, branch) {
 };
 
 //Once we have all local businesses we have an array of ID's to query the business to get all pictures
-var allImages = function(businessID) {
-  businessID.forEach(business => {
-    console.log(business);
+var allImages = function (businessID) {
+  businessID.forEach(function(business) {
     rp(yelpOptions(business[0], 'businesses/'))
-      .then(item => {
-        var info = JSON.parse(item);
-        var newArray = [info.id].concat(info['photos']);
+     .then(function(item) {
+       var info = JSON.parse(item);
+       var newArray = [info.id];
+       if (info.photos.length > 0) {
+         info.photos.forEach(function(picture) {
+           newArray.push({
+             info: '',
+             url: picture
+           });
+         });
+       }
 
-        stuff2.push(newArray);
-        console.log(newArray, info['photos']);
-      })
-      .then(console.log(stuff1, stuff2));
+       stuff2.push(newArray);
+       console.log(newArray, info.photos);
+     })
+     .then(console.log(stuff1, stuff2));
   });
 };
 
@@ -55,11 +80,28 @@ var allImages = function(businessID) {
 rp(yelpOptions(null, 'businesses/'))
   .then(function(data) {
     var info = JSON.parse(data);
-    info.businesses.forEach(business => { stuff1.push([business.id, business.image_url]); }
-    );
+    info.businesses.forEach(function(business) {
+      stuff1.push([business.id, business.image_url]);
+    });
     console.log(data, stuff1);
     return stuff1;
   })
+ .then(function(data) {
+   var info = JSON.parse(data);
+   info.businesses.forEach(function(business) {
+     stuff1.push([business.id, {
+       lat: business.coordinates.latitude,
+       lon: business.coordinates.longitude,
+       name: business.name,
+       address: business.location.address1,
+       city: business.location.city,
+       state: business.location.state,
+       url: business.image_url
+     }]);
+   });
+   console.log(data, stuff1);
+   return stuff1;
+ })
  .then(function(items) {
    allImages(items);
  });
