@@ -5,7 +5,10 @@ var db = require('../database.js');
 // var joins = require('../joins.js')
 
 var user = db.define('user', {
-  email: Sequelize.STRING,
+  email: {
+    type: Sequelize.STRING,
+    unique: true
+  },
   password: Sequelize.STRING,
   lastGeo: Sequelize.STRING
 // },

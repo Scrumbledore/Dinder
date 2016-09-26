@@ -1,4 +1,4 @@
-var Photo = require('../database/models/photo.js');
+var photo = require('../database/models/photo.js');
 
 module.exports = {
 
@@ -8,23 +8,76 @@ module.exports = {
   getPhotos: function (req, res) {
     var userId = req.params.userid;
     var location = req.params.loc;
-    // something here
     console.log('getPhotos for', userId, 'at', location);
   },
 
-  upVote: function (req, res) {
+  voteYes: function (req, res) {
     var userId = req.params.userid;
-    var pictureId = req.params.pictureid;
-    // something here
-    console.log('swipe right for', pictureId, 'by', userId);
+    var photoId = req.params.photoid;
+    console.log('swipe right for', photoId, 'by', userId);
+
+    photo.findOne({
+      where: {
+        id: photoId
+      }
+    })
+    .then(function (foundPhoto) {
+      if (foundPhoto) {
+        user.findOne({
+          where: {
+            id: userId
+          }
+        })
+        .then(function (foundUser) {
+          if (foundUser) {
+            foundPhoto.addVoter(foundUser, {
+              like: true
+            });
+          } else {
+            throw new Error('no matching user record for id', userId);
+          }
+        });
+      } else {
+        throw new Error('no matching photo record for id', photoId);
+      }
+    })
+    .catch(function (err) {
+      throw err;
+    });
   },
 
-  downVote: function (req, res) {
+  voteNo: function (req, res) {
     var userId = req.params.userid;
-    var pictureId = req.params.pictureid;
-    // something here
-    console.log('swipe left for', pictureId, 'by', userId);
-  }
-  
+    var photoId = req.params.photoid;
+    console.log('swipe left for', photoId, 'by', userId);
 
+    photo.findOne({
+      where: {
+        id: photoId
+      }
+    })
+    .then(function (foundPhoto) {
+      if (foundPhoto) {
+        user.findOne({
+          where: {
+            id: userId
+          }
+        })
+        .then(function (foundUser) {
+          if (foundUser) {
+            foundPhoto.addVoter(foundUser, {
+              like: false
+            });
+          } else {
+            throw new Error('no matching user record for id', userId);
+          }
+        });
+      } else {
+        throw new Error('no matching photo record for id', photoId);
+      }
+    })
+    .catch(function (err) {
+      throw err;
+    });
+  }
 };
