@@ -2,6 +2,7 @@ var Sequelize = require('sequelize');
 // var Promise = require('bluebird');
 // var bcrypt = require('bcrypt-nodejs');
 var db = require('../database.js');
+// var joins = require('../joins.js')
 
 var user = db.define('user', {
   email: Sequelize.STRING,

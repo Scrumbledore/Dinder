@@ -1,4 +1,7 @@
 var User = require('../database/models/user.js');
+var Photo = require('../database/models/photo.js');
+var Sequelize = require('sequelize');
+// var joins = require('../database/joins.js')
 
 module.exports = {
 
@@ -7,15 +10,66 @@ module.exports = {
 
   getFavorites: function (req, res) {
     var userId = req.params.userid;
-    // something here
-    console.log('getFavorites for', userId);
+    User.findOne({
+      where: {id: userId}
+    }).then(
+      function(user) {
+        user.getPhotos().then(
+          function(favorites) {
+            res.json(favorites).send();
+          }
+        );
+      }
+    );
   },
+
+  // getFavorites example return
+  // [
+  //   {
+  //     "id": 1,
+  //     "info": "something info",
+  //     "url": "www.google.com",
+  //     "createdAt": "2016-09-26T23:44:38.534Z",
+  //     "updatedAt": "2016-09-26T23:44:38.534Z",
+  //     "placeId": 1,
+  //     "favorites": {
+  //       "createdAt": "2016-09-26T23:46:21.718Z",
+  //       "updatedAt": "2016-09-26T23:46:21.718Z",
+  //       "photoId": 1,
+  //       "userId": 1
+  //     }
+  //   },
+  //   {
+  //     "id": 2,
+  //     "info": "something info2",
+  //     "url": "www.google.com",
+  //     "createdAt": "2016-09-26T23:46:54.346Z",
+  //     "updatedAt": "2016-09-26T23:46:54.346Z",
+  //     "placeId": 1,
+  //     "favorites": {
+  //       "createdAt": "2016-09-26T23:47:06.095Z",
+  //       "updatedAt": "2016-09-26T23:47:06.095Z",
+  //       "photoId": 2,
+  //       "userId": 1
+  //     }
+  //   }
+  // ]
 
   saveFavorite: function (req, res) {
     var userId = req.params.userid;
     var pictureId = req.params.pictureid;
-    // something here
-    console.log('save', pictureId, 'for', userId);
+    User.findOne({
+      where: {id: userId}
+    }).then(
+      function(user) {
+        user.addPhoto(pictureId).then(
+          function(pictureId) {
+            console.log('saved', pictureId, 'for', userId);
+            res.status(201).send();
+          }
+        );
+      }
+    );
   },
 
   getRecommendations: function (req, res) {
