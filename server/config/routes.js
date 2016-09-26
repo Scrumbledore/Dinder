@@ -3,9 +3,8 @@ var photoHandler = require('../handlers/photoHandler.js');
 var authHandler = require('../handlers/authHandler.js');
 
 module.exports = function (app, express) {
-  // this is root entry - only used for verify server, not in production ap
+  // this is root entry - only used for verify server, not in production app
   app.get('/', function (req, res) {
-    console.log('hit');
     res.json({
       message: 'hello, world v2.99'
     });
@@ -15,7 +14,7 @@ module.exports = function (app, express) {
   app.get('/api/favorites/:userid', userHandler.getFavorites);
 
   // for recording a favorite for a userid (since it's post we can technical pass in body if we want)
-  app.post('/api/favorites/:userid/:pictureid', userHandler.saveFavorite);
+  app.post('/api/favorites/:userid/:photoid', userHandler.saveFavorite);
 
   // for getting recommendations for a user at a given loc
   app.get('/api/recommendations/:userid/:loc', userHandler.getRecommendations);
@@ -23,11 +22,11 @@ module.exports = function (app, express) {
   // for getting pictures of food for user to swipe on
   app.get('/api/photo/:userid/:zip/:lat/:long', photoHandler.getPhotos);
 
-  // vote yets on a picture (since it's post we can technical pass in body if we want)
-  app.post('/api/yes/:userid/:pictureid', photoHandler.upVote);
+  // vote yets on a photo (since it's post we can technical pass in body if we want)
+  app.post('/api/yes/:userid/:photoid', photoHandler.voteYes);
 
-  // vote no on a picture (since it's post we can technical pass in body if we want)
-  app.post('/api/no/:userid/:pictureid', photoHandler.downVote);
+  // vote no on a photo (since it's post we can technical pass in body if we want)
+  app.post('/api/no/:userid/:photoid', photoHandler.voteNo);
 
   // signin
   app.post('/api/signin', authHandler.signIn);

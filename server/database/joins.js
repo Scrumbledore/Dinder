@@ -1,49 +1,33 @@
 var Sequelize = require('sequelize');
-// var db = require('./database.js');
 var user = require('./models/user.js');
 var place = require('./models/place.js');
 var photo = require('./models/photo.js');
 
 module.exports = function (connection) {
 
-  // define a join table for photo votes
-  var vote = connection.define('vote', {
-    rating: Sequelize.INTEGER
-  });
-  // add userId to vote schema
-  user.belongsToMany(photo, {
-    through: vote
-  });
-  // add photoId to vote schema
-  photo.belongsToMany(user, {
-    through: vote
-  });
-
-  // define a join table for photo favorites
-  photo.belongsToMany(user, {
-    as: 'favorite',
-    through: 'favorites'
+  var userPhotos = connection.define('userPhotos', {
+    like: Sequelize.BOOLEAN
+    favorite: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    }
   });
   user.belongsToMany(photo, {
-    through: 'favorites'
+    through: userPhotos
+  });
+  photo.belongsToMany(user, {
+    through: userPhotos
   });
 
-  // define a join table for place ratings
-  var placeRating = connection.define('placeRating', {
+  var userRatings = connection.define('userRatings', {
     rating: Sequelize.INTEGER
   });
-  // add userId to placeRating schema
   user.belongsToMany(place, {
-    through: placeRating
+    through: userRatings
   });
-  // add placeId to placeRating schema
   place.belongsToMany(user, {
-    through: placeRating
+    through: userRatings
   });
 
-  // link many photos with one place
-  // adds placeId to photo schema
-  // provides place.getPhotos() and place.setPhotos()
   place.hasMany(photo);
-
 };

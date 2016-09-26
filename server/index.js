@@ -4,6 +4,7 @@ var connection = require('./database/database.js');
 
 var app = express();
 
+require('./database/joins.js')(connection);
 require('./config/middleware.js')(app, express);
 require('./config/routes.js')(app, express);
 require('./database/joins.js')(connection);
