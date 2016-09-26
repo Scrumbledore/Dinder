@@ -1,5 +1,6 @@
 var userHandler = require('../handlers/userHandler.js');
 var photoHandler = require('../handlers/photoHandler.js');
+var authHandler = require('../handlers/authHandler.js');
 
 module.exports = function (app, express) {
   // this is root entry - only used for verify server, not in production ap
@@ -26,17 +27,13 @@ module.exports = function (app, express) {
   app.post('/api/yes/:userid/:pictureid', photoHandler.upVote);
 
   // vote no on a picture (since it's post we can technical pass in body if we want)
-  app.post('/api/no/:userid/:pictureid', photoHandler.upVote);
+  app.post('/api/no/:userid/:pictureid', photoHandler.downVote);
 
   // signin
-  app.post('/api/signin', function (req, res) {
-    // something here
-  });
+  app.post('/api/signin', authHandler.signIn);
 
   // signup
-  app.post('/api/signup', function (req, res) {
-    // something here
-  });
+  app.post('/api/signup', authHandler.signUp);
 
   // more routes here
 };

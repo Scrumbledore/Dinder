@@ -23,7 +23,7 @@ module.exports = {
     var userId = req.params.userid;
     var pictureId = req.params.pictureid;
     // something here
-    console.log('swipe right for', pictureId, 'by', userId);
+    console.log('swipe left for', pictureId, 'by', userId);
   }
   
 
