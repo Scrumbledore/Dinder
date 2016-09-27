@@ -3,44 +3,10 @@ var rp = require('request-promise');
 var Place = require('../database/models/place.js');
 var config = require('../../config.js');
 
-<<<<<<< 8e0fa879c7d8498c58e1b2c6d83c72bee8c08b56
-/*
-Yelp docs if you want to test different queries:
-https://www.yelp.com/developers/documentation/v3/get_started
-
-To test functionality run
-node server/config/yelpRouter.js
-*/
-
-// Testing until we have database targets. Data structure is:
-// [id,...] ... is however images provided. stuff1 is targeting local busineses with a generic search only 1 is provided. Stuff2 is querying the particular business to get all images.
-var stuff1 = [];
-var stuff2 = [];
-
-/*
-var place = db.define('place', {
-  lat: Sequelize.STRING,
-  lon: Sequelize.STRING,
-  name: Sequelize.STRING,
-  address: Sequelize.STRING,
-  city: Sequelize.STRING,
-  state: Sequelize.STRING,
-  url: Sequelize.STRING
-});
-
-var photo = db.define('photo', {
-  info: Sequelize.STRING,
-  url: Sequelize.STRNG
-});
-
-*/
-
-=======
 var stuff1 = [];
 var stuff2 = [];
 
 module.exports = {
->>>>>>> Exported yelp handlers.
 //hardcoding apiKey until better solution / deployment
   yelpOptions: function (query, branch) {
   //default for testing.
@@ -98,7 +64,6 @@ module.exports = {
 
             } else {
           // right now just creates a user, we don't have auth decided
-          console.log(business,'$$$$')
               Place.create({
                 lat: business.coordinates.latitude || 0,
                 lon: business.coordinates.longitude || 0,
