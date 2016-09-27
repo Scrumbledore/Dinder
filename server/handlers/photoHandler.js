@@ -41,7 +41,12 @@ module.exports = {
     var userId = req.params.userid;
     var location = req.params.loc;
     console.log('getPhotos for', userId, 'at', location);
-    res.send(200, Yelp.someImages(Yelp.yelpOptions(null, 'businesses/')));
+
+    Yelp.someImages(Yelp.yelpOptions(null, 'businesses/'))
+    .then(function(data) {
+      console.log(data, 'I got the stuff $$$$');
+      res.send(200, data);
+    });
   },
 
   voteYes: function (req, res) {
