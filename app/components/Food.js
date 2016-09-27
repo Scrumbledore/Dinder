@@ -8,38 +8,38 @@ import Iconz from 'react-native-vector-icons/Ionicons';
 
 import styles from '../styles/styles.js';
 
-var image1 = require('../images/image1.jpg');
-var image2 = require('../images/image2.jpg');
-var image3 = require('../images/image3.jpg');
-var image4 = require('../images/image4.jpg');
-var image5 = require('../images/image5.jpg');
-var image6 = require('../images/image6.jpg');
+// var image1 = require('../images/image1.jpg');
+// var image2 = require('../images/image2.jpg');
+// var image3 = require('../images/image3.jpg');
+// var image4 = require('../images/image4.jpg');
+// var image5 = require('../images/image5.jpg');
+// var image6 = require('../images/image6.jpg');
 
-const Cards = [{
-  'id': 1,
-  'first_name': 'Pikachu salad',
-  'image': image1
-}, {
-  'id': 2,
-  'first_name': 'Les Vegetables',
-  'image': image2
-}, {
-  'id': 3,
-  'first_name': 'Bonne Tuna pocket',
-  'image': image3
-}, {
-  'id': 4,
-  'first_name': 'Chicken sticks',
-  'image': image4
-}, {
-  'id': 5,
-  'first_name': 'Interstellar doughnuts',
-  'image': image5
-}, {
-  'id': 6,
-  'first_name': 'Orange chicken',
-  'image': image6
-}];
+// const Cards = [{
+//   'id': 1,
+//   'first_name': 'Pikachu salad',
+//   'image': image1
+// }, {
+//   'id': 2,
+//   'first_name': 'Les Vegetables',
+//   'image': image2
+// }, {
+//   'id': 3,
+//   'first_name': 'Bonne Tuna pocket',
+//   'image': image3
+// }, {
+//   'id': 4,
+//   'first_name': 'Chicken sticks',
+//   'image': image4
+// }, {
+//   'id': 5,
+//   'first_name': 'Interstellar doughnuts',
+//   'image': image5
+// }, {
+//   'id': 6,
+//   'first_name': 'Orange chicken',
+//   'image': image6
+// }];
 
 export default class Food extends Component {
   constructor(props) {
