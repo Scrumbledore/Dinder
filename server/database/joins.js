@@ -1,7 +1,8 @@
 var Sequelize = require('sequelize');
-var user = require('./models/user.js');
-var place = require('./models/place.js');
-var photo = require('./models/photo.js');
+var User = require('./models/user.js');
+var Place = require('./models/place.js');
+var Photo = require('./models/photo.js');
+
 
 module.exports = function (connection) {
 

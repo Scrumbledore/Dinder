@@ -4,7 +4,7 @@ var Sequelize = require('sequelize');
 var db = require('../database.js');
 // var joins = require('../joins.js')
 
-var user = db.define('user', {
+var User = db.define('User', {
   email: {
     type: Sequelize.STRING,
     unique: true
@@ -33,4 +33,4 @@ var user = db.define('user', {
 //     });
 // });
 
-module.exports = user;
+module.exports = User;
