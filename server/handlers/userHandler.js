@@ -81,7 +81,6 @@ module.exports = {
     } else {
       // search by zip
     }
-    //
     console.log('getRecommendations for', userId, 'at', location);
   }
 
