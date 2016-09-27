@@ -1,4 +1,5 @@
 var Photo = require('../database/models/photo.js');
+var UserPhotos = require('../database/models/userPhotos.js');
 
 module.exports = {
 
@@ -8,23 +9,40 @@ module.exports = {
   getPhotos: function (req, res) {
     var userId = req.params.userid;
     var location = req.params.loc;
-    // something here
     console.log('getPhotos for', userId, 'at', location);
   },
 
-  upVote: function (req, res) {
-    var userId = req.params.userid;
-    var pictureId = req.params.pictureid;
-    // something here
-    console.log('swipe right for', pictureId, 'by', userId);
+  voteYes: function (req, res) {
+    UserPhotos.update({
+      like: true
+    }, {
+      where: {
+        UserId: req.params.userid,
+        PhotoId: req.params.photoid
+      }
+    })
+    .then(function (conf) {
+      res.json(conf);
+    })
+    .catch(function (err) {
+      throw err;
+    });
   },
 
-  downVote: function (req, res) {
-    var userId = req.params.userid;
-    var pictureId = req.params.pictureid;
-    // something here
-    console.log('swipe left for', pictureId, 'by', userId);
+  voteNo: function (req, res) {
+    UserPhotos.update({
+      like: false
+    }, {
+      where: {
+        UserId: req.params.userid,
+        PhotoId: req.params.photoid
+      }
+    })
+    .then(function (conf) {
+      res.json(conf);
+    })
+    .catch(function (err) {
+      throw err;
+    });
   }
-  
-
 };

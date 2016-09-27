@@ -60,7 +60,7 @@ export default class Dinder extends Component {
   }
 
   componentDidMount() {
-    this.getWelcomeMessage();
+    // this.getWelcomeMessage();
   }
 
   render() {

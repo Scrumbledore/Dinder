@@ -93,8 +93,6 @@ module.exports = {
     }
     // 
     console.log('getRecommendations for', userId, 'at', location);
-  },
-
-
+  }
 
 };

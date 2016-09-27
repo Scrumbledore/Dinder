@@ -11,12 +11,10 @@ To test functionality run
 node server/config/yelpRouter.js
 */
 
-
 // Testing until we have database targets. Data structure is:
 // [id,...] ... is however images provided. stuff1 is targeting local busineses with a generic search only 1 is provided. Stuff2 is querying the particular business to get all images.
 var stuff1 = [];
 var stuff2 = [];
-
 
 /*
 var place = db.define('place', {

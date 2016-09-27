@@ -1,11 +1,13 @@
 var Sequelize = require('sequelize');
 // var Promise = require('bluebird');
 // var bcrypt = require('bcrypt-nodejs');
-var db = require('../database.js');
-// var joins = require('../joins.js')
+var connection = require('../database.js');
 
-var user = db.define('user', {
-  email: Sequelize.STRING,
+var User = connection.define('User', {
+  email: {
+    type: Sequelize.STRING,
+    unique: true
+  },
   password: Sequelize.STRING,
   lastGeo: Sequelize.STRING
 // },
@@ -30,4 +32,4 @@ var user = db.define('user', {
 //     });
 // });
 
-module.exports = user;
+module.exports = User;

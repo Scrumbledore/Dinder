@@ -1,10 +1,10 @@
 var Sequelize = require('sequelize');
-var db = require('../database.js');
+var connection = require('../database.js');
 
-var photo = db.define('photo', {
+var Photo = connection.define('Photo', {
   info: Sequelize.STRING,
   url: Sequelize.STRING
 });
 
 
-module.exports = photo;
+module.exports = Photo;
