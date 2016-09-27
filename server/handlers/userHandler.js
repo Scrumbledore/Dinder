@@ -83,7 +83,7 @@ module.exports = {
         function(user) {
           user.getPlaces().then(
             function(places) {
-              res.status(201).send();
+              res.status(201).send(places);
             }
           );
         }
