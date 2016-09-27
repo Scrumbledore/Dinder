@@ -1,4 +1,4 @@
-var photo = require('../database/models/photo.js');
+var Photo = require('../database/models/photo.js');
 
 module.exports = {
 
@@ -16,7 +16,7 @@ module.exports = {
     var photoId = req.params.photoid;
     console.log('swipe right for', photoId, 'by', userId);
 
-    photo.findOne({
+    Photo.findOne({
       where: {
         id: photoId
       }
@@ -30,7 +30,7 @@ module.exports = {
         })
         .then(function (foundUser) {
           if (foundUser) {
-            foundPhoto.addVoter(foundUser, {
+            foundPhoto.addUser(foundUser, {
               like: true
             });
           } else {
@@ -51,7 +51,7 @@ module.exports = {
     var photoId = req.params.photoid;
     console.log('swipe left for', photoId, 'by', userId);
 
-    photo.findOne({
+    Photo.findOne({
       where: {
         id: photoId
       }
@@ -65,7 +65,7 @@ module.exports = {
         })
         .then(function (foundUser) {
           if (foundUser) {
-            foundPhoto.addVoter(foundUser, {
+            foundPhoto.addUser(foundUser, {
               like: false
             });
           } else {
