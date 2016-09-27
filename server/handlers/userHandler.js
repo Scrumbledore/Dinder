@@ -57,14 +57,14 @@ module.exports = {
 
   saveFavorite: function (req, res) {
     var userId = req.params.userid;
-    var pictureId = req.params.pictureid;
+    var photoId = req.params.photoid;
     User.findOne({
       where: {id: userId}
     }).then(
       function(user) {
-        user.addPhoto(pictureId).then(
-          function(pictureId) {
-            console.log('saved', pictureId, 'for', userId);
+        user.addPhoto(photoId).then(
+          function(photoId) {
+            console.log('saved', photoId, 'for', userId);
             res.status(201).send();
           }
         );
