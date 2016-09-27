@@ -42,7 +42,7 @@ android/keystores/debug.keystore
 # local secrets
 #
 secrets.json
-_secrets.json
+localSecrets.json
 dinder.pem
 
 # ios and android builds
