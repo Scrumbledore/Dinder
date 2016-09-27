@@ -8,6 +8,12 @@ module.exports = {
   // most of the time data is passed in via URL (reference routes.js)
   // unless explicitly implied no call require data to be in a specific format outside of URL
 
+  getPhotos: function (req, res) {
+    var userId = req.params.userid;
+    var location = req.params.loc;
+    console.log('getPhotos for', userId, 'at', location);
+  },
+
   getFavorites: function (req, res) {
     var userId = req.params.userid;
     User.findOne({
@@ -22,6 +28,7 @@ module.exports = {
       }
     );
   },
+
 
   // getFavorites example return
   // [
@@ -55,23 +62,6 @@ module.exports = {
   //   }
   // ]
 
-  saveFavorite: function (req, res) {
-    var userId = req.params.userid;
-    var pictureId = req.params.pictureid;
-    User.findOne({
-      where: {id: userId}
-    }).then(
-      function(user) {
-        user.addPhoto(pictureId).then(
-          function(pictureId) {
-            console.log('saved', pictureId, 'for', userId);
-            res.status(201).send();
-          }
-        );
-      }
-    );
-  },
-
   getRecommendations: function (req, res) {
     var userId = req.params.userid;
     var zip = req.params.zip;
@@ -91,7 +81,7 @@ module.exports = {
     } else {
       // search by zip
     }
-    // 
+    //
     console.log('getRecommendations for', userId, 'at', location);
   }
 
