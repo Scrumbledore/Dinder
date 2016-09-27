@@ -13,22 +13,22 @@ module.exports = function (connection) {
       defaultValue: false
     }
   });
-  user.belongsToMany(photo, {
+  User.belongsToMany(Photo, {
     through: userPhotos
   });
-  photo.belongsToMany(user, {
+  Photo.belongsToMany(User, {
     through: userPhotos
   });
 
   var userRatings = connection.define('userRatings', {
     rating: Sequelize.INTEGER
   });
-  user.belongsToMany(place, {
+  User.belongsToMany(Place, {
     through: userRatings
   });
-  place.belongsToMany(user, {
+  Place.belongsToMany(User, {
     through: userRatings
   });
 
-  place.hasMany(photo);
+  Place.hasMany(Photo);
 };

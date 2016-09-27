@@ -139,6 +139,7 @@ describe('Database Models', function () {
           expect(users[0].userPhotos.like).to.be.true;
           done();
         });
+      });
     })
     .catch(function (err) {
       done(err);
