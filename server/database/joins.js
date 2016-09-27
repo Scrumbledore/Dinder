@@ -1,33 +1,26 @@
-var Sequelize = require('sequelize');
 var User = require('./models/user.js');
 var Place = require('./models/place.js');
 var Photo = require('./models/photo.js');
+var UserPhotos = require('./models/userPhotos.js');
+var UserRatings = require('./models/userRatings.js');
 
 
 module.exports = function (connection) {
 
-  var userPhotos = connection.define('userPhotos', {
-    like: Sequelize.BOOLEAN,
-    favorite: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
-    }
-  });
   User.belongsToMany(Photo, {
-    through: userPhotos
-  });
-  Photo.belongsToMany(User, {
-    through: userPhotos
+    through: UserPhotos
   });
 
-  var userRatings = connection.define('userRatings', {
-    rating: Sequelize.INTEGER
+  Photo.belongsToMany(User, {
+    through: UserPhotos
   });
+
   User.belongsToMany(Place, {
-    through: userRatings
+    through: UserRatings
   });
+
   Place.belongsToMany(User, {
-    through: userRatings
+    through: UserRatings
   });
 
   Place.hasMany(Photo);
