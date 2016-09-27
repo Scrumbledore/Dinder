@@ -109,7 +109,11 @@ describe('Database Models', function () {
     });
   });
 
+<<<<<<< HEAD
   it('should persist user votes', function (done) {
+=======
+  it('should save user votes', function (done) {
+>>>>>>> update database models and tests to conform to Sequelize expectations
 
     Photo.findOne({
       where: {
@@ -123,6 +127,7 @@ describe('Database Models', function () {
         }
       })
       .then(function (user) {
+<<<<<<< HEAD
         photo.addUser(user, {
           like: true
         })
@@ -139,6 +144,18 @@ describe('Database Models', function () {
           expect(users[0].userPhotos.like).to.be.true;
           done();
         });
+=======
+        return photo.addUser(user, {
+          like: true
+        });
+      })
+      .then(function () {
+        return photo.getUsers();
+      })
+      .then(function (users) {
+        expect(users).to.not.be.empty;
+        done();
+>>>>>>> update database models and tests to conform to Sequelize expectations
       });
     })
     .catch(function (err) {

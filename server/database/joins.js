@@ -7,7 +7,7 @@ var Photo = require('./models/photo.js');
 module.exports = function (connection) {
 
   var userPhotos = connection.define('userPhotos', {
-    like: Sequelize.BOOLEAN
+    like: Sequelize.BOOLEAN,
     favorite: {
       type: Sequelize.BOOLEAN,
       defaultValue: false

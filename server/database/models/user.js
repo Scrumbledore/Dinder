@@ -1,10 +1,9 @@
 var Sequelize = require('sequelize');
 // var Promise = require('bluebird');
 // var bcrypt = require('bcrypt-nodejs');
-var db = require('../database.js');
-// var joins = require('../joins.js')
+var connection = require('../database.js');
 
-var User = db.define('User', {
+var User = connection.define('User', {
   email: {
     type: Sequelize.STRING,
     unique: true
