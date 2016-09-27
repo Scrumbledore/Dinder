@@ -47,7 +47,8 @@ export default class Dinder extends Component {
   getWelcomeMessage() {
     // initiate contact with a GET request to '/'
     return fetch(`${this.state.apiRoot}:${config.port}/`)
-    .then((response) => response.json())
+    .then((response) => 
+      response.json())
     .then((data) => {
       this.setState({
         welcomeMessage: data.message

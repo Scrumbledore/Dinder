@@ -1,9 +1,5 @@
 #!/bin/sh
 # After install
 echo After Install
-pm2 delete all
-pwd
-cd app/dinder/
+cd /opt/codedeploy-agent/app/dinder/
 sudo npm install
-pm2 start /opt/codedeploy-agent/app/dinder/server/index.js
-# pm2 restart all

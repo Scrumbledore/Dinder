@@ -5,13 +5,13 @@ files:
     destination: app/dinder/
 hooks:
   BeforeInstall:
-    - location: ./scripts/testscript.sh
+    - location: ./scripts/beforeInstall.sh
       timeout: 900
   AfterInstall:
     - location: ./scripts/afterInstall.sh
       timeout: 900
   ApplicationStart:
-    - location: ./scripts/testscript.sh
+    - location: ./scripts/applicationStart.sh
       timeout: 900
   ValidateService:
     - location: ./scripts/testscript.sh

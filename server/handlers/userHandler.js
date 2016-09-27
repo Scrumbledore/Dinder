@@ -74,8 +74,24 @@ module.exports = {
 
   getRecommendations: function (req, res) {
     var userId = req.params.userid;
-    var location = req.params.loc;
-    // somthing here
+    var zip = req.params.zip;
+    var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
+    if (location.long && locaation.lat) {
+      User.findOne({
+        where: {id: userId}
+      }).then(
+        function(user) {
+          user.getPlaces().then(
+            function(places) {
+              res.status(201).send();
+            }
+          );
+        }
+      );
+    } else {
+      // search by zip
+    }
+    // 
     console.log('getRecommendations for', userId, 'at', location);
   },
 
