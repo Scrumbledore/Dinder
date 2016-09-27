@@ -47,17 +47,17 @@ export default class Food extends Component {
 
     this.state = {
       message: 'Loading...',
-      cards: this.someImages(this.yelpOptions(null, 'businesses/'))
+      cards: ''
     };
   }
 
   Card(x) {
     return (
       <View style={styles.card}>
-        <Image source ={x.image} resizeMode="contain" style ={{width: 350, height: 350}} />
+        <Image source ={x.url} resizeMode="contain" style ={{width: 350, height: 350}} />
         <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
         <View style={{flexDirection: 'row', margin: 15, marginTop: 25, }} >
-        <Text style={{fontSize: 30, fontWeight: '400', textAlign: 'center', color: '#444'}}>{x.first_name}</Text>
+        <Text style={{fontSize: 30, fontWeight: '400', textAlign: 'center', color: '#444'}}></Text>
         </View>
         </View>
       </View>
@@ -74,6 +74,7 @@ export default class Food extends Component {
     return (
       <View style={styles.card} >
         <Text>No More Cards</Text>
+        <Text>{this.state.cards[0]}</Text>
       </View>
     );
   }
@@ -92,6 +93,16 @@ export default class Food extends Component {
     console.log('favorited', this.refs['swiper']);
   }
 
+  getPhotos() {
+    return fetch(config.photosRoot);
+  }
+
+  componentWillMount() {
+    var photos = this.getPhotos();
+    this.setState({
+      cards: photos
+    });
+  }
 
   render() {
     return (
