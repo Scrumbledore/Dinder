@@ -1,6 +1,6 @@
 var request = require('request');
 var rp = require('request-promise');
-
+var Place = require('../database/models/place.js');
 var config = require('../../config.js');
 
 <<<<<<< 8e0fa879c7d8498c58e1b2c6d83c72bee8c08b56
@@ -90,19 +90,32 @@ module.exports = {
       })
       .then(function(data) {
         data.businesses.forEach(function(business) {
-          test.push([business.id, {
-            lat: business.coordinates.latitude,
-            lon: business.coordinates.longitude,
-            name: business.name,
-            address: business.location.address1,
-            city: business.location.city,
-            state: business.location.state,
-            url: business.image_url
-          }]);
+          Place.findOne({
+            where: {name: business.name}
+          }).then(function(place) {
+            if (place) {
+          // responds with user exists
+
+            } else {
+          // right now just creates a user, we don't have auth decided
+          console.log(business,'$$$$')
+              Place.create({
+                lat: business.coordinates.latitude || 0,
+                lon: business.coordinates.longitude || 0,
+                name: business.name,
+                address: business.location.address1,
+                city: business.location.city,
+                state: business.location.state,
+                url: business.image_url
+              }).then(function(newPlace) {
+              // responds with new user atm
+                //res.json(newPlace);
+              });
+            }
+          });
+          console.log(test);
         });
-        console.log(test);
+        return test;
       });
-    return test;
   }
 };
-
