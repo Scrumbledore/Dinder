@@ -1,6 +1,7 @@
 var request = require('request');
 var rp = require('request-promise');
-var Place = require('../database/models/place.js');
+var Places = require('../database/models/place.js');
+var Photo = require('../database/models/photo.js');
 var config = require('../../config.js');
 
 var stuff1 = [];
@@ -32,8 +33,9 @@ module.exports = {
          var info = JSON.parse(item);
          var newArray = [info.id];
          if (info.photos.length > 0) {
+
            info.photos.forEach(function(picture) {
-             newArray.push({
+             Photo.create({
                info: '',
                url: picture
              });
@@ -49,22 +51,20 @@ module.exports = {
 
 //Find initial businesses and business pictures. yelpOptions(null, 'businesses/')
   someImages: function(options) {
-    var test = [];
-    rp(options)
+    return rp(options)
       .then(function(data) {
         return JSON.parse(data);
       })
       .then(function(data) {
-        data.businesses.forEach(function(business) {
-          Place.findOne({
+        var test = [];
+        data.businesses.map(function(business) {
+          Places.findOne({
             where: {name: business.name}
           }).then(function(place) {
             if (place) {
-          // responds with user exists
-
+          // don't make duplicate place.
             } else {
-          // right now just creates a user, we don't have auth decided
-              Place.create({
+              Places.create({
                 lat: business.coordinates.latitude || 0,
                 lon: business.coordinates.longitude || 0,
                 name: business.name,
@@ -73,12 +73,19 @@ module.exports = {
                 state: business.location.state,
                 url: business.image_url
               }).then(function(newPlace) {
-              // responds with new user atm
-                //res.json(newPlace);
+                //place created
               });
             }
           });
-          console.log(test);
+          test.push({
+            lat: business.coordinates.latitude || 0,
+            lon: business.coordinates.longitude || 0,
+            name: business.name,
+            address: business.location.address1,
+            city: business.location.city,
+            state: business.location.state,
+            url: business.image_url
+          });
         });
         return test;
       });
