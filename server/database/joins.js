@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = require('./database.js');
+// var db = require('./database.js');
 var user = require('./models/user.js');
 var place = require('./models/place.js');
 var photo = require('./models/photo.js');
@@ -7,7 +7,7 @@ var photo = require('./models/photo.js');
 module.exports = function (connection) {
 
   // define a join table for photo votes
-  var vote = db.define('vote', {
+  var vote = connection.define('vote', {
     rating: Sequelize.INTEGER
   });
   // add userId to vote schema
@@ -29,7 +29,7 @@ module.exports = function (connection) {
   });
 
   // define a join table for place ratings
-  var placeRating = db.define('placeRating', {
+  var placeRating = connection.define('placeRating', {
     rating: Sequelize.INTEGER
   });
   // add userId to placeRating schema

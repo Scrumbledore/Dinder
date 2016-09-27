@@ -6,7 +6,7 @@ var app = express();
 
 require('./config/middleware.js')(app, express);
 require('./config/routes.js')(app, express);
-require('./database/joins.js')(app, express);
+require('./database/joins.js')(connection);
 
 app.set('port', config.port);
 
