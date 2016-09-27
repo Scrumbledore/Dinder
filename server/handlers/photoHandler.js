@@ -44,7 +44,7 @@ module.exports = {
 
     Yelp.someImages(Yelp.yelpOptions(null, 'businesses/'))
     .then(function(data) {
-      console.log(data, 'I got the stuff $$$$');
+      console.log('I got the stuff $$$$');
       res.send(200, data);
     });
   },
