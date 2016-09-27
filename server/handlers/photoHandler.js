@@ -1,6 +1,34 @@
 var Photo = require('../database/models/photo.js');
 var UserPhotos = require('../database/models/userPhotos.js');
 
+var getUserPhoto = function (UserId, PhotoId) {
+  return UserPhotos.findOne({
+    where: {
+      UserId: UserId,
+      PhotoId: PhotoId
+    }
+  });
+};
+
+var modUserPhoto = function (UserId, PhotoId, like) {
+  return UserPhotos.update({
+    like: like
+  }, {
+    where: {
+      UserId: UserId,
+      PhotoId: PhotoId
+    }
+  });
+};
+
+var newUserPhoto = function (UserId, PhotoId, like) {
+  return UserPhotos.create({
+    UserId: UserId,
+    PhotoId: PhotoId,
+    like: like
+  });
+};
+
 module.exports = {
 
   // most of the time data is passed in via URL (reference routes.js)
@@ -13,16 +41,22 @@ module.exports = {
   },
 
   voteYes: function (req, res) {
-    UserPhotos.update({
-      like: true
-    }, {
-      where: {
-        UserId: req.params.userid,
-        PhotoId: req.params.photoid
+    var UserId = req.params.userid;
+    var PhotoId = req.params.photoid;
+
+    getUserPhoto(UserId, PhotoId)
+    .then(function (record) {
+      if (record) {
+        modUserPhoto(UserId, PhotoId, true)
+        .then(function () {
+          res.sendStatus(200);
+        });
+      } else {
+        newUserPhoto(UserId, PhotoId, true)
+        .then(function () {
+          res.sendStatus(201);
+        })
       }
-    })
-    .then(function (conf) {
-      res.json(conf);
     })
     .catch(function (err) {
       throw err;
@@ -30,16 +64,22 @@ module.exports = {
   },
 
   voteNo: function (req, res) {
-    UserPhotos.update({
-      like: false
-    }, {
-      where: {
-        UserId: req.params.userid,
-        PhotoId: req.params.photoid
+    var UserId = req.params.userid;
+    var PhotoId = req.params.photoid;
+
+    getUserPhoto(UserId, PhotoId)
+    .then(function (record) {
+      if (record) {
+        modUserPhoto(UserId, PhotoId, false)
+        .then(function () {
+          res.sendStatus(200);
+        });
+      } else {
+        newUserPhoto(UserId, PhotoId, false)
+        .then(function () {
+          res.sendStatus(201);
+        })
       }
-    })
-    .then(function (conf) {
-      res.json(conf);
     })
     .catch(function (err) {
       throw err;
