@@ -1,5 +1,5 @@
 // import React, { Component, View, Text, StyleSheet } from 'react-native';
-
+var config = require('../../config.js');
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native';
 import SwipeCards from 'react-native-swipe-cards';
@@ -47,7 +47,7 @@ export default class Food extends Component {
 
     this.state = {
       message: 'Loading...',
-      cards: Cards
+      cards: this.someImages(this.yelpOptions(null, 'businesses/'))
     };
   }
 
@@ -90,6 +90,47 @@ export default class Food extends Component {
 
   fav() {
     console.log('favorited', this.refs['swiper']);
+  }
+
+  someImages(options) {
+    var request = require('request');
+    var rp = require('request-promise');
+    var test = [];
+    rp(options)
+      .then(function(data) {
+        return JSON.parse(data);
+      })
+      .then(function(data) {
+        data.businesses.forEach(function(business) {
+          test.push([business.id, {
+            lat: business.coordinates.latitude,
+            lon: business.coordinates.longitude,
+            name: business.name,
+            address: business.location.address1,
+            city: business.location.city,
+            state: business.location.state,
+            url: business.image_url
+          }]);
+        });
+        console.log(test);
+      });
+    return test;
+  }
+
+  yelpOptions(query, branch) {
+  //default for testing.
+    query = query || 'search?term=delis&latitude=37.786882&longitude=-122.399972';
+    branch = branch || '';
+
+    var options = {
+      url: config.yelpRoot + branch + query,
+      headers: {
+        'Authorization': 'Bearer ' + config.yelpKey,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    };
+    console.log(options);
+    return options;
   }
 
   render() {
