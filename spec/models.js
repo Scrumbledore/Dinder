@@ -1,7 +1,10 @@
 var expect = require('chai').expect;
 var connection = require('../server/database/database.js');
 var User = require('../server/database/models/user.js');
+var Place = require('../server/database/models/place.js');
 var Photo = require('../server/database/models/photo.js');
+var UserPhotos = require('../server/database/models/userPhotos.js');
+var UserRatings = require('../server/database/models/userRatings.js');
 
 require('../server/database/joins.js')(connection);
 
@@ -43,26 +46,26 @@ describe('Database Models', function () {
     });
   });
 
-  after(function (done) {
-    models.forEach(function (m, i) {
-      m.schema.findOne({
-        where: m.options
-      })
-      .then(function (found) {
-        if (found) {
-          return found.destroy();
-        }
-      })
-      .then(function () {
-        if (i + 1 === models.length) {
-          done();
-        }
-      })
-      .catch(function (err) {
-        done();
-      });
-    });
-  });
+  // after(function (done) {
+  //   models.forEach(function (m, i) {
+  //     m.schema.findOne({
+  //       where: m.options
+  //     })
+  //     .then(function (found) {
+  //       if (found) {
+  //         return found.destroy();
+  //       }
+  //     })
+  //     .then(function () {
+  //       if (i + 1 === models.length) {
+  //         done();
+  //       }
+  //     })
+  //     .catch(function (err) {
+  //       done();
+  //     });
+  //   });
+  // });
 
   it('should persist user records', function (done) {
 
@@ -135,8 +138,9 @@ describe('Database Models', function () {
         })
         .then(function (users) {
           expect(users).to.have.lengthOf(1);
-          expect(users[0].userPhotos).to.exist;
-          expect(users[0].userPhotos.like).to.be.true;
+          expect(users[0].id).to.equal(user.id);
+          expect(users[0].UserPhotos).to.exist;
+          expect(users[0].UserPhotos.like).to.be.true;
           done();
         });
       });

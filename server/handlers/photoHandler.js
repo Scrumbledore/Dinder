@@ -1,4 +1,5 @@
 var Photo = require('../database/models/photo.js');
+var UserPhotos = require('../database/models/userPhotos.js');
 
 module.exports = {
 
@@ -12,34 +13,16 @@ module.exports = {
   },
 
   voteYes: function (req, res) {
-    var userId = req.params.userid;
-    var photoId = req.params.photoid;
-    console.log('swipe right for', photoId, 'by', userId);
-
-    Photo.findOne({
+    UserPhotos.update({
+      like: true
+    }, {
       where: {
-        id: photoId
+        UserId: req.params.userid,
+        PhotoId: req.params.photoid
       }
     })
-    .then(function (foundPhoto) {
-      if (foundPhoto) {
-        user.findOne({
-          where: {
-            id: userId
-          }
-        })
-        .then(function (foundUser) {
-          if (foundUser) {
-            foundPhoto.addUser(foundUser, {
-              like: true
-            });
-          } else {
-            throw new Error('no matching user record for id', userId);
-          }
-        });
-      } else {
-        throw new Error('no matching photo record for id', photoId);
-      }
+    .then(function (conf) {
+      res.json(conf);
     })
     .catch(function (err) {
       throw err;
@@ -47,34 +30,16 @@ module.exports = {
   },
 
   voteNo: function (req, res) {
-    var userId = req.params.userid;
-    var photoId = req.params.photoid;
-    console.log('swipe left for', photoId, 'by', userId);
-
-    Photo.findOne({
+    UserPhotos.update({
+      like: false
+    }, {
       where: {
-        id: photoId
+        UserId: req.params.userid,
+        PhotoId: req.params.photoid
       }
     })
-    .then(function (foundPhoto) {
-      if (foundPhoto) {
-        user.findOne({
-          where: {
-            id: userId
-          }
-        })
-        .then(function (foundUser) {
-          if (foundUser) {
-            foundPhoto.addUser(foundUser, {
-              like: false
-            });
-          } else {
-            throw new Error('no matching user record for id', userId);
-          }
-        });
-      } else {
-        throw new Error('no matching photo record for id', photoId);
-      }
+    .then(function (conf) {
+      res.json(conf);
     })
     .catch(function (err) {
       throw err;
