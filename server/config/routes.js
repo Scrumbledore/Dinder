@@ -7,7 +7,7 @@ module.exports = function (app, express) {
   app.get('/', function (req, res) {
     console.log('hit');
     res.json({
-      message: 'hello, world v2.8'
+      message: 'hello, world v2.99'
     });
   });
 
@@ -21,7 +21,7 @@ module.exports = function (app, express) {
   app.get('/api/recommendations/:userid/:loc', userHandler.getRecommendations);
 
   // for getting pictures of food for user to swipe on
-  app.get('/api/photo/:userid/:loc', photoHandler.getPhotos);
+  app.get('/api/photo/:userid/:zip/:lat/:long', photoHandler.getPhotos);
 
   // vote yets on a picture (since it's post we can technical pass in body if we want)
   app.post('/api/yes/:userid/:pictureid', photoHandler.upVote);
