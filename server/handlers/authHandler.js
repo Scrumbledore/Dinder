@@ -7,7 +7,6 @@ module.exports = {
     console.log('logging in');
   },
 
-
   // expects req.body to be object with relevant information
   signUp: function (req, res) {
     console.log(req.body);
