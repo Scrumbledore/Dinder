@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var db = require('../database.js');
+var connection = require('../database.js');
 
-var place = db.define('place', {
+var Place = connection.define('Place', {
   lat: Sequelize.STRING,
   lon: Sequelize.STRING,
   name: Sequelize.STRING,
@@ -12,4 +12,4 @@ var place = db.define('place', {
 });
 
 
-module.exports = place;
+module.exports = Place;
