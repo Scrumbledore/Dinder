@@ -6,7 +6,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = {
   apiRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
-  photosRoot: 'http://localhost:1337/api/photo/',
   androidLocalRoot: 'http://10.0.2.2',
   iosLocalRoot: 'http://localhost',
   port: 1337,

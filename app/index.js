@@ -36,9 +36,9 @@ export default class Dinder extends Component {
       apiRoot = Platform.OS === 'android'
               ? config.androidLocalRoot
               : config.iosLocalRoot;
-      apiRoot += ':'
-              + config.port;
     }
+    apiRoot += ':'
+            + config.port;
 
     this.state = {
       apiRoot: apiRoot,
