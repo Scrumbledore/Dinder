@@ -74,7 +74,8 @@ export default class Food extends Component {
     return (
       <View style={styles.card} >
         <Text>No More Cards</Text>
-        <Text>{this.state.cards[0]}</Text>
+        <Text>{this.state.cards}</Text>
+
       </View>
     );
   }
@@ -94,13 +95,19 @@ export default class Food extends Component {
   }
 
   getPhotos() {
-    return fetch(config.photosRoot);
+    console.log('starting')
+   return fetch('http://localhost:1337/api/photo/3/4/1/1')
+      .then(function(data){
+        return data.json()
+      })
+      .then(function(data){
+        alert(data);
+      })
   }
 
-  componentWillMount() {
-    var photos = this.getPhotos();
+  componentDidMount() {
     this.setState({
-      cards: photos
+      cards: this.getPhotos()
     });
   }
 
