@@ -36,31 +36,14 @@ export default class Dinder extends Component {
       apiRoot = Platform.OS === 'android'
               ? config.androidLocalRoot
               : config.iosLocalRoot;
+      apiRoot += ':'
+              + config.port;
     }
 
     this.state = {
       apiRoot: apiRoot,
-      welcomeMessage: 'Loading...'
+      userId: 8 // fixme: hard-coded userId
     };
-  }
-
-  getWelcomeMessage() {
-    // initiate contact with a GET request to '/'
-    return fetch(`${this.state.apiRoot}:${config.port}/`)
-    .then((response) =>
-      response.json())
-    .then((data) => {
-      this.setState({
-        welcomeMessage: data.message
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  }
-
-  componentDidMount() {
-    // this.getWelcomeMessage();
   }
 
   render() {
@@ -88,7 +71,9 @@ export default class Dinder extends Component {
               initial={true}
               component={Food}
               icon={TabIcon}
-              title='Food' />
+              title='Food'
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId}/>
             <Scene
               type='favorite'
               key='recs'
