@@ -93,7 +93,11 @@ describe('Database Handlers', function () {
 
   it('should persist user likes (swipe left/right)', function (done) {
 
-    var call = api + 'api/yes/' + instanceIds['User'] + '/' + instanceIds['Photo'];
+    var call = api
+             + 'api/yes/'
+             + instanceIds['User']
+             + '/'
+             + instanceIds['Photo'];
 
     request.post(call, function (err, res, body) {
       if (err) {
@@ -104,7 +108,7 @@ describe('Database Handlers', function () {
     });
   });
 
-  it('should default to favorited = false for user photos', function (done) {
+  it('should default to favorited = false for photos', function (done) {
 
     UserPhotos.findOne({
       where: {
@@ -121,12 +125,32 @@ describe('Database Handlers', function () {
     });
   });
 
-  xit('should persist user favorites', function (done) {
+  it('should persist user favorites', function (done) {
 
-  });
+    var call = api
+             + 'api/favorites/'
+             + instanceIds['User']
+             + '/'
+             + instanceIds['Photo'];
 
-  xit('should update user favorites', function (done) {
-
+    request.post(call, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      UserPhotos.findOne({
+        where: {
+          UserId: instanceIds['User'],
+          PhotoId: instanceIds['Photo']
+        }
+      })
+      .then(function (record) {
+        expect(record.favorite).to.be.true;
+        done();
+      })
+      .catch(function (err) {
+        done(err);
+      });
+    });
   });
 
 });
