@@ -1,34 +1,45 @@
 var request = require('request');
-var rp = require('request-promise');
-var Places = require('../database/models/place.js');
+var requestPromise = require('request-promise');
+var Place = require('../database/models/place.js');
 var Photo = require('../database/models/photo.js');
 var config = require('../../config.js');
 
 var stuff1 = [];
 var stuff2 = [];
 
-module.exports = {
-//hardcoding apiKey until better solution / deployment
-  yelpOptions: function (query, branch) {
-  //default for testing.
-    query = query || 'search?term=delis&latitude=37.786882&longitude=-122.399972';
-    branch = branch || '';
+// default values
+var keyword = 'delis';
+var lat = 37.786882;
+var lon = -122.399972;
 
-    var options = {
+module.exports = {
+
+  yelpOptions: function (query, branch) {
+
+    branch = branch || '';
+    query = query || 'search?term='
+          + keyword
+          + '&latitude='
+          + lat
+          + '&longitude='
+          + lon;
+
+    return {
       url: config.yelpRoot + branch + query,
       headers: {
         'Authorization': 'Bearer ' + config.yelpKey,
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     };
-    console.log(options);
-    return options;
   },
 
-//Once we have all local businesses we have an array of ID's to query the business to get all pictures Yelp.yelpOptions(business[0], 'businesses/'))
-  allImages: function (businessID, options) {
+
+// the following methods were combined and moved to userHandler.js
+
+
+  allImages: function (businessID) {
     businessID.forEach(function(business) {
-      rp(options)
+      requestPromise(module.exports.yelpOptions(businessID, 'businesses/'))
        .then(function(item) {
          var info = JSON.parse(item);
          var newArray = [info.id];
@@ -49,47 +60,61 @@ module.exports = {
     });
   },
 
-//Find initial businesses and business pictures. yelpOptions(null, 'businesses/')
   someImages: function(options) {
-    return rp(options)
-      .then(function(data) {
-        return JSON.parse(data);
-      })
-      .then(function(data) {
-        var test = [];
-        data.businesses.map(function(business) {
-          Places.findOne({
-            where: {name: business.name}
-          }).then(function(place) {
-            if (place) {
-          // don't make duplicate place.
-            } else {
-              Places.create({
-                lat: business.coordinates.latitude || 0,
-                lon: business.coordinates.longitude || 0,
-                name: business.name,
-                address: business.location.address1,
-                city: business.location.city,
-                state: business.location.state,
-                zip: business.location.zip_code,
-                url: business.image_url
-              }).then(function(newPlace) {
-                //place created
-              });
-            }
+    return requestPromise(options)
+    .then(function(data) {
+      return JSON.parse(data);
+    })
+    .then(function(data) {
+
+      return data.businesses.map(function(business, count) {
+
+        var photos = [];
+
+        Place.findOne({
+          where: {
+            name: business.name
+          }
+        })
+        .then(function(place) {
+          if (!place) {
+            return Place.create({
+              lat: business.coordinates.latitude || 0,
+              lon: business.coordinates.longitude || 0,
+              name: business.name,
+              address: business.location.address1,
+              city: business.location.city,
+              state: business.location.state,
+              zip: business.location.zip_code,
+              url: business.image_url
+            });
+          }
+        })
+        .then(function(newPlace) {
+          return requestPromise(module.exports.yelpOptions(business.id, 'businesses/'))
+          .then(function (data) {
+            return JSON.parse(data);
+          })
+          .then(function (businessInfo) {
+
+            return businessInfo.photos.map(function (url) {
+              var item = {
+                info: '',
+                url: url,
+                PlaceId: newPlace.id
+              };
+              Photo.create(item);
+              return item;
+            });
+
           });
-          test.push({
-            lat: business.coordinates.latitude || 0,
-            lon: business.coordinates.longitude || 0,
-            name: business.name,
-            address: business.location.address1,
-            city: business.location.city,
-            state: business.location.state,
-            zip: business.location.zip_code,
-            url: business.image_url
-          });
+
         });
-        return test;
+
       });
+    })
+    .catch(function (err) {
+      throw err;
+    });
   }
 };
