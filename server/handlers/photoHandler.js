@@ -1,5 +1,7 @@
 var Photo = require('../database/models/photo.js');
 var UserPhotos = require('../database/models/userPhotos.js');
+var Yelp = require('../config/yelpRouter.js');
+
 
 // get a reference to the relation, if it exists
 var getUserPhoto = function (UserId, PhotoId) {
@@ -23,6 +25,7 @@ var modLike = function (UserId, PhotoId, like) {
   });
 };
 
+
 // create a new relation with a given like
 var newLike = function (UserId, PhotoId, like) {
   return UserPhotos.create({
@@ -33,6 +36,19 @@ var newLike = function (UserId, PhotoId, like) {
 };
 
 module.exports = {
+
+  getPhotos: function (req, res) {
+    var userId = req.params.userid;
+    var location = req.params.loc;
+    console.log('getPhotos for', userId, 'at', location);
+
+    Yelp.someImages(Yelp.yelpOptions(null, 'businesses/'))
+    .then(function(data) {
+      console.log(data, 'I got the stuff $$$$');
+
+      res.status(200).send(data);
+    });
+  },
 
   voteYes: function (req, res) {
     var UserId = req.params.userid;

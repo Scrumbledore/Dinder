@@ -54,8 +54,8 @@ export default StyleSheet.create({
 
 ////+++++ Buttons +++++
   buttonBlue: {
-    marginBottom: 15, 
-    marginTop: 15, 
+    marginBottom: 15,
+    marginTop: 15,
     borderRadius: 6,
     backgroundColor: 'steelblue'
   }
