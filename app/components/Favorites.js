@@ -22,19 +22,7 @@ export default class Favorites extends Component {
     this.state = {
       userId: '3',
       apiUrl: apiRoot + ':' + apiPort + '/api',
-      favList: [],
-      fakeData: [
-        {
-          'id': 1,
-          'info': 'something info',
-          'url': 'http://kingofwallpapers.com/bread/bread-012.jpg'
-        }, {
-          'id': 2,
-          'info': 'phot3232323',
-          'url': 'www.google.com'
-        }
-      ]
-      // dataSource: ds.cloneWithRows(this.state.favList)
+      favList: []
     };
 
   }
@@ -74,10 +62,23 @@ export default class Favorites extends Component {
           <Text style={styles.welcome}>
             Welcome to the Favorites Page for {this.state.userId}
           </Text>
-          <ListView dataSource={this.state.dataSource} renderRow={(favorite) => <View><Image source ={{uri: 'https://www.google.com/images/nav_logo242.png'}} resizeMode='contain' style ={{width: 350, height: 350}} /><Text>hoho</Text></View>} />
+          <ListView dataSource={this.state.dataSource} renderRow={(favorite) => this.favoriteEntry(favorite)} />
         </View>
       );
     }
+  }
+
+  favoriteEntry(favorite) {
+    return (
+      <View style={styles.card} >
+      <Image source ={{uri: favorite.url}} resizeMode="contain" style ={{width: 350, height: 350}} />
+        <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center'}} >
+          <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{favorite.info}</Text>
+          </View>
+        </View>
+      </View>
+    );
   }
 
 
