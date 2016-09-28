@@ -49,7 +49,7 @@ module.exports = {
             businessInfo.photos.forEach(function (url, pCount) {
               Photo.findOne({
                 where: {
-                  PlaceId: newPlace.id
+                  url: url
                 }
               })
               .then(function (photo) {
