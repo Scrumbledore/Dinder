@@ -14,13 +14,14 @@ module.exports = function (app, express) {
   app.get('/api/favorites/:userid', userHandler.getFavorites);
 
   // for recording a favorite for a userid (since it's post we can technical pass in body if we want)
+  // photoHandler.unFavorite() is also available
   app.post('/api/favorites/:userid/:photoid', photoHandler.favorite);
 
   // for getting recommendations for a user at a given loc
   app.get('/api/recommendations/:userid/:loc', userHandler.getRecommendations);
 
   // for getting pictures of food for user to swipe on
-  app.get('/api/photo/:userid/:zip/:lat/:long', photoHandler.getPhotos);
+  app.get('/api/photo/:userid/:zip/:lat/:long', userHandler.getPhotos);
 
   // vote yets on a photo (since it's post we can technical pass in body if we want)
   app.post('/api/yes/:userid/:photoid', photoHandler.voteYes);

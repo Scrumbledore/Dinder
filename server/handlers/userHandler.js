@@ -12,6 +12,13 @@ module.exports = {
     var userId = req.params.userid;
     var location = req.params.loc;
     console.log('getPhotos for', userId, 'at', location);
+
+    Yelp.someImages(Yelp.yelpOptions(null, 'businesses/'))
+    .then(function(data) {
+      console.log(data, 'I got the stuff $$$$');
+
+      res.status(200).send(data);
+    });
   },
 
   getFavorites: function (req, res) {

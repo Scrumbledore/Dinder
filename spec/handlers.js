@@ -1,33 +1,51 @@
+var request = require('request');
 var expect = require('chai').expect;
+var config = require('../config.js');
 var connection = require('../server/database/database.js');
 var User = require('../server/database/models/user.js');
 var Photo = require('../server/database/models/photo.js');
 var Place = require('../server/database/models/place.js');
+
+require('../server/database/joins.js')(connection);
+
+var api;
+var instanceIds = {};
 
 var models = [
   {
     schema: User,
     options: {
       email: 'test@example.com'
-    }
+    },
+    id: null
   },
   {
     schema: Photo,
     options: {
       info: 'test'
-    }
+    },
+    id: null
   },
   {
     schema: Place,
     options: {
       name: 'example'
-    }
+    },
+    id: null
   }
 ];
 
-describe('Database Models', function () {
+describe('Database Handlers', function () {
 
   before(function (done, next) {
+
+    api = (process.env.NODE_ENV !== 'production'
+        ? 'http://localhost'
+        : config.apiRoot)
+        + ':'
+        + config.port
+        + '/';
+
     models.forEach(function (m, i) {
       m.schema.findOne({
         where: m.options
@@ -35,10 +53,16 @@ describe('Database Models', function () {
       .then(function (record) {
         if (!record) {
           return m.schema.create(m.options);
+        } else {
+          return record;
         }
       })
-      .then(function () {
+      .then(function (instance) {
+        m.id = instance.id;
         if (i + 1 === models.length) {
+          models.forEach(function (ins) {
+            instanceIds[ins.schema] = ins.id;
+          });
           done();
         }
       })
@@ -69,65 +93,29 @@ describe('Database Models', function () {
     });
   });
 
-  it('should persist user records', function (done) {
+  it('should persist user likes (swipe left/right)', function (done) {
 
-    User.findOne({
-      where: {
-        email: 'test@example.com'
+    var call = api + 'yes/' + instanceIds["User"] + '/' + instanceIds["Photo"];
+    request(call, function (err, res, body) {
+      if (err) {
+        done(err);
       }
-    })
-    .then(function (record) {
-      expect(record).to.exist;
+      console.log(body);
+      expect(body).to.be.ok;
       done();
-    })
-    .catch(function (err) {
-      done(err);
-    });
-
-  });
-
-  it('should not persist duplicate user records', function (done) {
-
-    User.create({
-      email: 'test@example.com'
-    })
-    .catch(function (err) {
-      expect(err).to.be.ok;
-      done();
-    });
-
-  });
-
-  it('should persist photo records', function (done) {
-
-    Photo.findOne({
-      where: {
-        info: 'test'
-      }
-    })
-    .then(function (record) {
-      expect(record).to.exist;
-      done();
-    })
-    .catch(function (err) {
-      done(err);
     });
   });
 
-  it('should persist place records', function (done) {
+  xit('should default to favorited = false for user photos', function (done) {
 
-    Place.findOne({
-      where: {
-        name: 'example'
-      }
-    })
-    .then(function (record) {
-      expect(record).to.exist;
-      done();
-    })
-    .catch(function (err) {
-      done(err);
-    });
+  });
+
+  xit('should persist user favorites', function (done) {
+
+  });
+
+  xit('should update user favorites', function (done) {
+
   });
 
 });
