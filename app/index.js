@@ -18,7 +18,7 @@ class TabIcon extends Component {
   render() {
     return (
       <View>
-        <Icon name={'favorite'} size={24} color={this.props.selected ? 'steelblue' : 'black' } />
+        <Icon name={ this.props.img } size={24} color={this.props.selected ? 'steelblue' : 'black' } />
         <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>{this.props.title}</Text>
       </View>
     );
@@ -62,11 +62,13 @@ export default class Dinder extends Component {
             title='Sign Up' />
           <Scene key='tabbar' tabs={true}>
             <Scene
+              img='star-border'
               key='favorites'
               component={Favorites}
               icon={TabIcon}
               title='Favorites' />
             <Scene
+              img='local-pizza'
               key='food'
               initial={true}
               component={Food}
@@ -75,12 +77,13 @@ export default class Dinder extends Component {
               apiRoot={this.state.apiRoot}
               userId={this.state.userId}/>
             <Scene
-              type='favorite'
+              img='assistant'
               key='recs'
               component={Recs}
               icon={TabIcon}
               title='Recs' />
             <Scene
+              img='menu'
               key='menu'
               component={Menu}
               icon={TabIcon}
