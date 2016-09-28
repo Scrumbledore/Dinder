@@ -37,7 +37,7 @@ module.exports = {
               url: business.image_url
             });
           } else {
-            // do something if the place exists
+            res.send('place exists; exiting');
           }
         })
         .then(function(newPlace) {
