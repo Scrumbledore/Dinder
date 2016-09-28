@@ -8,6 +8,7 @@ var Place = connection.define('Place', {
   address: Sequelize.STRING,
   city: Sequelize.STRING,
   state: Sequelize.STRING,
+  zip: Sequelize.STRING,
   url: Sequelize.STRING
 });
 
