@@ -1,7 +1,5 @@
 var Photo = require('../database/models/photo.js');
 var UserPhotos = require('../database/models/userPhotos.js');
-var Yelp = require('../config/yelpRouter.js');
-
 
 // get a reference to the relation, if it exists
 var getUserPhoto = function (UserId, PhotoId) {

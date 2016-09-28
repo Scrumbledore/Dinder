@@ -12,5 +12,7 @@ var Place = connection.define('Place', {
   url: Sequelize.STRING
 });
 
+// include field "category"
+
 
 module.exports = Place;

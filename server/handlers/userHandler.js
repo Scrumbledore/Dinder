@@ -1,23 +1,70 @@
+var request = require('request');
+var requestPromise = require('request-promise');
 var User = require('../database/models/user.js');
 var Photo = require('../database/models/photo.js');
-var Sequelize = require('sequelize');
-// var joins = require('../database/joins.js')
+var Place = require('../database/models/place.js');
+var Yelp = require('../config/yelpRouter.js');
 
 module.exports = {
 
-  // most of the time data is passed in via URL (reference routes.js)
-  // unless explicitly implied no call require data to be in a specific format outside of URL
-
   getPhotos: function (req, res) {
-    var userId = req.params.userid;
-    var location = req.params.loc;
-    console.log('getPhotos for', userId, 'at', location);
 
-    Yelp.someImages(Yelp.yelpOptions(null, 'businesses/'))
+    // using default values - not referencing req.params
+
+    var photos = [];
+
+    requestPromise(Yelp.yelpOptions(null, 'businesses/'))
     .then(function(data) {
-      console.log(data, 'I got the stuff $$$$');
-
-      res.status(200).send(data);
+      return JSON.parse(data);
+    })
+    .then(function(data) {
+      data.businesses.forEach(function(business, bCount) {
+        Place.findOne({
+          where: {
+            name: business.name
+          }
+        })
+        .then(function(place) {
+          if (!place) {
+            return Place.create({
+              lat: business.coordinates.latitude || 0,
+              lon: business.coordinates.longitude || 0,
+              name: business.name,
+              address: business.location.address1,
+              city: business.location.city,
+              state: business.location.state,
+              zip: business.location.zip_code,
+              url: business.image_url
+            });
+          } else {
+            // do something if the place exists
+          }
+        })
+        .then(function(newPlace) {
+          requestPromise(Yelp.yelpOptions(business.id, 'businesses/'))
+          .then(function (data) {
+            return JSON.parse(data);
+          })
+          .then(function (businessInfo) {
+            businessInfo.photos.forEach(function (url, pCount) {
+              var item = {
+                info: '',
+                url: url,
+                PlaceId: newPlace.id
+              };
+              Photo.create(item);
+              photos.push(item);
+              if (bCount + 1 === data.businesses.length
+                && pCount + 1 === businessInfo.photos.length) {
+                res.json(photos);
+              }
+            });
+          });     // this should be refactored -
+        });       // maybe split the above into two functions?
+      });
+    })
+    .catch(function (err) {
+      throw err;
     });
   },
 
@@ -35,6 +82,31 @@ module.exports = {
       }
     );
   },
+
+  getRecommendations: function (req, res) {
+    var userId = req.params.userid;
+    var zip = req.params.zip;
+    var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
+    if (location.long && locaation.lat) {
+      User.findOne({
+        where: {id: userId}
+      }).then(
+        function(user) {
+          user.getPlaces().then(
+            function(places) {
+              res.status(201).send(places);
+            }
+          );
+        }
+      );
+    } else {
+      // search by zip
+    }
+    console.log('getRecommendations for', userId, 'at', location);
+  }
+
+};
+
 
 
   // getFavorites example return
@@ -68,27 +140,3 @@ module.exports = {
   //     }
   //   }
   // ]
-
-  getRecommendations: function (req, res) {
-    var userId = req.params.userid;
-    var zip = req.params.zip;
-    var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
-    if (location.long && locaation.lat) {
-      User.findOne({
-        where: {id: userId}
-      }).then(
-        function(user) {
-          user.getPlaces().then(
-            function(places) {
-              res.status(201).send(places);
-            }
-          );
-        }
-      );
-    } else {
-      // search by zip
-    }
-    console.log('getRecommendations for', userId, 'at', location);
-  }
-
-};
