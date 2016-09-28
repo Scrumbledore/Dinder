@@ -18,7 +18,7 @@ class TabIcon extends Component {
   render() {
     return (
       <View>
-        <Icon name={'favorite'} size={24} color={this.props.selected ? 'steelblue' : 'black' } />
+        <Icon name={this.props.type} size={24} color={this.props.selected ? 'steelblue' : 'black' } />
         <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>{this.props.title}</Text>
       </View>
     );
@@ -47,7 +47,7 @@ export default class Dinder extends Component {
   getWelcomeMessage() {
     // initiate contact with a GET request to '/'
     return fetch(`${this.state.apiRoot}:${config.port}/`)
-    .then((response) => 
+    .then((response) =>
       response.json())
     .then((data) => {
       this.setState({
@@ -68,33 +68,39 @@ export default class Dinder extends Component {
       <Router hideNavBar={true} >
         <Scene key='root' hideNavBar={true}>
           <Scene
+            type='favorite'
             key='signin'
             component={SignIn}
             icon={TabIcon}
             title='Sign In' />
           <Scene
+            type='favorite'
             key='signup'
             component={SignUp}
             icon={TabIcon}
             title='Sign Up' />
           <Scene key='tabbar' tabs={true}>
             <Scene
+              type='star-border'
               key='favorites'
               component={Favorites}
               icon={TabIcon}
               title='Favorites' />
             <Scene
+              type='local-pizza'
               key='food'
               initial={true}
               component={Food}
               icon={TabIcon}
               title='Food' />
             <Scene
+              type='favorite'
               key='recs'
               component={Recs}
               icon={TabIcon}
               title='Recs' />
             <Scene
+              type='menu'
               key='menu'
               component={Menu}
               icon={TabIcon}

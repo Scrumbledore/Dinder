@@ -8,7 +8,7 @@ module.exports = {
   apiRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
   // androidLocalRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
   // iosLocalRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
-  photosRoot: 'http://localhost:1337/api/photo/3/4/1/1',
+  photosRoot: 'http://localhost:1337/api/photo/',
   androidLocalRoot: 'http://10.0.2.2',
   iosLocalRoot: 'http://localhost',
   port: 1337,

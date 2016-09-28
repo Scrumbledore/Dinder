@@ -71,6 +71,7 @@ module.exports = {
                 address: business.location.address1,
                 city: business.location.city,
                 state: business.location.state,
+                zip: business.location.zip_code,
                 url: business.image_url
               }).then(function(newPlace) {
                 //place created
@@ -84,6 +85,7 @@ module.exports = {
             address: business.location.address1,
             city: business.location.city,
             state: business.location.state,
+            zip: business.location.zip_code,
             url: business.image_url
           });
         });
