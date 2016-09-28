@@ -8,38 +8,6 @@ import Iconz from 'react-native-vector-icons/Ionicons';
 
 import styles from '../styles/styles.js';
 
-var image1 = require('../images/image1.jpg');
-var image2 = require('../images/image2.jpg');
-var image3 = require('../images/image3.jpg');
-var image4 = require('../images/image4.jpg');
-var image5 = require('../images/image5.jpg');
-var image6 = require('../images/image6.jpg');
-
-const Cards = [{
-  'id': 1,
-  'first_name': 'Pikachu salad',
-  'image': image1
-}, {
-  'id': 2,
-  'first_name': 'Les Vegetables',
-  'image': image2
-}, {
-  'id': 3,
-  'first_name': 'Bonne Tuna pocket',
-  'image': image3
-}, {
-  'id': 4,
-  'first_name': 'Chicken sticks',
-  'image': image4
-}, {
-  'id': 5,
-  'first_name': 'Interstellar doughnuts',
-  'image': image5
-}, {
-  'id': 6,
-  'first_name': 'Orange chicken',
-  'image': image6
-}];
 
 export default class Food extends Component {
   constructor(props) {
@@ -47,14 +15,14 @@ export default class Food extends Component {
 
     this.state = {
       message: 'Loading...',
-      cards: Cards
+      cards: []
     };
   }
 
   Card(x) {
     return (
       <View style={styles.card}>
-        <Image source ={x.image} resizeMode="contain" style ={{width: 350, height: 350}} />
+        <Image source ={{uri: x.url}} resizeMode="contain" style ={{width: 350, height: 350}} />
         <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
         <View style={{flexDirection: 'row', margin: 15, marginTop: 25, }} >
         <Text style={{fontSize: 30, fontWeight: '400', textAlign: 'center', color: '#444'}}></Text>
@@ -74,7 +42,10 @@ export default class Food extends Component {
     return (
       <View style={styles.card} >
         <Text>No More Cards</Text>
-        <Text>{this.state.cards}</Text>
+        <Text>Checkout our Recommendations</Text>
+        <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.getPhotos()}>
+        <Iconz name='ios-pizza' size={45} color="#111111" style={{}} />
+        </TouchableOpacity>
 
       </View>
     );
@@ -95,21 +66,28 @@ export default class Food extends Component {
   }
 
   getPhotos() {
-    console.log('starting');
-    return fetch('http://localhost:1337/api/photo/3/4/1/1')
+    var that = this;
+    fetch(config.photosRoot + '3/4/1/1')
       .then(function(data) {
         return data.json();
       })
       .then(function(data) {
-        alert(data);
+        return JSON.stringify(data);
+      })
+      .then(function(data) {
+        that.cardState(data);
       });
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     cards: this.getPhotos()
-  //   });
-  // }
+  componentDidMount() {
+    this.getPhotos();
+  }
+
+  cardState(data) {
+    this.setState({
+      cards: JSON.parse(data)
+    });
+  }
 
   render() {
     return (
