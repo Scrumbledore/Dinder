@@ -37,7 +37,7 @@ module.exports = {
               url: business.image_url
             });
           } else {
-            res.send('place exists; exiting');
+            return place;
           }
         })
         .then(function(newPlace) {
@@ -47,17 +47,29 @@ module.exports = {
           })
           .then(function (businessInfo) {
             businessInfo.photos.forEach(function (url, pCount) {
-              var item = {
-                info: '',
-                url: url,
-                PlaceId: newPlace.id
-              };
-              Photo.create(item);
-              photos.push(item);
-              if (bCount + 1 === data.businesses.length
-                && pCount + 1 === businessInfo.photos.length) {
-                res.json(photos);
-              }
+              Photo.findOne({
+                where: {
+                  PlaceId: newPlace.id
+                }
+              })
+              .then(function (photo) {
+                if (!photo) {
+                  return Photo.create({
+                    info: '',
+                    url: url,
+                    PlaceId: newPlace.id
+                  });
+                } else {
+                  return photo;
+                }
+              })
+              .then(function (newPhoto) {
+                photos.push(newPhoto.toJSON());
+                if (bCount + 1 === data.businesses.length
+                  && pCount + 1 === businessInfo.photos.length) {
+                  res.json(photos);
+                }
+              });
             });
           });     // this should be refactored -
         });       // maybe split the above into two functions?
