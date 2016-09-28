@@ -5,6 +5,7 @@ var connection = require('../server/database/database.js');
 var User = require('../server/database/models/user.js');
 var Photo = require('../server/database/models/photo.js');
 var Place = require('../server/database/models/place.js');
+var UserPhotos = require('../server/database/models/userPhotos.js');
 
 require('../server/database/joins.js')(connection);
 
@@ -14,24 +15,24 @@ var instanceIds = {};
 var models = [
   {
     schema: User,
+    name: 'User',
     options: {
       email: 'test@example.com'
-    },
-    id: null
+    }
   },
   {
     schema: Photo,
+    name: 'Photo',
     options: {
       info: 'test'
-    },
-    id: null
+    }
   },
   {
     schema: Place,
+    name: 'Place',
     options: {
       name: 'example'
-    },
-    id: null
+    }
   }
 ];
 
@@ -58,11 +59,8 @@ describe('Database Handlers', function () {
         }
       })
       .then(function (instance) {
-        m.id = instance.id;
+        instanceIds[m.name] = instance.id;
         if (i + 1 === models.length) {
-          models.forEach(function (ins) {
-            instanceIds[ins.schema] = ins.id;
-          });
           done();
         }
       })
@@ -95,19 +93,32 @@ describe('Database Handlers', function () {
 
   it('should persist user likes (swipe left/right)', function (done) {
 
-    var call = api + 'yes/' + instanceIds["User"] + '/' + instanceIds["Photo"];
-    request(call, function (err, res, body) {
+    var call = api + 'api/yes/' + instanceIds['User'] + '/' + instanceIds['Photo'];
+
+    request.post(call, function (err, res, body) {
       if (err) {
         done(err);
       }
-      console.log(body);
-      expect(body).to.be.ok;
+      expect(res.statusCode).to.equal(201);
       done();
     });
   });
 
-  xit('should default to favorited = false for user photos', function (done) {
+  it('should default to favorited = false for user photos', function (done) {
 
+    UserPhotos.findOne({
+      where: {
+        UserId: instanceIds['User'],
+        PhotoId: instanceIds['Photo']
+      }
+    })
+    .then(function (record) {
+      expect(record.favorite).to.be.false;
+      done();
+    })
+    .catch(function (err) {
+      done(err);
+    });
   });
 
   xit('should persist user favorites', function (done) {
