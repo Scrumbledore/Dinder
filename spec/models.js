@@ -48,26 +48,26 @@ describe('Database Models', function () {
     });
   });
 
-  after(function (done) {
-    models.forEach(function (m, i) {
-      m.schema.findOne({
-        where: m.options
-      })
-      .then(function (record) {
-        if (record) {
-          return record.destroy();
-        }
-      })
-      .then(function () {
-        if (i + 1 === models.length) {
-          done();
-        }
-      })
-      .catch(function (err) {
-        done();
-      });
-    });
-  });
+  // after(function (done) {
+  //   models.forEach(function (m, i) {
+  //     m.schema.findOne({
+  //       where: m.options
+  //     })
+  //     .then(function (record) {
+  //       if (record) {
+  //         return record.destroy();
+  //       }
+  //     })
+  //     .then(function () {
+  //       if (i + 1 === models.length) {
+  //         done();
+  //       }
+  //     })
+  //     .catch(function (err) {
+  //       done();
+  //     });
+  //   });
+  // });
 
   it('should persist user records', function (done) {
 
