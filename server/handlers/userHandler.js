@@ -3,6 +3,7 @@ var requestPromise = require('request-promise');
 var User = require('../database/models/user.js');
 var Photo = require('../database/models/photo.js');
 var Place = require('../database/models/place.js');
+var UserPhotos = require('../database/models/userPhotos.js');
 var Yelp = require('../config/yelpRouter.js');
 
 module.exports = {
@@ -81,19 +82,24 @@ module.exports = {
   },
 
   getFavorites: function (req, res) {
-    var userId = req.params.userid;
     User.findOne({
-      where: {id: userId}
-    }).then(
-      function(user) {
-        user.getPhotos().then(
-          // change logic to actually be favorites
-          function(favorites) {
-            res.json(favorites);
-          }
-        );
+      where: {
+        id: req.params.userid
       }
-    );
+    })
+    .then(function (user) {
+      return user.getPhotos({
+        joinTableAttributes: ['favorite']
+      });
+    })
+    .then(function (photos) {
+      res.json(photos.filter(function (photo) {
+        return photo.UserPhotos.favorite === true;
+      }));
+    })
+    .catch(function (err) {
+      throw err;
+    });
   },
 
   getRecommendations: function (req, res) {
