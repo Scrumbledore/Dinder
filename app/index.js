@@ -42,7 +42,7 @@ export default class Dinder extends Component {
 
     this.state = {
       apiRoot: apiRoot,
-      userId: 25 // fixme: hard-coded userId
+      userId: 35 // fixme: hard-coded userId
     };
   }
 
