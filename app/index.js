@@ -66,7 +66,9 @@ export default class Dinder extends Component {
               key='favorites'
               component={Favorites}
               icon={TabIcon}
-              title='Favorites' />
+              title='Favorites'
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
             <Scene
               img='local-pizza'
               key='food'
