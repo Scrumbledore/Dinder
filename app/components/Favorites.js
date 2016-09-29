@@ -17,7 +17,7 @@ const ds = new ListView.DataSource({
 export default class Favorites extends Component {
   constructor(props) {
     super(props);
-    
+
     // this needs to be pulled in somehow
     this.state = {
       userId: '3',
@@ -61,8 +61,8 @@ export default class Favorites extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to the Favorites Page for {this.state.userId}
+          <Text style={{margin: 15, marginTop: 30, fontSize: 24, fontFamily: 'Noteworthy'}}>
+            Dumbledore's Favorites
           </Text>
           <ListView dataSource={this.state.dataSource} renderRow={(favorite) => this.favoriteEntry(favorite)} />
         </View>
