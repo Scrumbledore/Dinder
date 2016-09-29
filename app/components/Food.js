@@ -90,6 +90,20 @@ export default class Food extends Component {
     });
   }
 
+  handleFav (card) {
+    console.log(`Fav for ${card.text}`);
+    this.refs['swiper']._goToNextCard();
+    fetch(`${this.props.apiRoot}/api/favorites/${this.props.userId}/${card.id}`, {
+      method: 'POST'
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  }
+
   yes() {
     console.log(this.refs['swiper']);
     this.refs['swiper']._goToNextCard();
@@ -101,7 +115,8 @@ export default class Food extends Component {
   }
 
   fav() {
-    console.log('favorited', this.refs['swiper']);
+    console.log(this.refs['swiper']);
+    this.refs['swiper']._goToNextCard();
   }
 
   render() {
@@ -115,7 +130,8 @@ export default class Food extends Component {
         renderCard = { (cardData) => this.Card(cardData) }
         renderNoMoreCards = {() => this.noMore()}
         handleYup = {this.handleYup.bind(this)}
-        handleNope = {this.handleNope.bind(this)} />;
+        handleNope = {this.handleNope.bind(this)}
+        handleFav = {this.handleFav.bind(this)} />;
     }
     return (
       <View style={styles.container}>
@@ -127,7 +143,7 @@ export default class Food extends Component {
           <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.yes()}>
             <Iconz name='ios-heart-outline' size={36} color="#FF4136" style={{ marginTop: 5 }} />
           </TouchableOpacity>
-          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.fav()}>
+          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.handleFav.bind(this)}>
             <Iconz name='ios-star' size={36} color="#FFDC00" style={{ marginTop: 5 }} />
           </TouchableOpacity>
         </View>

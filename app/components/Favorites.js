@@ -28,6 +28,8 @@ export default class Favorites extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props.apiRoot)
+    console.log(this.state.apiUrl)
     return fetch(this.state.apiUrl + '/favorites/' + this.state.userId)
     .then((result) => {
       console.log(this.state.favList);
