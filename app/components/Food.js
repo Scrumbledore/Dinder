@@ -39,6 +39,7 @@ export default class Food extends Component {
   }
 
   Card (x) {
+    this.counter = x.id;
     return (
       <View style={styles.card} id={x.id}>
         <Image source ={{uri: x.url}} resizeMode="contain" style ={{width: 350, height: 350}} />
@@ -66,12 +67,9 @@ export default class Food extends Component {
   judge (endpoint) {
 
     var _this = this;
-    var id = this.state.cards[this.counter].id;
-
-    this.counter ++;
     this.refs['swiper']._goToNextCard();
 
-    fetch(`${this.props.apiRoot}/api/${endpoint}/${this.props.userId}/${id}`, {
+    fetch(`${this.props.apiRoot}/api/${endpoint}/${this.props.userId}/${this.counter}`, {
       method: 'POST'
     })
     .then(function(response) {
