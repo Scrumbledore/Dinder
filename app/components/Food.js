@@ -10,14 +10,15 @@ import styles from '../styles/styles.js';
 
 
 export default class Food extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
+    this.counter = 0;
     this.state = {
       cards: []
     };
   }
 
-  getPhotos() {
+  getPhotos () {
     var _this = this;
     fetch(`${this.props.apiRoot}/api/photo/3/4/1/1`) // fixme: hard-coded API request
     .then(function(data) {
@@ -33,11 +34,11 @@ export default class Food extends Component {
     });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.getPhotos();
   }
 
-  Card(x) {
+  Card (x) {
     return (
       <View style={styles.card} id={x.id}>
         <Image source ={{uri: x.url}} resizeMode="contain" style ={{width: 350, height: 350}} />
@@ -50,7 +51,7 @@ export default class Food extends Component {
     );
   }
 
-  noMore() {
+  noMore () {
     return (
       <View style={styles.card} >
         <Text>No More Cards</Text>
@@ -62,10 +63,15 @@ export default class Food extends Component {
     );
   }
 
-  handleYup (card) {
-    console.log(`Yes for ${card.text}`);
+  judge (endpoint) {
+
+    var _this = this;
+    var id = this.state.cards[this.counter].id;
+
+    this.counter ++;
     this.refs['swiper']._goToNextCard();
-    fetch(`${this.props.apiRoot}/api/yes/${this.props.userId}/${card.id}`, {
+
+    fetch(`${this.props.apiRoot}/api/${endpoint}/${this.props.userId}/${id}`, {
       method: 'POST'
     })
     .then(function(response) {
@@ -76,50 +82,7 @@ export default class Food extends Component {
     });
   }
 
-  handleNope (card) {
-    console.log(`Nope for ${card.text}`);
-    this.refs['swiper']._goToNextCard();
-    fetch(`${this.props.apiRoot}/api/no/${this.props.userId}/${card.id}`, {
-      method: 'POST'
-    })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  }
-
-  handleFav (card) {
-    console.log(`Fav for ${card.text}`);
-    this.refs['swiper']._goToNextCard();
-    fetch(`${this.props.apiRoot}/api/favorites/${this.props.userId}/${card.id}`, {
-      method: 'POST'
-    })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  }
-
-  yes() {
-    console.log(this.refs['swiper']);
-    this.refs['swiper']._goToNextCard();
-  }
-
-  nope() {
-    console.log(this.refs['swiper']);
-    this.refs['swiper']._goToNextCard();
-  }
-
-  fav() {
-    console.log(this.refs['swiper']);
-    this.refs['swiper']._goToNextCard();
-  }
-
-  render() {
+  render () {
     var cards = <Text>Loading...</Text>;
     if (this.state.cards.length) {
       console.log(this.state.cards);
@@ -129,21 +92,21 @@ export default class Food extends Component {
         containerStyle = {{ backgroundColor: '#f7f7f7', alignItems: 'center', margin: 20 }}
         renderCard = { (cardData) => this.Card(cardData) }
         renderNoMoreCards = {() => this.noMore()}
-        handleYup = {this.handleYup.bind(this)}
-        handleNope = {this.handleNope.bind(this)}
-        handleFav = {this.handleFav.bind(this)} />;
+        handleFav = {this.judge.bind(this, 'favorites')}
+        handleYup = {this.judge.bind(this, 'yes')}
+        handleNope = {this.judge.bind(this, 'no')} />;
     }
     return (
       <View style={styles.container}>
         {cards}
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.nope()}>
+          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.judge('no')}>
             <Iconz name='ios-close' size={45} color="#111111" style={{}} />
           </TouchableOpacity>
-          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.yes()}>
+          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.judge('yes')}>
             <Iconz name='ios-heart-outline' size={36} color="#FF4136" style={{ marginTop: 5 }} />
           </TouchableOpacity>
-          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.handleFav.bind(this)}>
+          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.judge('favorites')}>
             <Iconz name='ios-star' size={36} color="#FFDC00" style={{ marginTop: 5 }} />
           </TouchableOpacity>
         </View>

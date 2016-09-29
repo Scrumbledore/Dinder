@@ -89,7 +89,7 @@ module.exports = {
         user.getPhotos().then(
           // change logic to actually be favorites
           function(favorites) {
-            res.json(favorites).send();
+            res.json(favorites);
           }
         );
       }
