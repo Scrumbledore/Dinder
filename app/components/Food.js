@@ -21,17 +21,13 @@ export default class Food extends Component {
   getPhotos () {
     var _this = this;
     fetch(`${this.props.apiRoot}/api/photo/3/4/1/1`) // fixme: hard-coded API request
-    .then(function(data) {
-      return data.json();
-    })
-    .then(function(data) {
+    .then((data) => data.json())
+    .then((photos) => {
       _this.setState({
-        cards: data
+        cards: photos
       });
     })
-    .catch(function (err) {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
   }
 
   componentDidMount () {
@@ -65,19 +61,12 @@ export default class Food extends Component {
   }
 
   judge (endpoint) {
-
-    var _this = this;
     this.refs['swiper']._goToNextCard();
-
     fetch(`${this.props.apiRoot}/api/${endpoint}/${this.props.userId}/${this.counter}`, {
       method: 'POST'
     })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+    .then((response) => console.log(response))
+    .catch((err) => console.log(err));
   }
 
   render () {

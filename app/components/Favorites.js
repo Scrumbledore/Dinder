@@ -25,9 +25,7 @@ export default class Favorites extends Component {
         })
       });
     })
-    .catch((err) => {
-      console.error(err);
-    });
+    .catch((err) => console.error(err));
   }
 
   render() {
