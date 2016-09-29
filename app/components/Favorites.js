@@ -3,12 +3,6 @@ import { Text, View, ListView, Image } from 'react-native';
 
 import styles from '../styles/styles.js';
 
-var config = require('../../config.js');
-var apiRoot = config.apiRoot;
-var apiPort = config.port;
-
-
-
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
@@ -17,36 +11,21 @@ const ds = new ListView.DataSource({
 export default class Favorites extends Component {
   constructor(props) {
     super(props);
-
-    // this needs to be pulled in somehow
     this.state = {
-      userId: '3',
-      apiUrl: apiRoot + ':' + apiPort + '/api',
-      favList: []
+      dataSource: undefined
     };
-
   }
 
   componentWillMount() {
-    console.log(this.props.apiRoot);
-    console.log(this.state.apiUrl);
-    return fetch(this.state.apiUrl + '/favorites/' + this.state.userId)
+    return fetch(`${this.props.apiRoot}/api/favorites/${this.props.userId}`)
     .then((result) => {
-      console.log(this.state.favList);
-      // prob reduncant
       this.setState({
-        // can fix api to return better?????
-        favList: result._bodyText
+        dataSource: ds.cloneWithRowsAndSections({
+          favList: JSON.parse(result._bodyText)
+        })
       });
-      this.setState({
-        dataSource: ds.cloneWithRowsAndSections({favList: JSON.parse(result._bodyText)})
-      });
-      // console.log(this.state.favList)
-      console.log(this.state.favList);
     })
-    .catch((err) => {
-      console.error(err);
-    });
+    .catch((err) => console.error(err));
   }
 
   render() {
@@ -82,7 +61,4 @@ export default class Favorites extends Component {
       </View>
     );
   }
-
-
-
 }
