@@ -16,14 +16,14 @@ export default class SignUp extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to the SignUp page!
+          Welcome Dinder! SignUp here!
         </Text>
 
-      <Button 
-        buttonStyle={styles.buttonBlue} 
-        title="Sign Up" 
+      <Button
+        buttonStyle={styles.buttonBlue}
+        title="Sign Up"
         onPress={Actions.tabbar} />
-        
+
       </View>
 
     );

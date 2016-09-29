@@ -16,7 +16,7 @@ export default class SignIn extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to the SignIn page!
+          Welcome to Dinder!
         </Text>
 
       <Button
@@ -24,11 +24,11 @@ export default class SignIn extends Component {
           title="Sign Up"
           onPress={Actions.signup}/>
 
-      <Button 
+      <Button
         buttonStyle={styles.buttonBlue}
         title="Sign In"
         onPress={Actions.tabbar} />
-  
+
       </View>
 
     );
