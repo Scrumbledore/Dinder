@@ -43,6 +43,27 @@ module.exports = {
             return place;
           }
         })
+        //begin inserting category
+        // .then(function(place) {
+        //   place.categories.forEach(function(category, cCount) {
+        //     Category.findOne({
+        //       where: {
+        //         name: category.title
+        //       }
+        //     })
+        //   .then(function(type) {
+        //     if (!type) {
+        //       return Category.create({
+        //         name: category.title,
+        //       });
+        //     } else {
+        //       return type;
+        //     }
+        //   });
+        //     return place;
+        //   });
+        // })
+        //begin photos
         .then(function(newPlace) {
           requestPromise(Yelp.yelpOptions(business.id, 'businesses/'))
           .then(function (data) {
@@ -68,8 +89,7 @@ module.exports = {
               })
               .then(function (newPhoto) {
                 photos.push(newPhoto.toJSON());
-                if (bCount + 1 === data.businesses.length
-                  && pCount + 1 === businessInfo.photos.length) {
+                if (bCount + 1 === data.businesses.length && pCount + 1 === businessInfo.photos.length) {
                   res.json(photos);
                 }
               });
