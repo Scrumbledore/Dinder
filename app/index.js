@@ -41,8 +41,7 @@ export default class Dinder extends Component {
             + config.port;
 
     this.state = {
-      //apiRoot: apiRoot,
-      apiRoot: 'http://localhost:1337/api/',
+      apiRoot: apiRoot,
       authByToken: '',
       userId: 3 // fixme: hard-coded userId
     };
@@ -71,11 +70,13 @@ export default class Dinder extends Component {
             key='signin'
             component={SignIn}
             icon={TabIcon}
+            apiRoot={this.state.apiRoot}
             title='Sign In' />
           <Scene
             key='signup'
             component={SignUp}
             icon={TabIcon}
+            apiRoot={this.state.apiRoot}
             title='Sign Up' />
           <Scene key='tabbar' tabs={true}>
             <Scene
