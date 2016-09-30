@@ -17,9 +17,8 @@ module.exports = function (app, express) {
   // for getting favorited pictures for a userid
   app.get('/api/favorites/:userid', userHandler.getFavorites);
 
-  // for recording a favorite for a userid (since it's post we can technical pass in body if we want)
-  // photoHandler.unFavorite() is also available
-  app.post('/api/favorites/:userid/:photoid', photoHandler.favorite);
+  app.post('/api/favorite/:userid/:photoid', photoHandler.favorite);
+  app.post('/api/unfavorite/:userid/:photoid', photoHandler.unFavorite);
 
   // for getting recommendations for a user at a given loc
   app.get('/api/recommendations/:userid/:loc', userHandler.getRecommendations);
