@@ -9,10 +9,10 @@ var Place = connection.define('Place', {
   city: Sequelize.STRING,
   state: Sequelize.STRING,
   zip: Sequelize.STRING,
-  url: Sequelize.STRING
+  url: Sequelize.STRING,
+  rating: Sequelize.STRING,
+  price: Sequelize.STRING
 });
-
-// include field "category"
 
 
 module.exports = Place;
