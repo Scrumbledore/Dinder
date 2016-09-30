@@ -44,7 +44,7 @@ export default class Dinder extends Component {
       //apiRoot: apiRoot,
       apiRoot: 'http://localhost:1337/api/',
       authByToken: '',
-      userId: 35 // fixme: hard-coded userId
+      userId: 3 // fixme: hard-coded userId
     };
   }
 
