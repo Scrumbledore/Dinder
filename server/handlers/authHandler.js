@@ -1,39 +1,56 @@
-var User = require('../database/models/user.js');
+const User = require('../database/models/user.js');
+const config = require('../../config');
+const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
 
-  signIn: function (req, res) {
-    // something here
-    console.log('logging in');
-  },
+  signUp(req, res, next) {
+    const email = req.body.email;
+    const password = req.body.password;
 
-  // expects req.body to be object with relevant information
-  signUp: function (req, res) {
-    console.log(req.body);
-    User.findOne({
-      where: {email: req.body.email}
-    }).then(
-      function(user) {
+    User.find({ where: { email }})
+      .then(user => {
         if (user) {
-          // responds with user exists
-          res.status(500).send({error: 'user exists'});
+          return next(new Error('User Already Exists!'));
         } else {
-          // right now just creates a user, we don't have auth decided
-          User.create({
-            email: req.body.email
-          }).then(
-            function(newUser) {
-              // responds with new user atm
-              res.json(newUser);
-            }
-          );
+          const newUser = User.create ({
+            email: email,
+            password: password
+          })
+          .then(newUser => res.json({ token: jwt.encode({ id: User.id }, config.JWT_SECRET) }) );
         }
-      },
-      // error logging
-      function(err) {
-        console.log('err:', err);
-      }
-    );
+      })
+      .catch(error => {
+        res.sendStatus(500);
+        console.log(error);
+      });
+  },
+ 
+  signIn(req, res, next) {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    User.find({ where: { email }})
+      .then(User => {
+        if (!User) {
+          return next(new Error('No User Found!'));
+        }
+        bcrypt.compare(password, User.password, function(err, match) {
+          if (match) {
+            console.log('login successful');
+            res.json({ token: jwt.encode({ id: User.id }, config.JWT_SECRET) });
+          } else if (err) {
+            console.log('login error');
+          } else {
+            console.log('no match');
+          }
+        });
+      })
+      .catch(error => {
+        res.sendStatus(500);
+        console.log(error);
+      });
   }
 
 };

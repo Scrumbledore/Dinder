@@ -8,6 +8,7 @@ export default StyleSheet.create({
 
 ////+++++ Routing +++++
 
+
 ////+++++ Food +++++
 
   foodButtons: {
@@ -51,6 +52,33 @@ export default StyleSheet.create({
   welcome: {
     fontSize: 24
   },
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
+  },
+  textInputBox: {
+    color: '#000',
+    paddingRight: 5,
+    paddingLeft: 5,
+    marginRight: 5,
+    marginLeft: 5,
+    fontSize: 18,
+    lineHeight: 23,
+    flex: 3,
+    borderColor: 'grey',
+    borderWidth: 1
+  },
+  inputLabel: {
+    fontSize: 18,
+    paddingLeft: 20,
+    flex: 1
+  },
+  inputContainer: {
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
 
 ////+++++ Buttons +++++
   buttonBlue: {
@@ -60,4 +88,3 @@ export default StyleSheet.create({
     backgroundColor: 'steelblue'
   }
 });
-
