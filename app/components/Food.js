@@ -72,7 +72,7 @@ export default class Food extends Component {
   render () {
     var cards = <Text>Loading...</Text>;
     if (this.state.cards.length) {
-      console.log(this.state.cards);
+      // console.log(this.state.cards);
       cards = <SwipeCards
         ref = {'swiper'}
         cards = {this.state.cards}
