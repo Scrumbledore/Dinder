@@ -71,14 +71,12 @@ export default class Dinder extends Component {
             key='signin'
             component={SignIn}
             icon={TabIcon}
-            title='Sign In'
-            apiRoot={this.state.apiRoot} />
+            title='Sign In' />
           <Scene
             key='signup'
             component={SignUp}
             icon={TabIcon}
-            title='Sign Up' 
-            apiRoot={this.state.apiRoot} />
+            title='Sign Up' />
           <Scene key='tabbar' tabs={true}>
             <Scene
               img='star-border'
