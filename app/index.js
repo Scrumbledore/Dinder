@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, Platform} from 'react-native';
+import { AppRegistry, Text, View, Platform, AsyncStorage } from 'react-native';
 import { Scene, Router, Actions, TabBar, Navigator } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -41,12 +41,29 @@ export default class Dinder extends Component {
             + config.port;
 
     this.state = {
-      apiRoot: apiRoot,
+      //apiRoot: apiRoot,
+      apiRoot: 'http://localhost:1337/api/',
+      authByToken: '',
       userId: 35 // fixme: hard-coded userId
     };
   }
 
+  componentWillMount() {
+    //AsyncStorage.removeItem('jwt');
+    AsyncStorage.getItem('jwt')
+    .then((value) => {
+      console.log('index jwt', value);
+      if (value !== null) {
+        this.setState({authByToken: true});
+      } 
+    })
+    .catch((err) =>{
+      console.error(err);
+    });
+  }
+  
   render() {
+    //if auth by token...
     return (
       <Router hideNavBar={true} >
         <Scene key='root' hideNavBar={true}>

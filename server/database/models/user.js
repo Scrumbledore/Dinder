@@ -1,35 +1,38 @@
 var Sequelize = require('sequelize');
-// var Promise = require('bluebird');
-// var bcrypt = require('bcrypt-nodejs');
 var connection = require('../database.js');
+// var Promise = require('bluebird');
+var bcrypt = require('bcrypt-nodejs');
 
 var User = connection.define('User', {
   email: {
     type: Sequelize.STRING,
     unique: true
-  },
+  }, 
   password: Sequelize.STRING,
   lastGeo: Sequelize.STRING
-// },
-// {
-//   instanceMethods: {
-//     comparePassword: function (guess, callback) {
-//       bcrypt.compare(guess, this.password, function (err, isMatch) {
-//         if (err) {
-//           throw err;
-//         }
-//         callback(null, isMatch);
-//       });
-//     }
-//   }
-});
+},
+  {
+    classMethods: {
+      comparePassword: function(guess, password, callback) {
+        console.log('password', password);
+        console.log('guess', guess);
+        bcrypt.compare(guess, password, function(err, match) {
+          if (err) {
+            return callback(err);
+          } 
+          callback(null, match);
+        });
+      }
+    }
+  }
+);
 
-// User.beforeCreate(function (user) {
-//   var cipher = Promise.promisify(bcrypt.hash);
-//   return cipher(user.password, null, null)
-//     .then(function (hash) {
-//       user.password = hash;
-//     });
-// });
+User.beforeCreate(function (User, options, callback) {
+  bcrypt.hash(User.password, null, null, function(err, hash) {
+    if (err) { return callback(err); }
+    User.password = hash;
+    return callback(null, User);
+  });
+});
 
 module.exports = User;

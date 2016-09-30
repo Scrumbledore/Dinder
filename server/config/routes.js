@@ -9,7 +9,11 @@ module.exports = function (app, express) {
       message: 'hello, world v3.0.1'
     });
   });
-
+  //testing jwt auth
+  // app.get('/', requireAuth, function(req, res) {
+  //   res.json({ hi: 'there' });
+  // });
+  
   // for getting favorited pictures for a userid
   app.get('/api/favorites/:userid', userHandler.getFavorites);
 
@@ -30,6 +34,8 @@ module.exports = function (app, express) {
   app.post('/api/no/:userid/:photoid', photoHandler.voteNo);
 
   // signin
+  //w passport auth:
+  //app.post('/api/signin', requireAuth, authHandler.SignIn);
   app.post('/api/signin', authHandler.signIn);
 
   // signup
