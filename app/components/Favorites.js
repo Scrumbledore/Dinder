@@ -21,7 +21,7 @@ var ImageWithConstraints = React.createClass({
     var measuredHeight = layout.width / aspectRatio;
     var currentHeight = layout.height;
 
-    if (measuredHeight != currentHeight) {
+    if (measuredHeight !== currentHeight) {
       this.setState({
         style: {
           height: measuredHeight
@@ -100,7 +100,7 @@ export default class Favorites extends Component {
       // }
 
 
-      resizeMode="contain" style={{width: 350, height: 35*10}} />
+      resizeMode="contain" style={{width: 350, height: 35 * 10}} />
         <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center'}} >
           <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{favorite.info}</Text>
