@@ -22,7 +22,7 @@ export default class SignIn extends Component {
   }
 
   userSignIn() {
-    return fetch(`${this.props.apiRoot}signin`, {
+    return fetch(`${this.props.apiRoot}/api/signin`,{
       method: 'POST', 
       headers: {
         'Accept': 'application/json',

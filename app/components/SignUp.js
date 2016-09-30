@@ -19,7 +19,7 @@ export default class SignUp extends Component {
   }
 
   userSignUp() {
-    return fetch(`${this.props.apiRoot}signup`, {
+    return fetch(`${this.props.apiRoot}/api/signin`, {
       method: 'POST', 
       headers: {
         'Accept': 'application/json',
@@ -43,7 +43,7 @@ export default class SignUp extends Component {
       }
     })
     .catch((error) => {
-      this.setState({error: 'User Already Exists!'});
+      this.setState({error: 'Error Setting Up Account'});
     })
     .done();
   }
