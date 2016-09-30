@@ -17,7 +17,7 @@ export default class Favorites extends Component {
   }
 
   componentWillMount() {
-    return fetch(`${this.props.apiRoot}favorites/${this.props.userId}`)
+    return fetch(`${this.props.apiRoot}/api/favorites/${this.props.userId}`)
     .then((result) => {
       this.setState({
         dataSource: ds.cloneWithRowsAndSections({

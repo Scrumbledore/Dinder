@@ -20,7 +20,7 @@ export default class Food extends Component {
 
   getPhotos () {
     var _this = this;
-    fetch(`${this.props.apiRoot}photo/3/4/1/1`) // fixme: hard-coded API request
+    fetch(`${this.props.apiRoot}/api/photo/3/4/1/1`) // fixme: hard-coded API request
     .then((data) => data.json())
     .then((photos) => {
       _this.setState({
