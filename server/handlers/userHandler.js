@@ -35,7 +35,9 @@ module.exports = {
               city: business.location.city,
               state: business.location.state,
               zip: business.location.zip_code,
-              url: business.image_url
+              url: business.image_url,
+              rating: business.rating,
+              price: business.price
             });
           } else {
             return place;

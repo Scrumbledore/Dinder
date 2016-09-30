@@ -11,6 +11,7 @@ var Place = connection.define('Place', {
   zip: Sequelize.STRING,
   url: Sequelize.STRING,
   rating: Sequelize.STRING,
+  price: Sequelize.STRING
 });
 
 
