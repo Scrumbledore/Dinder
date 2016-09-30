@@ -91,7 +91,8 @@ export default class Favorites extends Component {
 
     return (
       <View style={styles.card} >
-      <ImageWithConstraints source={{uri: favorite.url}} originalWidth= {100}
+      <Image source={{uri: favorite.url}}
+      // <ImageWithConstraints source={{uri: favorite.url}} originalWidth= {100}
 
       // {Image.getSize(favorite.url, (w, h) => w)} 
       // onLoad={(event) => {
