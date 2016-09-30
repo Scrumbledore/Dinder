@@ -11,32 +11,44 @@ export default StyleSheet.create({
 
 ////+++++ Food +++++
 
-  foodButtons: {
-    width: 80,
-    height: 80,
-    borderWidth: 10,
-    borderColor: '#e7e7e7',
+  foodIcon: {
+    width: 100,
+    height: 60,
+    marginTop: 10,
     justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 40
-  },
-  foodButtonSmall: {
-    width: 50,
-    height: 50,
-    borderWidth: 10,
-    borderColor: '#e7e7e7',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 25
+    alignItems: 'center'
   },
   foodCard: {
-    flex: 1,
+    padding: 10,
     alignItems: 'center',
     alignSelf: 'center',
+    backgroundColor: '#fafafa'
+  },
+  yup: {
+    borderColor: 'green',
     borderWidth: 2,
-    borderColor: '#e3e3e3',
-    width: 350,
-    height: 420,
+    position: 'absolute',
+    padding: 20,
+    top: 60,
+    borderRadius: 5,
+    right: 20,
+  },
+  yupText: {
+    fontSize: 16,
+    color: 'green',
+  },
+  nope: {
+    borderColor: 'red',
+    borderWidth: 2,
+    position: 'absolute',
+    top: 60,
+    padding: 20,
+    borderRadius: 5,
+    left: 20,
+  },
+  nopeText: {
+    fontSize: 16,
+    color: 'red',
   },
 
 //++++++++++++++++++++++++++
@@ -47,7 +59,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f7f7f7'
+    backgroundColor: '#d4d4d4'
   },
   welcome: {
     fontSize: 24

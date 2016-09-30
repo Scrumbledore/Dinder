@@ -54,13 +54,13 @@ export default class Dinder extends Component {
       console.log('index jwt', value);
       if (value !== null) {
         this.setState({authByToken: true});
-      } 
+      }
     })
     .catch((err) =>{
       console.error(err);
     });
   }
-  
+
   render() {
     //if auth by token...
     return (
@@ -68,6 +68,7 @@ export default class Dinder extends Component {
         <Scene key='root' hideNavBar={true}>
           <Scene
             key='signin'
+            initial={true}
             component={SignIn}
             icon={TabIcon}
             apiRoot={this.state.apiRoot}
@@ -78,7 +79,10 @@ export default class Dinder extends Component {
             icon={TabIcon}
             apiRoot={this.state.apiRoot}
             title='Sign Up' />
-          <Scene key='tabbar' tabs={true}>
+          <Scene
+            key='tabbar'
+            tabs={true}
+            type='reset'>
             <Scene
               img='star-border'
               key='favorites'

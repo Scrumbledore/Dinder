@@ -16,7 +16,7 @@ export default class Food extends Component {
     super(props);
     this.state = {
       swipe: new Animated.ValueXY(),
-      enter: new Animated.Value(0.5),
+      enter: new Animated.Value(0),
       cards: [],
       faved: false,
       loaded: false
@@ -95,7 +95,8 @@ export default class Food extends Component {
 
   fadeIn () {
     Animated.spring(this.state.enter, {
-      toValue: 1
+      toValue: 1,
+      friction: 5
     }).start();
   }
 
@@ -131,7 +132,7 @@ export default class Food extends Component {
     });
     let opacity = pan.x.interpolate({
       inputRange: [-200, 0, 200],
-      outputRange: [0.5, 1, 0.5]
+      outputRange: [0, 1, 0]
     });
     let animatedCardstyles = {
       transform: [
@@ -143,9 +144,18 @@ export default class Food extends Component {
     };
 
     return (
-      <Animated.View style={animatedCardstyles} {...this.panResponder.panHandlers}>
-        <View style={styles.card}>
-          <Image source={{uri: this.state.cards[0].url}} resizeMode="contain" style={{width: 350, height: 350}} />
+      <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
+        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{height: 300, width: 300}}/>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('no')}>
+            <Iconz name='md-close' color={'#FF0000'} size={40} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('yes')}>
+            <Iconz name='md-checkmark' color={'#00FF00'} size={40} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.foodIcon} onPress = {() => this.fave()}>
+            <Iconz name='md-star' color={this.state.faved ? '#FFDC00' : '#CCCCCC'} size={40} />
+          </TouchableOpacity>
         </View>
       </Animated.View>
     );
@@ -153,32 +163,46 @@ export default class Food extends Component {
 
   renderNoMore () {
     return (
-      <View style={styles.card} >
+      <View>
         <Text>No More Cards</Text>
-        <Text>Show more Recommendations</Text>
-        <TouchableOpacity style={styles.foodButtons} onPress={() => this.getPhotos()}>
-          <Iconz name='ios-pizza' size={45} color='#111111' style={{}} />
+        <Text>Show more Recommendations?</Text>
+        <TouchableOpacity style={styles.foodIcon} onPress={() => this.getPhotos()}>
+          <Iconz name='ios-pizza' size={40} color='#111111'/>
         </TouchableOpacity>
       </View>
     );
   }
 
   render () {
+
+    let pan = this.state.swipe;
+
+    let yupStyle = {
+      opacity: pan.x.interpolate({
+        inputRange: [0, 150],
+        outputRange: [0, 1]
+      })
+    };
+
+    let nopeStyle = {
+      opacity: pan.x.interpolate({
+        inputRange: [-150, 0],
+        outputRange: [1, 0]
+      })
+    };
+
     return (
       <View style={styles.container}>
         {!this.state.loaded ? <Text>Loading...</Text>
-          : (this.state.cards.length ? this.renderCard() : this.renderNoMore())}
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity style={styles.foodButtons} onPress={() => this.judge('no')}>
-            <Iconz name='ios-close' size={45} color='#111111' style={{}} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.foodButtons} onPress={() => this.judge('yes')}>
-            <Iconz name='ios-heart-outline' size={36} color='#FF4136' style={{ marginTop: 5 }} />
-          </TouchableOpacity>
-          <TouchableOpacity style = {styles.foodButtons} onPress = {() => this.fave()}>
-            <Iconz name='ios-star' size={36} color={this.state.faved ? '#FFDC00' : '#CCCCCC'} style={{marginTop: 5}} />
-          </TouchableOpacity>
-        </View>
+          : (this.state.cards.length ? this.renderCard()
+              : this.renderNoMore())}
+
+        <Animated.View style={[styles.yup, yupStyle]}>
+          <Text style={styles.yuptext}>Yum!</Text>
+        </Animated.View>
+        <Animated.View style={[styles.nope, nopeStyle]}>
+          <Text style={styles.nopeText}>Barf!</Text>
+        </Animated.View>
       </View>
     );
   }
