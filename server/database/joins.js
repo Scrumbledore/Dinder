@@ -26,4 +26,8 @@ module.exports = function (connection) {
 
   Place.hasMany(Photo);
   Place.hasMany(Category);
+
 };
+
+
+

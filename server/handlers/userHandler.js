@@ -3,6 +3,7 @@ var requestPromise = require('request-promise');
 var User = require('../database/models/user.js');
 var Photo = require('../database/models/photo.js');
 var Place = require('../database/models/place.js');
+var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
 var Yelp = require('../config/yelpRouter.js');
 
@@ -44,25 +45,25 @@ module.exports = {
           }
         })
         //begin inserting category
-        // .then(function(place) {
-        //   place.categories.forEach(function(category, cCount) {
-        //     Category.findOne({
-        //       where: {
-        //         name: category.title
-        //       }
-        //     })
-        //   .then(function(type) {
-        //     if (!type) {
-        //       return Category.create({
-        //         name: category.title,
-        //       });
-        //     } else {
-        //       return type;
-        //     }
-        //   });
-        //     return place;
-        //   });
-        // })
+        .then(function(place) {
+          business.categories.forEach(function(category, cCount) {
+            Category.findOne({
+              where: {
+                name: category.title
+              }
+            })
+            .then(function(type) {
+              if (!type) {
+                return Category.create({
+                  name: category.title,
+                });
+              } else {
+                return type;
+              }
+            });
+            return place;
+          });
+        })
         //begin photos
         .then(function(newPlace) {
           requestPromise(Yelp.yelpOptions(business.id, 'businesses/'))
