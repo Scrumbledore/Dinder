@@ -21,7 +21,20 @@ export default class Recs extends Component {
         city: 'San Francisco',
         state: 'CA',
         url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg'
-      }]
+      }, {
+        name: 'Molinari Delicatessen2',
+        address: '373 Columbus Ave ',
+        city: 'San Francisco',
+        state: 'CA',
+        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg'
+      }
+
+      ]
+    };
+    this.state.rankIcons = {
+      0: '../assets/gold.png',
+      1: '../assets/silver.png',
+      2: '../assets/bronze.png',
     };
   }
 
@@ -71,26 +84,19 @@ export default class Recs extends Component {
           <ListView dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
         </View>
       );
-      // return (
-      //   <View style={styles.container}>
-      //     <Text style={styles.welcome}>Recs page</Text>
-      //     <Text style={styles.welcome}>Long: {this.state.long ? this.state.long : 'Please enable location services'}</Text>
-      //     <Text style={styles.welcome}>Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
-      //     <Text>Loading...</Text>
-      //   </View>
-      // )
     }
   }
 
   recEntry(rec) {
     console.log(rec);
     return (
-      <View style={styles.card} >
+      <View style={styles.foodCard} >
         <Image source={{uri: rec.url}}
         resizeMode='contain' style={{width: 350, height: 35 * 10}} />
         <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center'}} >
-          <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{rec.name}</Text>
+          <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center', justifyContent: 'space-between'}} >
+            <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{rec.name}</Text>
+            <Text style={{textAlign: 'right'}}>rating goes here</Text>
           </View>
         </View>
       </View>
