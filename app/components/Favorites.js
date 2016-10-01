@@ -1,46 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, ListView, Image } from 'react-native';
+import { Text, View, ListView, Image, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import styles from '../styles/styles.js';
-
-var ImageWithConstraints = React.createClass({
-  getInitialState: function () {
-    return {
-      style: {}
-    };
-  },
-
-  propTypes: {
-    originalWidth: React.PropTypes.number.isRequired,
-    originalHeight: React.PropTypes.number.isRequired,
-  },
-
-  onImageLayout: function (e) {
-    var layout = e.nativeEvent.layout;
-    var aspectRatio = this.props.originalWidth / this.props.originalHeight;
-    var measuredHeight = layout.width / aspectRatio;
-    var currentHeight = layout.height;
-
-    if (measuredHeight !== currentHeight) {
-      this.setState({
-        style: {
-          height: measuredHeight
-        }
-      });
-    }
-  },
-
-  render: function () {
-    return (
-      <Image
-        {...this.props}
-        style={[this.props.style, this.state.style]}
-        onLayout={this.onImageLayout}
-      />
-    );
-  }
-});
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -68,7 +30,7 @@ export default class Favorites extends Component {
       )
       .then((result) => {
         this.setState({
-          dataSource: ds.cloneWithRowsAndSections({
+          favs: ds.cloneWithRowsAndSections({
             favList: JSON.parse(result._bodyText)
           })
         });
