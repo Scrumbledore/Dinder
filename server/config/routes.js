@@ -10,6 +10,12 @@ module.exports = function (app, express) {
     });
   });
 
+  //testing jwt auth
+  // app.get('/', requireAuth, function(req, res) {
+  //   res.json({ hi: 'there' });
+  // });
+
+
   // for getting favorited pictures for a userid
   app.get('/api/favorites', authHandler.authorize, userHandler.getFavorites);
 
@@ -20,7 +26,8 @@ module.exports = function (app, express) {
   app.get('/api/recommendations/:loc', authHandler.authorize, userHandler.getRecommendations);
 
   // for getting pictures of food for user to swipe on
-  app.get('/api/photo/:zip/:lat/:long', authHandler.authorize, userHandler.getPhotos);
+
+  app.get('/api/photo/:zip/:lat/:long/:query', authHandler.authorize, userHandler.getPhotos);
 
   // vote yets on a photo (since it's post we can technical pass in body if we want)
   app.post('/api/yes/:photoid', authHandler.authorize, photoHandler.voteYes);
