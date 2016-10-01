@@ -1,7 +1,3 @@
-// thank you,
-// https://github.com/brentvatne/react-native-animated-demo-tinder
-// https://github.com/meteor-factory/react-native-tinder-swipe-cards
-
 import React, { Component } from 'react';
 import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -26,7 +22,7 @@ export default class Food extends Component {
   getPhotos () {
     AsyncStorage.getItem('jwt')
     .then((token) => {
-      fetch(`${this.props.apiRoot}/api/photo/4/1/1`,
+      fetch(`${this.props.apiRoot}/api/photo/4/4/4/4`,
         {
           method: 'GET',
           headers: {

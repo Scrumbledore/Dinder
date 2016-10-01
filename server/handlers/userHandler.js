@@ -3,18 +3,58 @@ var requestPromise = require('request-promise');
 var User = require('../database/models/user.js');
 var Photo = require('../database/models/photo.js');
 var Place = require('../database/models/place.js');
+var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
-var Yelp = require('../config/yelpRouter.js');
+var config = require('../../config.js');
+
+
+
+var yelpOptions = function (query, branch) {
+
+  branch = branch || '';
+  if (typeof query === 'object') {
+    search = 'search?term='
+            + query.keyword
+            + '&latitude='
+            + query.lat
+            + '&longitude='
+            + query.long;
+  } else {
+    search = query;
+  }
+  return {
+    url: config.yelpRoot + branch + search,
+    headers: {
+      'Authorization': 'Bearer ' + config.yelpKey,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+};
+
 
 module.exports = {
 
   getPhotos: function (req, res) {
 
     // using default values - not referencing req.params
+    //console.log(req.params);
+
+
+    var userid = req.params.userid === '4' ? '4' : req.params.userid;
+    var zip = req.params.zip === '4' ? '4' : req.params.zip;
+    var lat = req.params.lat === '4' ? 37.786882 : req.params.lat;
+    var long = req.params.long === '4' ? -122.399972 : req.params.long;
+    var query = req.params.query === '4' ? 'delis' : req.params.query;
 
     var photos = [];
 
-    requestPromise(Yelp.yelpOptions(null, 'businesses/'))
+    var request = {
+      keyword: query,
+      lat: lat,
+      long: long
+    };
+
+    requestPromise(yelpOptions(request, 'businesses/'))
     .then(function(data) {
       return JSON.parse(data);
     })
@@ -44,28 +84,29 @@ module.exports = {
           }
         })
         //begin inserting category
-        // .then(function(place) {
-        //   place.categories.forEach(function(category, cCount) {
-        //     Category.findOne({
-        //       where: {
-        //         name: category.title
-        //       }
-        //     })
-        //   .then(function(type) {
-        //     if (!type) {
-        //       return Category.create({
-        //         name: category.title,
-        //       });
-        //     } else {
-        //       return type;
-        //     }
-        //   });
-        //     return place;
-        //   });
-        // })
+        .then(function(place) {
+          business.categories.forEach(function(category, cCount) {
+            Category.findOne({
+              where: {
+                name: category.title
+              }
+            })
+            .then(function(type) {
+              if (!type) {
+                return Category.create({
+                  name: category.title,
+                  PlaceId: place.id
+                });
+              } else {
+                return type;
+              }
+            });
+            return place;
+          });
+        })
         //begin photos
         .then(function(newPlace) {
-          requestPromise(Yelp.yelpOptions(business.id, 'businesses/'))
+          requestPromise(yelpOptions(business.id, 'businesses/'))
           .then(function (data) {
             return JSON.parse(data);
           })
@@ -145,7 +186,6 @@ module.exports = {
     }
     console.log('getRecommendations for', userId, 'at', location);
   }
-
 };
 
 

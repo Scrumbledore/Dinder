@@ -28,7 +28,8 @@
     "react-native-vector-icons": "^2.1.0",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
-    "sequelize": "^3.24.3"
+    "sequelize": "^3.24.3",
+    "synaptic": "^1.0.8"
   },
   "devDependencies": {
     "chai": "^3.5.0",
