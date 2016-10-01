@@ -3,7 +3,7 @@
 // https://github.com/meteor-factory/react-native-tinder-swipe-cards
 
 import React, { Component } from 'react';
-import { Text, Image, View, TouchableOpacity, Animated, PanResponder } from 'react-native';
+import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/styles.js';
@@ -24,16 +24,29 @@ export default class Food extends Component {
   }
 
   getPhotos () {
-    fetch(`${this.props.apiRoot}/api/photo/3/4/1/1`) // fixme: hard-coded API request
-    .then((data) => data.json())
-    .then((photos) => {
-      this.setState({
-        cards: photos,
-        loaded: true
-      });
-      this.fadeIn();
-    })
-    .catch((err) => console.log(err));
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      fetch(`${this.props.apiRoot}/api/photo/4/1/1`,
+        {
+          method: 'GET',
+          headers: {
+            authorization: token
+          }
+        }
+      )
+      .then((data) => {
+        console.log(data);
+        return data.json();
+      })
+      .then((photos) => {
+        this.setState({
+          cards: photos,
+          loaded: true
+        });
+        this.fadeIn();
+      })
+      .catch((err) => console.log(err));
+    }).done();
   }
 
   componentDidMount () {
@@ -101,8 +114,8 @@ export default class Food extends Component {
   }
 
   judge (endpoint) {
+    this.exchange(endpoint, this.state.cards[0].id);
     this.popCard();
-    this.exchange(endpoint);
   }
 
   fave () {
@@ -110,17 +123,23 @@ export default class Food extends Component {
     this.setState({
       faved: !this.state.faved
     });
-    this.exchange(endpoint);
+    this.exchange(endpoint, this.state.cards[0].id);
   }
 
-  exchange (endpoint) {
-    fetch(`${this.props.apiRoot}/api/${endpoint}/${this.props.userId}/${this.state.cards[0].id}`,
-      {
-        method: 'POST'
-      }
-    )
-    .then((response) => console.log(response))
-    .catch((err) => console.log(err));
+  exchange (endpoint, id) {
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      fetch(`${this.props.apiRoot}/api/${endpoint}/${id}`,
+        {
+          method: 'POST',
+          headers: {
+            authorization: token
+          }
+        }
+      )
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+    }).done();
   }
 
   renderCard () {

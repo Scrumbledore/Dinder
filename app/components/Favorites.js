@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ListView, Image } from 'react-native';
+import { Text, View, ListView, Image, AsyncStorage } from 'react-native';
 
 import styles from '../styles/styles.js';
 
@@ -55,15 +55,25 @@ export default class Favorites extends Component {
   }
 
   componentWillMount() {
-    return fetch(`${this.props.apiRoot}/api/favorites/${this.props.userId}`)
-    .then((result) => {
-      this.setState({
-        dataSource: ds.cloneWithRowsAndSections({
-          favList: JSON.parse(result._bodyText)
-        })
-      });
-    })
-    .catch((err) => console.error(err));
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      fetch(`${this.props.apiRoot}/api/favorites/`,
+        {
+          method: 'GET',
+          headers: {
+            authorization: token
+          }
+        }
+      )
+      .then((result) => {
+        this.setState({
+          dataSource: ds.cloneWithRowsAndSections({
+            favList: JSON.parse(result._bodyText)
+          })
+        });
+      })
+      .catch((err) => console.error(err));
+    }).done();
   }
 
   render() {
@@ -94,7 +104,7 @@ export default class Favorites extends Component {
       <Image source={{uri: favorite.url}}
       // <ImageWithConstraints source={{uri: favorite.url}} originalWidth= {100}
 
-      // {Image.getSize(favorite.url, (w, h) => w)} 
+      // {Image.getSize(favorite.url, (w, h) => w)}
       // onLoad={(event) => {
       //   console.log(Image.getSize(favorite.url, (w, h) => {350 / w * h}))};
       //   }

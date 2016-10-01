@@ -1,4 +1,5 @@
 var bodyParser = require('body-parser');
+var authHandler = require('../handlers/authHandler.js');
 
 module.exports = function (app, express) {
 

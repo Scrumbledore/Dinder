@@ -26,7 +26,7 @@ module.exports = {
         console.log(error);
       });
   },
- 
+
   signIn(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
@@ -51,6 +51,16 @@ module.exports = {
         res.sendStatus(500);
         console.log(error);
       });
+  },
+
+  authorize(req, res, next) {
+    var token = req.headers.authorization;
+    if (!token) {
+      console.log('unauthorized!')
+      res.sendStatus(401);
+    }
+    req.userId = jwt.decode(token, config.JWT_SECRET).id;
+    next();
   }
 
 };
