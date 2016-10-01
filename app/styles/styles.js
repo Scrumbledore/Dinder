@@ -56,6 +56,23 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'stretch'
   },
+  foodRecCardBottomComment: {
+    flex: 1,
+    padding: 10,
+    paddingBottom: 20,
+    backgroundColor: '#fafafa',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch'
+  },
+  foodRecName: {
+    fontSize: 24,
+    fontWeight: '400',
+    textAlign: 'left',
+    color: '#444',
+    flex: 1,
+    flexDirection: 'column'
+  },
 
 
 

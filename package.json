@@ -25,6 +25,7 @@
     "react-native": "0.33.0",
     "react-native-elements": "^0.6.0",
     "react-native-router-flux": "^3.35.0",
+    "react-native-star-rating": "^1.0.6",
     "react-native-vector-icons": "^2.1.0",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
