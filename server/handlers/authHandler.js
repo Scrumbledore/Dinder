@@ -56,7 +56,6 @@ module.exports = {
   authorize(req, res, next) {
     var token = req.headers.authorization;
     if (!token) {
-      console.log('unauthorized!')
       res.sendStatus(401);
     }
     req.userId = jwt.decode(token, config.JWT_SECRET).id;

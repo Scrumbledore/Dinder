@@ -10,8 +10,6 @@ module.exports = {
 
   getPhotos: function (req, res) {
 
-    console.log('get photos')
-
     // using default values - not referencing req.params
 
     var photos = [];
@@ -106,7 +104,6 @@ module.exports = {
   },
 
   getFavorites: function (req, res) {
-    console.log(req.userId)
     User.findOne({
       where: {
         id: req.userId
