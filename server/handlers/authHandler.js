@@ -55,11 +55,16 @@ module.exports = {
 
   authorize(req, res, next) {
     var token = req.headers.authorization;
-    if (!token) {
+    var path = req.originalUrl.indexOf('/api/') > -1
+             ? req.originalUrl.replace('/api/','')
+             : req.originalUrl;
+    if (path === '/' || path === 'signin' || path === 'signup') {
+      next();
+    } else if (!token) {
       res.sendStatus(401);
+    } else {
+      req.userId = jwt.decode(token, config.JWT_SECRET).id;
+      next();
     }
-    req.userId = jwt.decode(token, config.JWT_SECRET).id;
-    next();
   }
-
 };
