@@ -9,28 +9,24 @@ module.exports = function (app, express) {
       message: 'hello, world v3.0.1'
     });
   });
-  //testing jwt auth
-  // app.get('/', requireAuth, function(req, res) {
-  //   res.json({ hi: 'there' });
-  // });
-  
-  // for getting favorited pictures for a userid
-  app.get('/api/favorites/:userid', userHandler.getFavorites);
 
-  app.post('/api/favorite/:userid/:photoid', photoHandler.favorite);
-  app.post('/api/unfavorite/:userid/:photoid', photoHandler.unFavorite);
+  // for getting favorited pictures for a userid
+  app.get('/api/favorites', authHandler.authorize, userHandler.getFavorites);
+
+  app.post('/api/favorite/:photoid', authHandler.authorize, photoHandler.favorite);
+  app.post('/api/unfavorite/:photoid', authHandler.authorize, photoHandler.unFavorite);
 
   // for getting recommendations for a user at a given loc
-  app.get('/api/recommendations/:userid/:loc', userHandler.getRecommendations);
+  app.get('/api/recommendations/:loc', authHandler.authorize, userHandler.getRecommendations);
 
   // for getting pictures of food for user to swipe on
-  app.get('/api/photo/:userid/:zip/:lat/:long', userHandler.getPhotos);
+  app.get('/api/photo/:zip/:lat/:long', authHandler.authorize, userHandler.getPhotos);
 
   // vote yets on a photo (since it's post we can technical pass in body if we want)
-  app.post('/api/yes/:userid/:photoid', photoHandler.voteYes);
+  app.post('/api/yes/:photoid', authHandler.authorize, photoHandler.voteYes);
 
   // vote no on a photo (since it's post we can technical pass in body if we want)
-  app.post('/api/no/:userid/:photoid', photoHandler.voteNo);
+  app.post('/api/no/:photoid', authHandler.authorize, photoHandler.voteNo);
 
   // signin
   //w passport auth:

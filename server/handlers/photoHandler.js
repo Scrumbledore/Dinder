@@ -60,7 +60,7 @@ var newFave = function (UserId, PhotoId, favorite) {
 module.exports = {
 
   voteYes: function (req, res) {
-    var UserId = req.params.userid;
+    var UserId = req.userId;
     var PhotoId = req.params.photoid;
 
     getUserPhoto(UserId, PhotoId)
@@ -83,7 +83,7 @@ module.exports = {
   },
 
   voteNo: function (req, res) {
-    var UserId = req.params.userid;
+    var UserId = req.userId;
     var PhotoId = req.params.photoid;
 
     getUserPhoto(UserId, PhotoId)
@@ -106,7 +106,7 @@ module.exports = {
   },
 
   favorite: function (req, res) {
-    var UserId = req.params.userid;
+    var UserId = req.userId;
     var PhotoId = req.params.photoid;
     getUserPhoto(UserId, PhotoId)
     .then(function (record) {
@@ -128,7 +128,7 @@ module.exports = {
   },
 
   unFavorite: function (req, res) {
-    var UserId = req.params.userid;
+    var UserId = req.userId;
     var PhotoId = req.params.photoid;
     getUserPhoto(UserId, PhotoId)
     .then(function (record) {

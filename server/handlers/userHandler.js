@@ -106,7 +106,7 @@ module.exports = {
   getFavorites: function (req, res) {
     User.findOne({
       where: {
-        id: req.params.userid
+        id: req.userId
       }
     })
     .then(function (user) {
@@ -125,7 +125,7 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-    var userId = req.params.userid;
+    var userId = req.userId;
     var zip = req.params.zip;
     var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
     if (location.long && locaation.lat) {

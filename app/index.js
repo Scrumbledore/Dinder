@@ -42,24 +42,19 @@ export default class Dinder extends Component {
 
     this.state = {
       apiRoot: apiRoot,
-      authByToken: '',
+      authByToken: false,
       userId: 3 // fixme: hard-coded userId
     };
   }
 
-  componentWillMount() {
-    //AsyncStorage.removeItem('jwt');
-    AsyncStorage.getItem('jwt')
-    .then((value) => {
-      console.log('index jwt', value);
-      if (value !== null) {
-        this.setState({authByToken: true});
-      }
-    })
-    .catch((err) =>{
-      console.error(err);
-    });
-  }
+  // componentWillMount() {
+  //   AsyncStorage.getItem('jwt')
+  //   .then((value) => {
+  //     this.setState({
+  //       authByToken: value ? true : false
+  //     })
+  //   }).done();
+  // }
 
   render() {
     //if auth by token...
@@ -68,7 +63,6 @@ export default class Dinder extends Component {
         <Scene key='root' hideNavBar={true}>
           <Scene
             key='signin'
-            initial={true}
             component={SignIn}
             icon={TabIcon}
             apiRoot={this.state.apiRoot}
@@ -81,8 +75,7 @@ export default class Dinder extends Component {
             title='Sign Up' />
           <Scene
             key='tabbar'
-            tabs={true}
-            type='reset'>
+            tabs={true}>
             <Scene
               img='star-border'
               key='favorites'
