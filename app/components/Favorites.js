@@ -68,7 +68,7 @@ export default class Favorites extends Component {
     return (
       <View style={styles.foodFavCardOuter} >
         <View style={styles.foodFavCardInner} >
-        <Image source={{uri: favorite.url}} resizeMode="contain" style={{width: 350, height: 300}} />
+        <Image source={{uri: favorite.url}} resizeMode='contain' style={{width: 350, height: 300}} />
         </View>
         <View style={styles.foodFavCardComment} >
         <Text style={{fontSize: 24, fontFamily: 'Noteworthy'}}>OMG SO YUMMY!!!</Text>

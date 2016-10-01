@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ListView, Image } from 'react-native';
-import { Tabs, Tab, Icon, Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Tabs, Tab, utton } from 'react-native-elements';
 
 import styles from '../styles/styles.js';
 
@@ -13,8 +14,10 @@ export default class Recs extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      n: 0,
       long: undefined,
       lat: undefined,
+      fakeData2: [],
       fakeData: [{
         name: 'Molinari Delicatessen',
         address: '373 Columbus Ave ',
@@ -66,37 +69,46 @@ export default class Recs extends Component {
 
   render() {
     if (this.state.recs === undefined || this.state.recs.getRowCount() === 0) {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Recs page</Text>
-          <Text style={styles.welcome}>Long: {this.state.long ? this.state.long : 'Please enable location services'}</Text>
-          <Text style={styles.welcome}>Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
-          <Text>Loading...</Text>
-        </View>
-      );
+      return this.renderEmpty();
     } else {
-      console.log(this.state.recs);
       return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>Recs page</Text>
-          <Text style={styles.welcome}>Long: {this.state.long ? this.state.long : 'Please enable location services'}</Text>
-          <Text style={styles.welcome}>Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
-          <ListView dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
+          <Text style={{marginTop: 30}}>Long: {this.state.long ? this.state.long : 'Please enable location services'}, Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
+            <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
         </View>
       );
     }
   }
 
+  renderEmpty() {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <Icon name='error' size={60}/>
+        <Text aligntText='center'>Something went wrong. Please make sure location services are enabled.</Text>
+      </View>
+    );
+  }
+
   recEntry(rec) {
     console.log(rec);
     return (
-      <View style={styles.foodCard} >
-        <Image source={{uri: rec.url}}
-        resizeMode='contain' style={{width: 350, height: 35 * 10}} />
-        <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center', justifyContent: 'space-between'}} >
-            <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{rec.name}</Text>
+      <View style={styles.foodRecCardOuter}>
+        <View style={styles.foodRecCardComment} >
+            <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'left', color: '#444'}}>{rec.name}</Text>
             <Text style={{textAlign: 'right'}}>rating goes here</Text>
+        </View>
+        <View style={styles.foodRecCardInner}>
+          <Image source={{uri: rec.url}}
+          resizeMode='contain' style={{width: 350, height: 350}} />
+        </View>
+        <View style={styles.foodRecCardComment} >
+          <View>
+            <Text>{rec.address}</Text>
+            <Text>{rec.city}, {rec.state}</Text>
+            <Text>zip?</Text>
+          </View>
+          <View>
+            <Text>Uber/dlievery/something here</Text>
           </View>
         </View>
       </View>
