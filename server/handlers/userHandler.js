@@ -56,6 +56,7 @@ module.exports = {
               if (!type) {
                 return Category.create({
                   name: category.title,
+                  PlaceId: place.id
                 });
               } else {
                 return type;

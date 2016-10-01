@@ -24,6 +24,7 @@ module.exports = function (connection) {
     through: UserRatings
   });
 
+
   Place.hasMany(Photo);
   Place.hasMany(Category);
 
