@@ -80,11 +80,11 @@ export default class Recs extends Component {
       return this.renderEmpty();
     } else {
       return (
-        <View style={styles.container}>
-          <Iconz name='md-star-half'/>
-          <Iconz name='md-star-outline'/>
+        <View style={styles.recContainer}>
           <Text style={{marginTop: 30}}>Long: {this.state.long ? this.state.long : 'Please enable location services'}, Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
             <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
+            <View style={{marginBottom: 60}}>
+            </View>
         </View>
       );
     }
@@ -100,8 +100,6 @@ export default class Recs extends Component {
   }
 
   recEntry(rec) {
-
-    console.log(this.recStars(rec));
     return (
       <View style={styles.foodRecCardOuter}>
         <View style={styles.foodRecCardComment} >
@@ -110,7 +108,7 @@ export default class Recs extends Component {
               <View>
                 <StarRating rating={rec.rating} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
               </View>
-              <Text style={{textAlign: 'right', fontSize: 16}}>{rec.price}</Text>
+              <Text style={{textAlign: 'center', fontSize: 16, color:'#66cc66', fontWeight: '900'}}>{rec.price}</Text>
             </View>
         </View>
         <View style={styles.foodRecCardInner}>

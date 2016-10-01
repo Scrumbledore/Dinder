@@ -49,6 +49,8 @@ export default class Favorites extends Component {
             Your Favorite NOMS!!
           </Text>
           <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+          <View style={{marginBottom: 60}}>
+          </View>
         </View>
       );
     }
