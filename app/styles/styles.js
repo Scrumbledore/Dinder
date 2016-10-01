@@ -35,6 +35,12 @@ export default StyleSheet.create({
 
 ////+++++ Recs +++++
 
+  recContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#d4d4d4',
+  },
   foodRecCardOuter: {
     padding: 10,
     alignItems: 'center',
@@ -50,11 +56,28 @@ export default StyleSheet.create({
   },
   foodRecCardComment: {
     flex: 1,
-    padding: 10,
+    padding: 2,
     backgroundColor: '#fafafa',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'stretch'
+  },
+  foodRecCardBottomComment: {
+    flex: 1,
+    padding: 10,
+    paddingBottom: 20,
+    backgroundColor: '#fafafa',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch'
+  },
+  foodRecName: {
+    fontSize: 22,
+    fontWeight: '600',
+    textAlign: 'left',
+    color: '#444',
+    flex: 1,
+    flexDirection: 'column'
   },
 
 
@@ -109,7 +132,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#d4d4d4'
+    backgroundColor: '#d4d4d4',
   },
   welcome: {
     fontSize: 24

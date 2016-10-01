@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ListView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, utton } from 'react-native-elements';
+import StarRating from 'react-native-star-rating';
 
 import styles from '../styles/styles.js';
 
@@ -23,13 +25,19 @@ export default class Recs extends Component {
         address: '373 Columbus Ave ',
         city: 'San Francisco',
         state: 'CA',
-        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg'
+        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+        zip: 94103,
+        rating: 4.5,
+        price: "$$"
       }, {
         name: 'Molinari Delicatessen2',
         address: '373 Columbus Ave ',
         city: 'San Francisco',
         state: 'CA',
-        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg'
+        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+        zip: 94103,
+        rating: 4.5,
+        price: "$"
       }
 
       ]
@@ -72,9 +80,11 @@ export default class Recs extends Component {
       return this.renderEmpty();
     } else {
       return (
-        <View style={styles.container}>
+        <View style={styles.recContainer}>
           <Text style={{marginTop: 30}}>Long: {this.state.long ? this.state.long : 'Please enable location services'}, Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
             <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
+            <View style={{marginBottom: 60}}>
+            </View>
         </View>
       );
     }
@@ -90,22 +100,26 @@ export default class Recs extends Component {
   }
 
   recEntry(rec) {
-    console.log(rec);
     return (
       <View style={styles.foodRecCardOuter}>
         <View style={styles.foodRecCardComment} >
-            <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'left', color: '#444'}}>{rec.name}</Text>
-            <Text style={{textAlign: 'right'}}>rating goes here</Text>
+            <Text style={styles.foodRecName}>{rec.name}</Text>
+            <View>
+              <View>
+                <StarRating rating={rec.rating} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
+              </View>
+              <Text style={{textAlign: 'center', fontSize: 16, color:'#66cc66', fontWeight: '900'}}>{rec.price}</Text>
+            </View>
         </View>
         <View style={styles.foodRecCardInner}>
           <Image source={{uri: rec.url}}
           resizeMode='contain' style={{width: 350, height: 350}} />
         </View>
-        <View style={styles.foodRecCardComment} >
+        <View style={styles.foodRecCardBottomComment} >
           <View>
             <Text>{rec.address}</Text>
             <Text>{rec.city}, {rec.state}</Text>
-            <Text>zip?</Text>
+            <Text>{rec.zip}</Text>
           </View>
           <View>
             <Text>Uber/dlievery/something here</Text>

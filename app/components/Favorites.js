@@ -46,9 +46,11 @@ export default class Favorites extends Component {
       return (
         <View style={styles.container}>
           <Text style={{margin: 15, marginTop: 30, fontSize: 24, fontFamily: 'Noteworthy'}}>
-            Dumbledore's Favorites
+            Your Favorite NOMS!!
           </Text>
           <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+          <View style={{marginBottom: 60}}>
+          </View>
         </View>
       );
     }
