@@ -1,45 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, ListView, Image, AsyncStorage } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import styles from '../styles/styles.js';
-
-var ImageWithConstraints = React.createClass({
-  getInitialState: function () {
-    return {
-      style: {}
-    };
-  },
-
-  propTypes: {
-    originalWidth: React.PropTypes.number.isRequired,
-    originalHeight: React.PropTypes.number.isRequired,
-  },
-
-  onImageLayout: function (e) {
-    var layout = e.nativeEvent.layout;
-    var aspectRatio = this.props.originalWidth / this.props.originalHeight;
-    var measuredHeight = layout.width / aspectRatio;
-    var currentHeight = layout.height;
-
-    if (measuredHeight !== currentHeight) {
-      this.setState({
-        style: {
-          height: measuredHeight
-        }
-      });
-    }
-  },
-
-  render: function () {
-    return (
-      <Image
-        {...this.props}
-        style={[this.props.style, this.state.style]}
-        onLayout={this.onImageLayout}
-      />
-    );
-  }
-});
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -50,7 +13,7 @@ export default class Favorites extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: undefined
+      favs: undefined
     };
   }
 
@@ -67,7 +30,7 @@ export default class Favorites extends Component {
       )
       .then((result) => {
         this.setState({
-          dataSource: ds.cloneWithRowsAndSections({
+          favs: ds.cloneWithRowsAndSections({
             favList: JSON.parse(result._bodyText)
           })
         });
@@ -77,47 +40,45 @@ export default class Favorites extends Component {
   }
 
   render() {
-    if (this.state.dataSource === undefined || this.state.dataSource.getRowCount() === 0) {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Loading...
-          </Text>
-        </View>
-      );
+    if (this.state.favs === undefined || this.state.favs.getRowCount() === 0) {
+      return this.renderEmpty();
     } else {
       return (
         <View style={styles.container}>
           <Text style={{margin: 15, marginTop: 30, fontSize: 24, fontFamily: 'Noteworthy'}}>
             Dumbledore's Favorites
           </Text>
-          <ListView dataSource={this.state.dataSource} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+          <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
         </View>
       );
     }
   }
 
+  renderEmpty() {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <Icon name='cake' size={60}/>
+        <Text >You haven't favorited anything yet.</Text>
+      </View>
+    );
+  }
+
   favoriteEntry(favorite) {
 
     return (
-      <View style={styles.card} >
-      <Image source={{uri: favorite.url}}
-      // <ImageWithConstraints source={{uri: favorite.url}} originalWidth= {100}
-
-      // {Image.getSize(favorite.url, (w, h) => w)}
-      // onLoad={(event) => {
-      //   console.log(Image.getSize(favorite.url, (w, h) => {350 / w * h}))};
-      //   }
-      // }
-
-
-      resizeMode="contain" style={{width: 350, height: 35 * 10}} />
-        <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center'}} >
-          <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{favorite.info}</Text>
-          </View>
+      <View style={styles.foodFavCardOuter} >
+        <View style={styles.foodFavCardInner} >
+        <Image source={{uri: favorite.url}} resizeMode='contain' style={{width: 350, height: 300}} />
+        </View>
+        <View style={styles.foodFavCardComment} >
+        <Text style={{fontSize: 24, fontFamily: 'Noteworthy'}}>OMG SO YUMMY!!!</Text>
         </View>
       </View>
     );
   }
 }
+          // <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+          //   <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center'}} >
+          //   <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{favorite.info}</Text>
+          //   </View>
+          // </View>

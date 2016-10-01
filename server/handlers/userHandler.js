@@ -166,25 +166,28 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-    var userId = req.userId;
-    var zip = req.params.zip;
-    var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
-    if (location.long && locaation.lat) {
-      User.findOne({
-        where: {id: userId}
-      }).then(
-        function(user) {
-          user.getPlaces().then(
-            function(places) {
-              res.status(201).send(places);
-            }
-          );
-        }
-      );
-    } else {
-      // search by zip
-    }
-    console.log('getRecommendations for', userId, 'at', location);
+    console.log('long:', req.params.long);
+    console.log('lat:', req.params.lat);
+    res.status(201).send();
+    // var userId = req.params.userid;
+    // var zip = req.params.zip;
+    // var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
+    // if (location.long && locaation.lat) {
+    //   User.findOne({
+    //     where: {id: userId}
+    //   }).then(
+    //     function(user) {
+    //       user.getPlaces().then(
+    //         function(places) {
+    //           res.status(201).send(places);
+    //         }
+    //       );
+    //     }
+    //   );
+    // } else {
+    //   // search by zip
+    // }
+    // console.log('getRecommendations for', userId, 'at', location);
   }
 };
 

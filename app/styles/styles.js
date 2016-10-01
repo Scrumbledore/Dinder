@@ -9,6 +9,56 @@ export default StyleSheet.create({
 ////+++++ Routing +++++
 
 
+
+////+++++ Favorites +++++
+
+  foodFavCardOuter: {
+    padding: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#fafafa',
+    marginBottom: 4
+  },
+  foodFavCardInner: {
+    padding: 0,
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#000000',
+    marginBottom: 10
+  },
+  foodFavCardComment: {
+    padding: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#fafafa'
+  },
+
+////+++++ Recs +++++
+
+  foodRecCardOuter: {
+    padding: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#fafafa',
+    marginBottom: 4,
+  },
+  foodRecCardInner: {
+    padding: 0,
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#000000',
+  },
+  foodRecCardComment: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#fafafa',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch'
+  },
+
+
+
 ////+++++ Food +++++
 
   foodIcon: {
