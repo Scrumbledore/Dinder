@@ -3,6 +3,7 @@ var connection = require('../database.js');
 
 var Category = connection.define('Category', {
   name: Sequelize.STRING
+
 });
 
 
