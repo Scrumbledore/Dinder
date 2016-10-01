@@ -11,25 +11,25 @@ var config = require('../../config.js');
 
 var yelpOptions = function (query, branch) {
 
-    branch = branch || '';
-    if (typeof query === 'object') {
-      search = 'search?term='
+  branch = branch || '';
+  if (typeof query === 'object') {
+    search = 'search?term='
             + query.keyword
             + '&latitude='
             + query.lat
             + '&longitude='
             + query.long;
-       } else {
-        search = query
-       }
-    return {
-      url: config.yelpRoot + branch + search,
-      headers: {
-        'Authorization': 'Bearer ' + config.yelpKey,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    };
+  } else {
+    search = query;
   }
+  return {
+    url: config.yelpRoot + branch + search,
+    headers: {
+      'Authorization': 'Bearer ' + config.yelpKey,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+};
 
 
 module.exports = {
