@@ -22,7 +22,7 @@ export default class Food extends Component {
   getPhotos () {
     AsyncStorage.getItem('jwt')
     .then((token) => {
-      fetch(`${this.props.apiRoot}/api/photo/4/1/1`,
+      fetch(`${this.props.apiRoot}/api/photo/4/4/4/4`,
         {
           method: 'GET',
           headers: {
