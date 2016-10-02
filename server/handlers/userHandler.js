@@ -40,7 +40,7 @@ module.exports = {
     //console.log(req.params);
 
 
-    var userid = req.params.userid === '4' ? '4' : req.params.userid;
+    var userid = req.userId === '4' ? '4' : req.userId;
     var zip = req.params.zip === '4' ? '4' : req.params.zip;
     var lat = req.params.lat === '4' ? 37.786882 : req.params.lat;
     var long = req.params.long === '4' ? -122.399972 : req.params.long;
