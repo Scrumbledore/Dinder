@@ -20,7 +20,7 @@ module.exports = {
   S3_REGION: secrets.S3_REGION,
   S3_ACCESS_KEY: secrets.S3_ACCESS_KEY,
   S3_SECRET_KEY: secrets.S3_SECRET_KEY,
-  S3_BUCKET: secrets.S3_BUCKET
+  S3_BUCKET: secrets.S3_BUCKET,
   JWT_SECRET: process.env.JWT_SECRET || secrets.JWT_SECRET,
   MAPS_KEY: process.env.MAPS_KEY || secrets.MAPS_KEY
 };
