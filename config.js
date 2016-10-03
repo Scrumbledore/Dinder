@@ -16,5 +16,10 @@ module.exports = {
   DB_USERNAME: process.env.DB_USERNAME || secrets.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD || secrets.DB_PASSWORD,
   DB_ADDRESS_HOST: process.env.DB_ADDRESS_HOST || secrets.DB_ADDRESS_HOST,
-  JWT_SECRET: secrets.JWT_SECRET
+  JWT_SECRET: secrets.JWT_SECRET,
+  S3_NAME_PREFIX: secrets.S3_NAME_PREFIX,
+  S3_REGION: secrets.S3_REGION,
+  S3_ACCESS_KEY: secrets.S3_ACCESS_KEY,
+  S3_SECRET_KEY: secrets.S3_SECRET_KEY,
+  S3_BUCKET: secrets.S3_BUCKET
 };
