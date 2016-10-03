@@ -31,7 +31,7 @@ export default class Food extends Component {
         }
       )
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         return data.json();
       })
       .then((photos) => {
@@ -133,7 +133,7 @@ export default class Food extends Component {
           }
         }
       )
-      .then((response) => console.log(response))
+      // .then((response) => console.log(response))
       .catch((err) => console.log(err));
     }).done();
   }
