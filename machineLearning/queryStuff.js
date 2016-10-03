@@ -10,14 +10,28 @@ var User = require('../server/database/models/user.js');
 var connection = require('../server/database/database.js');
 require('../server/database/joins.js')(connection);
 
-var trainingData = [];
+var categoryKeys = {};
+var categoryNums = {};
+var synapticTrainingData = [];
 
 var trainingOptions = {
-  rate: 0.15,
+  rate: 0.2,
   error: 0.005,
-  iterations: 5000
+  iterations: 10000
 };
 
+var findIndicesOfMax = function(inp, count) {
+  var outp = [];
+  var sortF = function(a, b) { return inp[b] - inp[a]; };
+  for (var i = 0; i < inp.length; i++) {
+    outp.push(i);
+    if (outp.length > count) {
+      outp.sort(sortF);
+      outp.pop();
+    }
+  }
+  return outp;
+};
 
 User.findOne({ where: {id: 21}})  // fixMe take in dynamic userID
 .then(function(data) {
@@ -65,26 +79,81 @@ User.findOne({ where: {id: 21}})  // fixMe take in dynamic userID
     return p;
   });
 })
-.then(function(categories) {
+.then(function(trainingObj) {
+  Category.aggregate('name', 'DISTINCT', { plain: false })
+  .then(function(data) {
 
+    var keyObj = data.reduce(function(o, v, i) {
+      o[v.DISTINCT] = i;
+      return o;
+    }, {});
+    keyObj.length = data.length - 1;
+    categoryKeys = keyObj;
+
+    var numObj = data.reduce(function(o, v, i) {
+      o[i] = v.DISTINCT;
+      return o;
+    }, {});
+    categoryNums = numObj;
+
+    return keyObj;
+  })
+  .then(function(categoryObj) {
+    //console.log(categoryObj, trainingObj);
+    trainingObj.forEach(function(userRating) {
+      var newArray = Array.apply(null, Array(categoryObj.length)).map(Number.prototype.valueOf, 0);
+      userRating.category.forEach(function(categoryRating) {
+        newArray[categoryObj[categoryRating]] = userRating.weight;
+      });
+      synapticTrainingData.push({
+        input: newArray,
+        output: newArray
+      });
+    });
+    return categoryObj;
+  })
+  .then(function(makeTraining) {
+    Network = new Architect.Perceptron(makeTraining.length, Math.floor(makeTraining.length * 0.2), makeTraining.length);
+    Network.trainer.train(synapticTrainingData, trainingOptions);
+
+    var newArray = Array.apply(null, Array(makeTraining.length)).map(Number.prototype.valueOf, 0);
+    var count = 0;
+    while(count < 3) {
+      var random = Math.random();
+      newArray[Math.floor(Math.random()*newArray.length)] = .6;
+      count++;
+    }
+
+    var x = Network.activate(newArray);
+    var y = findIndicesOfMax(x, 3);
+    console.log(categoryNums[y[0]],categoryNums[y[1]],categoryNums[y[2]]);
+  });
 });
+
+// var promise = new Promise(function(resolve, reject) {
+//   var p = Category.aggregate('name', 'DISTINCT', { plain: false })
+//   .then(function(data) {
+
+//     var obj = data.reduce(function(o, v, i) {
+//       o[v.DISTINCT] = i;
+//       return o;
+//     }, {});
+//     obj.length = data.length - 1;
+//     return obj;
+//   });
+
+//   if (p) {
+//     resolve(p);
+//   }
+//   else {
+//     reject(Error("It broke"));
+//   }
+// });
+
+
 
 
 // // old training data keeping until new feature works
-
-Category.aggregate('name', 'DISTINCT', { plain: false })
-.then(function(data) {
-
-  return data.reduce(function(o, v, i) {
-    o[v.DISTINCT] = i;
-    return o;
-  }, {});
-})
-.then(function(category){
-  console.log(category)
-
-  return category;
-})
 
 //Network = new Architect.Perceptron(category.length, Math.floor(category.length * .2),category.length);
 // .then(function(train){
@@ -109,16 +178,16 @@ Category.aggregate('name', 'DISTINCT', { plain: false })
 
 // var makeTraining = function(n) {
 //   var newArray = Array.apply(null, Array(n)).map(Number.prototype.valueOf,0);
-//   var random = Math.random();
+  //  var random = Math.random();
 
 
-//   newArray[Math.floor(Math.random()*newArray.length)] = .75;
-//   if( random > .33) {
-//     newArray[Math.floor(Math.random()*newArray.length)] = 1;
-//   }
-//   if( random > .6) {
-//     newArray[Math.floor(Math.random()*newArray.length)] = 1;
-//   }
+  // newArray[Math.floor(Math.random()*newArray.length)] = .75;
+  // if( random > .33) {
+  //   newArray[Math.floor(Math.random()*newArray.length)] = 1;
+  // }
+  // if( random > .6) {
+  //   newArray[Math.floor(Math.random()*newArray.length)] = 1;
+  // }
 
 //   return {
 //     input: newArray,
