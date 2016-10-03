@@ -95,7 +95,7 @@ export default class Dinder extends Component {
             <Scene
               img='local-pizza'
               key='food'
-              //initial={true}
+              initial={true}
               component={Food}
               icon={TabIcon}
               title='Food'
