@@ -116,6 +116,8 @@ User.findOne({ where: {id: 21}})  // fixMe take in dynamic userID
     Network = new Architect.Perceptron(makeTraining.length, Math.floor(makeTraining.length * 0.2), makeTraining.length);
     Network.trainer.train(synapticTrainingData, trainingOptions);
 
+
+    // testing output locally
     var newArray = Array.apply(null, Array(makeTraining.length)).map(Number.prototype.valueOf, 0);
     var count = 0;
     while(count < 3) {
@@ -149,54 +151,3 @@ User.findOne({ where: {id: 21}})  // fixMe take in dynamic userID
 //     reject(Error("It broke"));
 //   }
 // });
-
-
-
-
-// // old training data keeping until new feature works
-
-//Network = new Architect.Perceptron(category.length, Math.floor(category.length * .2),category.length);
-// .then(function(train){
-//   Network.trainer.train(trainingData,trainingOptions);
-//   //log margin of error
-//   return train;
-// })
-// .then(function(data){
-//   var testObject = makeTraining(data.length);
-//   var returnItems = [];
-//   console.log(Network.activate(testObject.input));
-//   for(var i = 0; i < testObject.input.length; i++){
-//     if( testObject.input[i] > 0) {
-//       returnItems.push({
-//         category: data[i],
-//         chance: testObject.input[i]
-//       });
-//     }
-//   }
-//   console.log(returnItems);
-// });
-
-// var makeTraining = function(n) {
-//   var newArray = Array.apply(null, Array(n)).map(Number.prototype.valueOf,0);
-  //  var random = Math.random();
-
-
-  // newArray[Math.floor(Math.random()*newArray.length)] = .75;
-  // if( random > .33) {
-  //   newArray[Math.floor(Math.random()*newArray.length)] = 1;
-  // }
-  // if( random > .6) {
-  //   newArray[Math.floor(Math.random()*newArray.length)] = 1;
-  // }
-
-//   return {
-//     input: newArray,
-//     output: newArray
-//   };
-// };
-
-
-
-
-
-// console.log(Network.activate([0, 1, 0, 1, 0]))
