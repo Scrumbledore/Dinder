@@ -3,6 +3,8 @@ var connection = require('../server/database/database.js');
 var User = require('../server/database/models/user.js');
 var Photo = require('../server/database/models/photo.js');
 var Place = require('../server/database/models/place.js');
+var Category = require('../server/database/models/category.js');
+
 
 var models = [
   {
@@ -21,6 +23,12 @@ var models = [
     schema: Place,
     options: {
       name: 'example'
+    }
+  },
+  {
+    schema: Category,
+    options: {
+      name: 'pizza'
     }
   }
 ];
@@ -130,4 +138,19 @@ describe('Database Models', function () {
     });
   });
 
+  it('should persist category records', function (done) {
+
+    Category.findOne({
+      where: {
+        name: 'pizza'
+      }
+    })
+    .then(function (record) {
+      expect(record).to.exist;
+      done();
+    })
+    .catch(function (err) {
+      done(err);
+    });
+  });
 });
