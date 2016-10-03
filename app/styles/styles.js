@@ -27,7 +27,7 @@ export default StyleSheet.create({
     marginBottom: 10
   },
   foodFavCardComment: {
-    padding: 10,
+    padding: 5,
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: '#fafafa'
@@ -60,19 +60,21 @@ export default StyleSheet.create({
     backgroundColor: '#fafafa',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    height: 50
   },
   foodRecCardBottomComment: {
     flex: 1,
     padding: 10,
-    paddingBottom: 20,
+    paddingBottom: 1,
     backgroundColor: '#fafafa',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    height: 60
   },
   foodRecName: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '600',
     textAlign: 'left',
     color: '#444',

@@ -16,46 +16,39 @@ export default class Recs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      n: 0,
       long: undefined,
-      lat: undefined,
-      fakeData2: [],
-      fakeData: [{
-        name: 'Molinari Delicatessen',
-        address: '373 Columbus Ave ',
-        city: 'San Francisco',
-        state: 'CA',
-        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
-        zip: 94103,
-        rating: 4.5,
-        price: "$$"
-      }, {
-        name: 'Molinari Delicatessen2',
-        address: '373 Columbus Ave ',
-        city: 'San Francisco',
-        state: 'CA',
-        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
-        zip: 94103,
-        rating: 4.5,
-        price: "$"
-      }
-
-      ]
-    };
-    this.state.rankIcons = {
-      0: '../assets/gold.png',
-      1: '../assets/silver.png',
-      2: '../assets/bronze.png',
+      lat: undefined
     };
   }
 
   getRecs() {
     return fetch(`${this.props.apiRoot}/api/recs/${this.props.userId}/${this.state.lat}/${this.state.long}`)
+    // format it a way that it can be used
+    .then((result) => result.json())
     .then((result) => {
-      this.setState({
-        recs: ds.cloneWithRowsAndSections({recList: this.state.fakeData}) //need to fix
+      result.forEach((individualRec, idx) => {
+        this.getDistance(individualRec)
+        .then((dist) => {
+          individualRec.dist = dist;
+          this.setState({
+            recs: ds.cloneWithRowsAndSections({recList: result}) //need to fix
+          });
+        });
       });
-      // console.log(this.state.recs)
+    })
+    .catch((err) => console.error(err));
+  }
+
+  /// need to move this to state in order to render properly
+  getDistance(rec) {
+    var origLat = this.state.lat;
+    var origLong = this.state.long;
+    var destLat = rec.lat;
+    var destLong = rec.long;
+    return fetch(`${this.props.apiRoot}/api/distance/${origLat}/${origLong}/${destLat}/${destLong}`)
+    .then((res) => res.json())
+    .then((res2) => {
+      return res2.rows[0].elements[0].distance.text;
     })
     .catch((err) => console.error(err));
   }
@@ -81,10 +74,10 @@ export default class Recs extends Component {
     } else {
       return (
         <View style={styles.recContainer}>
-          <Text style={{marginTop: 30}}>Long: {this.state.long ? this.state.long : 'Please enable location services'}, Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
-            <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
-            <View style={{marginBottom: 60}}>
-            </View>
+          <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Recommended For You...</Text>
+          <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
+          <View style={{marginBottom: 60}}>
+          </View>
         </View>
       );
     }
@@ -99,6 +92,7 @@ export default class Recs extends Component {
     );
   }
 
+
   recEntry(rec) {
     return (
       <View style={styles.foodRecCardOuter}>
@@ -108,7 +102,7 @@ export default class Recs extends Component {
               <View>
                 <StarRating rating={rec.rating} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
               </View>
-              <Text style={{textAlign: 'center', fontSize: 16, color:'#66cc66', fontWeight: '900'}}>{rec.price}</Text>
+              <Text style={{textAlign: 'center', fontSize: 16, color: '#66cc66', fontWeight: '900'}}>{rec.price}</Text>
             </View>
         </View>
         <View style={styles.foodRecCardInner}>
@@ -116,13 +110,16 @@ export default class Recs extends Component {
           resizeMode='contain' style={{width: 350, height: 350}} />
         </View>
         <View style={styles.foodRecCardBottomComment} >
-          <View>
+          <View style={{flex: 3}}>
             <Text>{rec.address}</Text>
             <Text>{rec.city}, {rec.state}</Text>
-            <Text>{rec.zip}</Text>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch'}}>
+              <Text>{rec.zip}</Text>
+              <Text style={{fontStyle: 'italic', paddingRight: 10}}>~{rec.dist}</Text>
+            </View>
           </View>
-          <View>
-            <Text>Uber/dlievery/something here</Text>
+          <View style={{flex: 2}}>
+            <Text>Uber here</Text>
           </View>
         </View>
       </View>

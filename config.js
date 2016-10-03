@@ -16,5 +16,6 @@ module.exports = {
   DB_USERNAME: process.env.DB_USERNAME || secrets.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD || secrets.DB_PASSWORD,
   DB_ADDRESS_HOST: process.env.DB_ADDRESS_HOST || secrets.DB_ADDRESS_HOST,
-  JWT_SECRET: secrets.JWT_SECRET
+  JWT_SECRET: process.env.JWT_SECRET || secrets.JWT_SECRET,
+  MAPS_KEY: process.env.MAPS_KEY || secrets.MAPS_KEY
 };
