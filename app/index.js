@@ -75,8 +75,7 @@ export default class Dinder extends Component {
             title='Sign Up' />
           <Scene
             key='tabbar'
-            tabs={true}
-            initial={true}>
+            tabs={true} >
             <Scene
               img='camera'
               key='camera'
