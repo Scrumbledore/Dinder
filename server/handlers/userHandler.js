@@ -169,7 +169,7 @@ module.exports = {
     console.log('origin', req.params.y1, req.params.x1);
     console.log('dest', req.params.y2, req.params.x2);
     requestPromise({
-      url: 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C-73.9976592&key=' + config.MAPS_KEY
+      url: 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.y1 + ',' + req.params.x1 + '&destinations=' + req.params.y2 + '%2C' + req.params.x2 + '&key=' + config.MAPS_KEY
     })
     .then(function(result) {
       res.status(201).send(result);
