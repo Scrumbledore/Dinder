@@ -10,83 +10,83 @@ var User = require('../server/database/models/user.js');
 var connection = require('../server/database/database.js');
 require('../server/database/joins.js')(connection);
 
-var beforeTraining = [];
 var trainingData = [];
 
 var trainingOptions = {
-  rate: .15,
-  error: .005,
+  rate: 0.15,
+  error: 0.005,
   iterations: 5000
 };
 
 
-User.findOne({ where: {id:21}})  // fixMe take in dynamic userID
+User.findOne({ where: {id: 21}})  // fixMe take in dynamic userID
 .then(function(data) {
   //console.log(data);
   return data.getPhotos();
 })
 .then(function(photos) {
+  var promiseArr = [];
   var training = [];
   var items = [];
-  var count = 0;
+
   photos.map(function(photo) {
     var tueple = [[], 0, 0];
     if (photo.UserPhotos.dataValues.like === true) {
       if (photo.UserPhotos.dataValues.favorite === true) {
         tueple[1] = 1;
       } else {
-        tueple[1] = .6;
+        tueple[1] = 0.6;
       }
     } else if (photo.UserPhotos.dataValues.favorite === true ) {
-      tueple[1] = .8;
+      tueple[1] = 0.8;
     }
     tueple[2] = photo.PlaceId;
     training.push(tueple);
   });
-  let promiseArr = [];
-  var items = [];
+
   training.forEach(function(item) {
     var p = Category.findAll({ attributes: ['name'], where: {PlaceId: item[2]} })
     .then(function(data) {
-      data.forEach(function(cat){
-        items.push(cat.dataValues.name)
-      })
-     item[0] = items;
-     items = [];
-     return {
-      category: item[0],
-      weight: item[1],
-      businessId: item[2]
-     };
+      data.forEach(function(cat) {
+        items.push(cat.dataValues.name);
+      });
+      item[0] = items;
+      items = [];
+      return {
+        category: item[0],
+        weight: item[1],
+        businessId: item[2]
+      };
     });
-    promiseArr.push(p)
+    promiseArr.push(p);
   });
-  //console.log(training);
-  return Promise.all(promiseArr).then(function(p){
-    console.log(p)
-    return training;
+  return Promise.all(promiseArr).then(function(p) {
+   // console.log(p)
+    return p;
   });
 })
 .then(function(categories) {
-  beforeTraining = categories;
+
 });
 
 
 // // old training data keeping until new feature works
 
-// Category.aggregate('name', 'DISTINCT', { plain: false })
-// .then(function(data) {
-//   return data.map(function(DISTINCT) {
-//     return DISTINCT.DISTINCT;
-//   });
-// })
-// .then(function(category){
-//   category.forEach(function(data){
-//     trainingData.push(makeTraining(category.length));
-//   });
-//   Network = new Architect.Perceptron(category.length, Math.floor(category.length * .2),category.length);
-//   return category;
-// })
+Category.aggregate('name', 'DISTINCT', { plain: false })
+.then(function(data) {
+
+  return data.reduce(function(o, v, i) {
+    o[v.DISTINCT] = i;
+    return o;
+  }, {});
+})
+.then(function(category){
+  console.log(category)
+
+  return category;
+})
+
+//Network = new Architect.Perceptron(category.length, Math.floor(category.length * .2),category.length);
 // .then(function(train){
 //   Network.trainer.train(trainingData,trainingOptions);
 //   //log margin of error
@@ -107,24 +107,24 @@ User.findOne({ where: {id:21}})  // fixMe take in dynamic userID
 //   console.log(returnItems);
 // });
 
-var makeTraining = function(n) {
-  var newArray = Array.apply(null, Array(n)).map(Number.prototype.valueOf,0);
-  var random = Math.random();
+// var makeTraining = function(n) {
+//   var newArray = Array.apply(null, Array(n)).map(Number.prototype.valueOf,0);
+//   var random = Math.random();
 
 
-  newArray[Math.floor(Math.random()*newArray.length)] = .75;
-  if( random > .33) {
-    newArray[Math.floor(Math.random()*newArray.length)] = 1;
-  }
-  if( random > .6) {
-    newArray[Math.floor(Math.random()*newArray.length)] = 1;
-  }
+//   newArray[Math.floor(Math.random()*newArray.length)] = .75;
+//   if( random > .33) {
+//     newArray[Math.floor(Math.random()*newArray.length)] = 1;
+//   }
+//   if( random > .6) {
+//     newArray[Math.floor(Math.random()*newArray.length)] = 1;
+//   }
 
-  return {
-    input: newArray,
-    output: newArray
-  };
-};
+//   return {
+//     input: newArray,
+//     output: newArray
+//   };
+// };
 
 
 
