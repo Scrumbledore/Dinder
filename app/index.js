@@ -3,13 +3,13 @@ import { AppRegistry, Text, View, Platform, AsyncStorage } from 'react-native';
 import { Scene, Router, Actions, TabBar, Navigator } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import SignIn from './components/SignIn.js';
-import SignUp from './components/SignUp.js';
-import Food from './components/Food.js';
-import Favorites from './components/Favorites.js';
-import Recs from './components/Recs.js';
-import Menu from './components/Menu.js';
-
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Food from './components/Food';
+import Favorites from './components/Favorites';
+import Recs from './components/Recs';
+import Menu from './components/Menu';
+import RNCamera from './components/Camera';
 
 var config = require('../config.js');
 
@@ -75,7 +75,15 @@ export default class Dinder extends Component {
             title='Sign Up' />
           <Scene
             key='tabbar'
-            tabs={true}>
+            tabs={true} >
+            <Scene
+              img='camera'
+              key='camera'
+              component={RNCamera}
+              icon={TabIcon}
+              title='Camera'
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
             <Scene
               img='star-border'
               key='favorites'
