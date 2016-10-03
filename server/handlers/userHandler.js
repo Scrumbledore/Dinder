@@ -165,10 +165,43 @@ module.exports = {
     });
   },
 
+  getDistance: function (req, res) {
+    console.log('origin', req.params.y1, req.params.x1);
+    console.log('dest', req.params.y2, req.params.x2);
+    requestPromise({
+      url: 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C-73.9976592&key=' + config.MAPS_KEY
+    })
+    .then(function(result) {
+      res.status(201).send(result);
+    });
+
+  },
+
   getRecommendations: function (req, res) {
-    console.log('long:', req.params.long);
-    console.log('lat:', req.params.lat);
-    res.status(201).send();
+    var fakeData = [{
+      name: 'Molinari Delicatessen',
+      address: '373 Columbus Ave ',
+      city: 'San Francisco',
+      state: 'CA',
+      url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+      zip: 94103,
+      rating: 4.5,
+      price: '$$',
+      lat: 37.7776799,
+      long: -122.40709
+    }, {
+      name: 'Molinari Delicatessen2',
+      address: '373 Columbus Ave ',
+      city: 'San Francisco',
+      state: 'CA',
+      url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+      zip: 94103,
+      rating: 1,
+      price: '$',
+      lat: 37.7776799,
+      long: -122.40709
+    }];
+    res.status(201).send(fakeData);
     // var userId = req.params.userid;
     // var zip = req.params.zip;
     // var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
