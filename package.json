@@ -36,9 +36,7 @@
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
     "sequelize": "^3.24.3",
-    "synaptic": "^1.0.8"
-  },
-  "devDependencies": {
+    "synaptic": "^1.0.8",
     "babel": "^6.5.2",
     "babel-cli": "^6.16.0",
     "babel-jest": "^16.0.0",
@@ -53,5 +51,7 @@
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-native-mock": "^0.2.6"
+  },
+  "devDependencies": {
   }
 }
