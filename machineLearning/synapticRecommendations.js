@@ -7,8 +7,8 @@ var place = require('../server/database/models/place.js');
 var User = require('../server/database/models/user.js');
 
 //for testing locally
-var connection = require('../server/database/database.js');
-require('../server/database/joins.js')(connection);
+// var connection = require('../server/database/database.js');
+// require('../server/database/joins.js')(connection);
 
 var categoryKeys = {};
 var categoryNums = {};
@@ -25,8 +25,9 @@ var trainingOptions = {
 
 module.exports = {
 
-  retrain(userID) {
-    userID = userID || 21;
+  retrain: function (req, res) {
+
+    userID = req.params.userID || 21;
     User.findOne({ where: {id: userID}})  // fixMe take in dynamic userID
     .then(function(data) {
       //console.log(data);
@@ -113,9 +114,13 @@ module.exports = {
         Network.trainer.train(synapticTrainingData, trainingOptions);
 
         var newArray = Array.apply(null, Array(makeTraining.length)).map(Number.prototype.valueOf, 0);
-        module.exports.evaluate(newArray,Network);
+        return module.exports.evaluate(newArray,Network);
 
-      });
+      })
+      .then(function(finalData) {
+        console.log(finalData);
+        res.status(201).send(finalData);
+      })
     });
   },
 
@@ -136,7 +141,7 @@ module.exports = {
     var x = Network.activate(userData);
     var y = module.exports.findIndicesOfMax(x, 3);
 
-    module.exports.getRestaurants([categoryNums[y[0]], categoryNums[y[1]], categoryNums[y[2]]]);
+    return module.exports.getRestaurants([categoryNums[y[0]], categoryNums[y[1]], categoryNums[y[2]]]);
   },
 
   getRestaurants(restaurants) {
@@ -172,7 +177,7 @@ module.exports = {
     }
 
 
-    place.findAll({
+    return place.findAll({
       where: {
         id: businessIds
       }
@@ -182,8 +187,8 @@ module.exports = {
       places.forEach(function(place) {
         placeArr.push(place.dataValues);
       });
-      console.log(placeArr);
       return placeArr;
+
     });
   }
 };
