@@ -4,6 +4,8 @@ if (process.env.NODE_ENV !== 'production') {
   secrets = require('./secrets.json');
 }
 
+consol.log('Working on', process.env.HOME)
+
 module.exports = {
   apiRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
   // androidLocalRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
@@ -12,7 +14,7 @@ module.exports = {
   iosLocalRoot: 'http://localhost',
   port: 1337,
   yelpRoot: 'https://api.yelp.com/v3/',
-  DB_USERNAME: process.env.DB_USERNAME || $DB_USERNAME || secrets.DB_USERNAME,
+  DB_USERNAME: process.env.DB_USERNAME || secrets.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD || secrets.DB_PASSWORD,
   yelpKey: process.env.YELPKEY || secrets.yelpKey,
   DB_NAME: 'dinder',
