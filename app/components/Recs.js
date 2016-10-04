@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ListView, Image } from 'react-native';
+import { StyleSheet, Text, View, ListView, Image, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, utton } from 'react-native-elements';
@@ -16,53 +16,35 @@ export default class Recs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      n: 0,
       long: undefined,
-      lat: undefined,
-      fakeData2: [],
-      fakeData: [{
-        name: 'Molinari Delicatessen',
-        address: '373 Columbus Ave ',
-        city: 'San Francisco',
-        state: 'CA',
-        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
-        zip: 94103,
-        rating: 4.5,
-        price: "$$"
-      }, {
-        name: 'Molinari Delicatessen2',
-        address: '373 Columbus Ave ',
-        city: 'San Francisco',
-        state: 'CA',
-        url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
-        zip: 94103,
-        rating: 4.5,
-        price: "$"
-      }
-
-      ]
-    };
-    this.state.rankIcons = {
-      0: '../assets/gold.png',
-      1: '../assets/silver.png',
-      2: '../assets/bronze.png',
+      lat: undefined
     };
   }
 
   getRecs() {
-    return fetch(`${this.props.apiRoot}/api/recs/${this.props.userId}/${this.state.lat}/${this.state.long}`)
-    .then((result) => {
-      this.setState({
-        recs: ds.cloneWithRowsAndSections({recList: this.state.fakeData}) //need to fix
-      });
-      // console.log(this.state.recs)
-    })
-    .catch((err) => console.error(err));
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      return fetch(`${this.props.apiRoot}/api/recs/${this.props.userId}/${this.state.lat}/${this.state.long}`, {
+        method: 'GET',
+        headers: {
+          authorization: token
+        }
+      })
+      // format it a way that it can be used
+      .then((result) => result.json())
+      .then((result) => {
+        this.setState({
+          // this is for listView
+          recs: ds.cloneWithRowsAndSections({recList: result})
+        });
+      })
+      .catch((err) => console.error(err));
+    });
   }
+
 
   componentWillMount() {
     navigator.geolocation.getCurrentPosition((position) => {
-      // console.log(position)
       var longitude = position.coords.longitude;
       var latitude = position.coords.latitude;
       this.setState({long: longitude});
@@ -81,10 +63,10 @@ export default class Recs extends Component {
     } else {
       return (
         <View style={styles.recContainer}>
-          <Text style={{marginTop: 30}}>Long: {this.state.long ? this.state.long : 'Please enable location services'}, Lat: {this.state.lat ? this.state.lat : 'Please enable location services'}</Text>
-            <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
-            <View style={{marginBottom: 60}}>
-            </View>
+          <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Recommended For You...</Text>
+          <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
+          <View style={{marginBottom: 60}}>
+          </View>
         </View>
       );
     }
@@ -99,6 +81,7 @@ export default class Recs extends Component {
     );
   }
 
+
   recEntry(rec) {
     return (
       <View style={styles.foodRecCardOuter}>
@@ -108,7 +91,7 @@ export default class Recs extends Component {
               <View>
                 <StarRating rating={rec.rating} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
               </View>
-              <Text style={{textAlign: 'center', fontSize: 16, color:'#66cc66', fontWeight: '900'}}>{rec.price}</Text>
+              <Text style={{textAlign: 'center', fontSize: 16, color: '#66cc66', fontWeight: '900'}}>{rec.price}</Text>
             </View>
         </View>
         <View style={styles.foodRecCardInner}>
@@ -116,13 +99,16 @@ export default class Recs extends Component {
           resizeMode='contain' style={{width: 350, height: 350}} />
         </View>
         <View style={styles.foodRecCardBottomComment} >
-          <View>
+          <View style={{flex: 3}}>
             <Text>{rec.address}</Text>
             <Text>{rec.city}, {rec.state}</Text>
-            <Text>{rec.zip}</Text>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch'}}>
+              <Text>{rec.zip}</Text>
+              <Text style={{fontStyle: 'italic', paddingRight: 10}}>~{rec.dist}</Text>
+            </View>
           </View>
-          <View>
-            <Text>Uber/dlievery/something here</Text>
+          <View style={{flex: 2}}>
+            <Text>Uber here</Text>
           </View>
         </View>
       </View>

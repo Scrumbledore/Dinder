@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ListView, Image, AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import styles from '../styles/styles.js';
@@ -18,6 +19,10 @@ export default class Favorites extends Component {
   }
 
   componentWillMount() {
+    this.fetchFavs();
+  }
+
+  fetchFavs() {
     AsyncStorage.getItem('jwt')
     .then((token) => {
       fetch(`${this.props.apiRoot}/api/favorites/`,
@@ -45,10 +50,9 @@ export default class Favorites extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Text style={{margin: 15, marginTop: 30, fontSize: 24, fontFamily: 'Noteworthy'}}>
-            Your Favorite NOMS!!
-          </Text>
+          <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
           <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+          <Icon name='refresh' size={60} onPress={(e) => this.fetchFavs()} />
           <View style={{marginBottom: 60}}>
           </View>
         </View>
@@ -61,6 +65,7 @@ export default class Favorites extends Component {
       <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
         <Icon name='cake' size={60}/>
         <Text >You haven't favorited anything yet.</Text>
+        <Icon name='refresh' size={60} onPress={(e) => this.fetchFavs()} />
       </View>
     );
   }
@@ -73,14 +78,14 @@ export default class Favorites extends Component {
         <Image source={{uri: favorite.url}} resizeMode='contain' style={{width: 350, height: 300}} />
         </View>
         <View style={styles.foodFavCardComment} >
-        <Text style={{fontSize: 24, fontFamily: 'Noteworthy'}}>OMG SO YUMMY!!!</Text>
+        <Text style={{fontSize: 20, fontFamily: 'Noteworthy'}}>{this.randomQuote()}</Text>
         </View>
       </View>
     );
   }
+
+  randomQuote() {
+    var quotes = ['OMG SO YUMMY!', 'I can\'t wait to try this!', 'This looks so awesome!', 'Gotta try this someday', 'Nom nom nom!'];
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }
 }
-          // <View style={{width: 350, height: 70, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-          //   <View style={{flexDirection: 'row', margin: 15, marginTop: 25, alignItems: 'center'}} >
-          //   <Text style={{fontSize: 12, fontWeight: '400', textAlign: 'center', color: '#444'}}>{favorite.info}</Text>
-          //   </View>
-          // </View>

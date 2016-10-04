@@ -166,32 +166,49 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-    console.log('long:', req.params.long);
-    console.log('lat:', req.params.lat);
-    res.status(201).send();
-    // var userId = req.params.userid;
-    // var zip = req.params.zip;
-    // var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
-    // if (location.long && locaation.lat) {
-    //   User.findOne({
-    //     where: {id: userId}
-    //   }).then(
-    //     function(user) {
-    //       user.getPlaces().then(
-    //         function(places) {
-    //           res.status(201).send(places);
-    //         }
-    //       );
-    //     }
-    //   );
-    // } else {
-    //   // search by zip
-    // }
-    // console.log('getRecommendations for', userId, 'at', location);
+    var recData = [{
+      name: 'Molinari Delicatessen',
+      address: '373 Columbus Ave ',
+      city: 'San Francisco',
+      state: 'CA',
+      url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+      zip: 94103,
+      rating: 4.5,
+      price: '$$',
+      lat: 37.7776799,
+      long: -122.40709
+    }, {
+      name: 'Molinari Delicatessen2',
+      address: '373 Columbus Ave ',
+      city: 'San Francisco',
+      state: 'CA',
+      url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+      zip: 94103,
+      rating: 1,
+      price: '$',
+      lat: 37.7776799,
+      long: -122.40709
+    }];
+    // preparing list of coords to pass to maps api
+    var destArr = [];
+    recData.forEach(function(rec) {
+      destArr.push(rec.lat + '%2C' + rec.long);
+    });
+    var destStr = destArr.join('%7C');
+    // actual request to maps api
+    requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
+    // combine original data with new distance values
+    .then(function(result) {
+      recData.map(function(rec, idx) {
+        rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
+      });
+      return recData;
+    })
+    .then(function(finalData) {
+      res.status(201).send(finalData);
+    });
   }
 };
-
-
 
   // getFavorites example return
   // [

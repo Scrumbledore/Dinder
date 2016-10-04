@@ -18,7 +18,7 @@ module.exports = function (app, express) {
   app.post('/api/unfavorite/:photoid', photoHandler.unFavorite);
 
   // for getting recommendations for a user at a given loc
-  app.get('/api/recs/:lat/:long', authHandler.authorize, userHandler.getRecommendations);
+  app.get('/api/recs/:userid/:lat/:long', userHandler.getRecommendations);
 
   // for getting pictures of food for user to swipe on
   app.get('/api/photo/:zip/:lat/:long/:query', userHandler.getPhotos);
