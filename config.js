@@ -12,7 +12,7 @@ module.exports = {
   iosLocalRoot: 'http://localhost',
   port: 1337,
   yelpRoot: 'https://api.yelp.com/v3/',
-  DB_USERNAME: process.env.DB_USERNAME || secrets.DB_USERNAME,
+  DB_USERNAME: process.env.DB_USERNAME || $DB_USERNAME || secrets.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD || secrets.DB_PASSWORD,
   yelpKey: process.env.YELPKEY || secrets.yelpKey,
   DB_NAME: 'dinder',
