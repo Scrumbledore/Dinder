@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ListView, Image } from 'react-native';
+import { StyleSheet, Text, View, ListView, Image, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, utton } from 'react-native-elements';
@@ -22,40 +22,29 @@ export default class Recs extends Component {
   }
 
   getRecs() {
-    return fetch(`${this.props.apiRoot}/api/recs/${this.props.userId}/${this.state.lat}/${this.state.long}`)
-    // format it a way that it can be used
-    .then((result) => result.json())
-    .then((result) => {
-      result.forEach((individualRec, idx) => {
-        this.getDistance(individualRec)
-        .then((dist) => {
-          individualRec.dist = dist;
-          this.setState({
-            recs: ds.cloneWithRowsAndSections({recList: result}) //need to fix
-          });
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      return fetch(`${this.props.apiRoot}/api/recs/${this.props.userId}/${this.state.lat}/${this.state.long}`, {
+        method: 'GET',
+        headers: {
+          authorization: token
+        }
+      })
+      // format it a way that it can be used
+      .then((result) => result.json())
+      .then((result) => {
+        this.setState({
+          // this is for listView
+          recs: ds.cloneWithRowsAndSections({recList: result})
         });
-      });
-    })
-    .catch((err) => console.error(err));
+      })
+      .catch((err) => console.error(err));
+    });
   }
 
-  /// need to move this to state in order to render properly
-  getDistance(rec) {
-    var origLat = this.state.lat;
-    var origLong = this.state.long;
-    var destLat = rec.lat;
-    var destLong = rec.long;
-    return fetch(`${this.props.apiRoot}/api/distance/${origLat}/${origLong}/${destLat}/${destLong}`)
-    .then((res) => res.json())
-    .then((res2) => {
-      return res2.rows[0].elements[0].distance.text;
-    })
-    .catch((err) => console.error(err));
-  }
 
   componentWillMount() {
     navigator.geolocation.getCurrentPosition((position) => {
-      // console.log(position)
       var longitude = position.coords.longitude;
       var latitude = position.coords.latitude;
       this.setState({long: longitude});

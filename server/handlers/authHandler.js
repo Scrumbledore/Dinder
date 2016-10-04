@@ -56,7 +56,7 @@ module.exports = {
   authorize(req, res, next) {
     var token = req.headers.authorization;
     var path = req.originalUrl.indexOf('/api/') > -1
-             ? req.originalUrl.replace('/api/','')
+             ? req.originalUrl.replace('/api/', '')
              : req.originalUrl;
     if (path === '/' || path === 'signin' || path === 'signup') {
       next();

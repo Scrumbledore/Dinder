@@ -165,20 +165,8 @@ module.exports = {
     });
   },
 
-  getDistance: function (req, res) {
-    console.log('origin', req.params.y1, req.params.x1);
-    console.log('dest', req.params.y2, req.params.x2);
-    requestPromise({
-      url: 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.y1 + ',' + req.params.x1 + '&destinations=' + req.params.y2 + '%2C' + req.params.x2 + '&key=' + config.MAPS_KEY
-    })
-    .then(function(result) {
-      res.status(201).send(result);
-    });
-
-  },
-
   getRecommendations: function (req, res) {
-    var fakeData = [{
+    var recData = [{
       name: 'Molinari Delicatessen',
       address: '373 Columbus Ave ',
       city: 'San Francisco',
@@ -201,30 +189,26 @@ module.exports = {
       lat: 37.7776799,
       long: -122.40709
     }];
-    res.status(201).send(fakeData);
-    // var userId = req.params.userid;
-    // var zip = req.params.zip;
-    // var location = {long: parseFloat(req.params.long), lat: parseFloat(req.params.lat)};
-    // if (location.long && locaation.lat) {
-    //   User.findOne({
-    //     where: {id: userId}
-    //   }).then(
-    //     function(user) {
-    //       user.getPlaces().then(
-    //         function(places) {
-    //           res.status(201).send(places);
-    //         }
-    //       );
-    //     }
-    //   );
-    // } else {
-    //   // search by zip
-    // }
-    // console.log('getRecommendations for', userId, 'at', location);
+    // preparing list of coords to pass to maps api
+    var destArr = [];
+    recData.forEach(function(rec) {
+      destArr.push(rec.lat + '%2C' + rec.long);
+    });
+    var destStr = destArr.join('%7C');
+    // actual request to maps api
+    requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
+    // combine original data with new distance values
+    .then(function(result) {
+      recData.map(function(rec, idx) {
+        rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
+      });
+      return recData;
+    })
+    .then(function(finalData) {
+      res.status(201).send(finalData);
+    });
   }
 };
-
-
 
   // getFavorites example return
   // [

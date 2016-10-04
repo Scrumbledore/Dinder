@@ -20,9 +20,6 @@ module.exports = function (app, express) {
   // for getting recommendations for a user at a given loc
   app.get('/api/recs/:userid/:lat/:long', userHandler.getRecommendations);
 
-  // distance calculator
-  app.get('/api/distance/:y1/:x1/:y2/:x2', userHandler.getDistance);
-
   // for getting pictures of food for user to swipe on
   app.get('/api/photo/:zip/:lat/:long/:query', userHandler.getPhotos);
 
