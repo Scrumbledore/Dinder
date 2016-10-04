@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
   secrets = require('./secrets.json');
 }
 
-consol.log('Working on', process.env.HOME)
+console.log('Working on', process.env.NODE_ENV);
 
 module.exports = {
   apiRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
