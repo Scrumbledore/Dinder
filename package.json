@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "server": "nodemon -w server server/index.js",
-    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive spec/components/*.js",
+    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive spec/*.js spec/components/*.js ",
     "lint": "eslint ./"
   },
   "pre-commit": [
