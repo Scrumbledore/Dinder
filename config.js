@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 console.log('Working on', process.env.NODE_ENV);
+console.log('Working with', process.env.DB_USERNAME);
 
 module.exports = {
   apiRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
