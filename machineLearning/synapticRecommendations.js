@@ -118,6 +118,10 @@ module.exports = {
       })
       .then(function(makeTraining) {
         Network = new Architect.Perceptron(makeTraining.length, Math.floor(makeTraining.length * 0.2), makeTraining.length);
+        //= Network;
+        // console.log(exports.Network.activate) //= Network.activate;
+        // console.log(exports.Network.activate);
+        // console.log("" + Network.activate);
         Network.trainer.train(synapticTrainingData, trainingOptions);
 
 
@@ -130,8 +134,8 @@ module.exports = {
           newArray[Math.floor(Math.random() * newArray.length)] = 0.6;
           count++;
         }
-        console.log(newArray,' Copy this to test evaluate');
-        module.exports.evaluate(newArray);
+        //console.log(newArray,' Copy this to test evaluate');
+        module.exports.evaluate(newArray,Network);
 
       });
     });
@@ -150,7 +154,7 @@ module.exports = {
     return outp;
   },
 
-  evaluate(userData) {
+  evaluate(userData, Network) {
     var x = Network.activate(userData);
     var y = module.exports.findIndicesOfMax(x, 3);
     console.log(categoryNums[y[0]], categoryNums[y[1]], categoryNums[y[2]]);
