@@ -183,8 +183,8 @@ module.exports = {
         placeArr.push(place.dataValues);
       });
       console.log(placeArr);
-    })
-
+      return placeArr;
+    });
   }
 };
 

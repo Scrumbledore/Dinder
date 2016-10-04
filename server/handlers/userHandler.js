@@ -6,8 +6,12 @@ var Place = require('../database/models/place.js');
 var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
 var config = require('../../config.js');
+<<<<<<< 049d844a2dee634637244dc6c36a1c6669d56e26
 
 var yelpOptions = function (options) {
+=======
+var synapticRec = require('../../machineLearning/synapticRecommendations.js');
+>>>>>>> Rebasing
 
   var search = typeof options === 'string' ? options
     : 'search?term='
@@ -166,29 +170,30 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-    var recData = [{
-      name: 'Molinari Delicatessen',
-      address: '373 Columbus Ave ',
-      city: 'San Francisco',
-      state: 'CA',
-      url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
-      zip: 94103,
-      rating: 4.5,
-      price: '$$',
-      lat: 37.7776799,
-      long: -122.40709
-    }, {
-      name: 'Molinari Delicatessen2',
-      address: '373 Columbus Ave ',
-      city: 'San Francisco',
-      state: 'CA',
-      url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
-      zip: 94103,
-      rating: 1,
-      price: '$',
-      lat: 37.7776799,
-      long: -122.40709
-    }];
+    var recData = synapticRec.retrain();
+    //[{
+    //   name: 'Molinari Delicatessen',
+    //   address: '373 Columbus Ave ',
+    //   city: 'San Francisco',
+    //   state: 'CA',
+    //   url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+    //   zip: 94103,
+    //   rating: 4.5,
+    //   price: '$$',
+    //   lat: 37.7776799,
+    //   long: -122.40709
+    // }, {
+    //   name: 'Molinari Delicatessen2',
+    //   address: '373 Columbus Ave ',
+    //   city: 'San Francisco',
+    //   state: 'CA',
+    //   url: 'https://s3-media3.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg',
+    //   zip: 94103,
+    //   rating: 1,
+    //   price: '$',
+    //   lat: 37.7776799,
+    //   long: -122.40709
+    // }];
     // preparing list of coords to pass to maps api
     var destArr = [];
     recData.forEach(function(rec) {
