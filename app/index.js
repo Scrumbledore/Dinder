@@ -42,23 +42,20 @@ export default class Dinder extends Component {
             + config.port;
 
     this.state = {
-      apiRoot: apiRoot,
-      authByToken: false,
-      userId: 3 // fixme: hard-coded userId
+      apiRoot: apiRoot
     };
   }
 
-  // componentWillMount() {
-  //   AsyncStorage.getItem('jwt')
-  //   .then((value) => {
-  //     this.setState({
-  //       authByToken: value ? true : false
-  //     })
-  //   }).done();
-  // }
+  componentWillMount() {
+    AsyncStorage.getItem('jwt')
+    .then((value) => {
+      if (value) {
+        Actions.tabbar();
+      }
+    }).done();
+  }
 
   render() {
-    //if auth by token...
     return (
       <Router hideNavBar={true} >
         <Scene key='root' hideNavBar={true}>

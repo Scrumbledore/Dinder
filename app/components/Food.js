@@ -20,20 +20,19 @@ export default class Food extends Component {
   }
 
   getPhotos () {
-    AsyncStorage.getItem('jwt')
-    .then((token) => {
-      fetch(`${this.props.apiRoot}/api/photo/4/4/4/4`,
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let long = position.coords.longitude;
+
+      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/pizza`, // fixme: dummy data
         {
           method: 'GET',
           headers: {
-            authorization: token
+            authorization: this.state.token
           }
         }
       )
-      .then((data) => {
-        // console.log(data);
-        return data.json();
-      })
+      .then((data) => data.json())
       .then((photos) => {
         this.setState({
           cards: photos,
@@ -42,14 +41,26 @@ export default class Food extends Component {
         this.fadeIn();
       })
       .catch((err) => console.log(err));
-    }).done();
+
+    }, (error) => {
+      alert('Please enable location services.');
+    }, {
+      enableHighAccurracy: true,
+      timeout: 20000,
+      maxinumAge: 1000
+    });
   }
 
   componentDidMount () {
-    this.getPhotos();
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      this.setState({
+        token: token
+      }, this.getPhotos);
+    }).done();
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
