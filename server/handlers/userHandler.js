@@ -7,23 +7,18 @@ var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
 var config = require('../../config.js');
 
+var yelpOptions = function (options) {
 
+  var search = typeof options === 'string' ? options
+    : 'search?term='
+    + options.keyword
+    + '&latitude='
+    + options.lat
+    + '&longitude='
+    + options.long;
 
-var yelpOptions = function (query, branch) {
-
-  branch = branch || '';
-  if (typeof query === 'object') {
-    search = 'search?term='
-            + query.keyword
-            + '&latitude='
-            + query.lat
-            + '&longitude='
-            + query.long;
-  } else {
-    search = query;
-  }
   return {
-    url: config.yelpRoot + branch + search,
+    url: config.yelpRoot + 'businesses/' + search,
     headers: {
       'Authorization': 'Bearer ' + config.yelpKey,
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -31,112 +26,117 @@ var yelpOptions = function (query, branch) {
   };
 };
 
+var findPlace = function (business) {
+  return Place.findOne({
+    where: {
+      name: business.name
+    }
+  });
+};
+
+var newPlace = function (business) {
+  return Place.create({
+    lat: business.coordinates.latitude || 0,
+    lon: business.coordinates.longitude || 0,
+    name: business.name,
+    address: business.location.address1,
+    city: business.location.city,
+    state: business.location.state,
+    zip: business.location.zip_code,
+    url: business.image_url,
+    rating: business.rating,
+    price: business.price
+  });
+};
+
+var saveCategories = function (categories, placeId) {
+  categories.forEach(function (category) {
+    Category.findOne({
+      where: {
+        name: category.title
+      }
+    })
+    .then(function (record) {
+      if (!record) {
+        Category.create({
+          name: category.title,
+          PlaceId: placeId
+        });
+      }
+    })
+    .catch(function (err) {
+      throw err;
+    });
+  });
+};
+
+var findPhoto = function (url) {
+  return Photo.findOne({
+    where: {
+      url: url
+    }
+  });
+};
+
+var newPhoto = function (url, placeId) {
+  return Photo.create({
+    url: url,
+    PlaceId: placeId
+  });
+};
 
 module.exports = {
 
   getPhotos: function (req, res) {
 
-    // using default values - not referencing req.params
-    //console.log(req.params);
-
-
-    var userid = req.userId === '4' ? '4' : req.userId;
-    var zip = req.params.zip === '4' ? '4' : req.params.zip;
-    var lat = req.params.lat === '4' ? 37.786882 : req.params.lat;
-    var long = req.params.long === '4' ? -122.399972 : req.params.long;
-    var query = req.params.query === '4' ? 'delis' : req.params.query;
-
     var photos = [];
 
     var request = {
-      keyword: query,
-      lat: lat,
-      long: long
+      keyword: req.params.query,
+      lat: req.params.lat,
+      long: req.params.long
     };
 
-    requestPromise(yelpOptions(request, 'businesses/'))
+    requestPromise(yelpOptions(request))
     .then(function(data) {
-      return JSON.parse(data);
+      return JSON.parse(data).businesses;
     })
-    .then(function(data) {
-      data.businesses.forEach(function(business, bCount) {
-        Place.findOne({
-          where: {
-            name: business.name
-          }
-        })
-        .then(function(place) {
-          if (!place) {
-            return Place.create({
-              lat: business.coordinates.latitude || 0,
-              lon: business.coordinates.longitude || 0,
-              name: business.name,
-              address: business.location.address1,
-              city: business.location.city,
-              state: business.location.state,
-              zip: business.location.zip_code,
-              url: business.image_url,
-              rating: business.rating,
-              price: business.price
-            });
+    .then(function(businesses) {
+      businesses.forEach(function(business, bCount) {
+        findPlace(business)
+        .then(function(record) {
+          if (!record) {
+            return newPlace(business);
           } else {
-            return place;
+            return record;
           }
         })
-        //begin inserting category
-        .then(function(place) {
-          business.categories.forEach(function(category, cCount) {
-            Category.findOne({
-              where: {
-                name: category.title
-              }
-            })
-            .then(function(type) {
-              if (!type) {
-                return Category.create({
-                  name: category.title,
-                  PlaceId: place.id
-                });
-              } else {
-                return type;
-              }
-            });
-            return place;
-          });
-        })
-        //begin photos
-        .then(function(newPlace) {
-          requestPromise(yelpOptions(business.id, 'businesses/'))
+        .then(function (place) {
+          saveCategories(business.categories, place.id);
+          requestPromise(yelpOptions(business.id))
           .then(function (data) {
-            return JSON.parse(data);
+            return JSON.parse(data).photos;
           })
-          .then(function (businessInfo) {
-            businessInfo.photos.forEach(function (url, pCount) {
-              Photo.findOne({
-                where: {
-                  url: url
-                }
-              })
-              .then(function (photo) {
-                if (!photo) {
-                  return Photo.create({
-                    info: '',
-                    url: url,
-                    PlaceId: newPlace.id
-                  });
+          .then(function (images) {
+            images.forEach(function (url, pCount) {
+              findPhoto(url)
+              .then(function (record) {
+                if (!record) {
+                  return newPhoto(url, place.id);
                 } else {
-                  return photo;
+                  return record;
                 }
               })
-              .then(function (newPhoto) {
-                photos.push(newPhoto.toJSON());
-                if (bCount + 1 === data.businesses.length && pCount + 1 === businessInfo.photos.length) {
+              .then(function (image) {
+                photos.push(image.toJSON());
+                if (bCount + 1 === businesses.length
+                  && pCount + 1 === images.length) {
                   res.json(photos);
                 }
               });
             });
-          });     // this should be refactored -
-        });       // maybe split the above into two functions?
+          });
+        });
       });
     })
     .catch(function (err) {
@@ -209,35 +209,3 @@ module.exports = {
     });
   }
 };
-
-  // getFavorites example return
-  // [
-  //   {
-  //     "id": 1,
-  //     "info": "something info",
-  //     "url": "www.google.com",
-  //     "createdAt": "2016-09-26T23:44:38.534Z",
-  //     "updatedAt": "2016-09-26T23:44:38.534Z",
-  //     "placeId": 1,
-  //     "favorites": {
-  //       "createdAt": "2016-09-26T23:46:21.718Z",
-  //       "updatedAt": "2016-09-26T23:46:21.718Z",
-  //       "photoId": 1,
-  //       "userId": 1
-  //     }
-  //   },
-  //   {
-  //     "id": 2,
-  //     "info": "something info2",
-  //     "url": "www.google.com",
-  //     "createdAt": "2016-09-26T23:46:54.346Z",
-  //     "updatedAt": "2016-09-26T23:46:54.346Z",
-  //     "placeId": 1,
-  //     "favorites": {
-  //       "createdAt": "2016-09-26T23:47:06.095Z",
-  //       "updatedAt": "2016-09-26T23:47:06.095Z",
-  //       "photoId": 2,
-  //       "userId": 1
-  //     }
-  //   }
-  // ]
