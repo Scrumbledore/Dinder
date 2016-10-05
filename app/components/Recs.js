@@ -74,8 +74,7 @@ export default class Recs extends Component {
   renderEmpty() {
     return (
       <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-        <Icon name='error' size={60}/>
-        <Text aligntText='center'>Something went wrong. Please make sure location services are enabled.</Text>
+        <Text aligntText='center'>Locating the best food for you...</Text>
       </View>
     );
   }
@@ -88,7 +87,7 @@ export default class Recs extends Component {
             <Text style={styles.foodRecName}>{rec.name}</Text>
             <View>
               <View>
-                <StarRating rating={rec.rating} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
+                <StarRating rating={rec.rating * 1} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
               </View>
               <Text style={{textAlign: 'center', fontSize: 16, color: '#66cc66', fontWeight: '900'}}>{rec.price}</Text>
             </View>

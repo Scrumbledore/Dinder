@@ -185,7 +185,9 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-     var userID = req.paramsuserID || 21;
+     var userID = req.params.userID || 21;
+     req.params.lat = req.params.lat || 37.78188;
+     req.params.lon = req.params.lon || -122.41522;
     return User.findOne({ where: {id: userID }})  // fixMe take in dynamic userID
     .then(function(data) {
       //console.log(data);
@@ -281,28 +283,32 @@ module.exports = {
       })
       .then(function(recData) {
         var destArr = [];
-        recData.forEach(function(rec) {
-        destArr.push(rec.lat + '%2C' + rec.long);
-      });
-      var destStr = destArr.join('%7C');
-      // actual request to maps api
-      requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
-      // combine original data with new distance values
-      .then(function(result) {
-        // location promise being denied. Removing the map for now because elements are undefined.
+        if (recData) {
+          recData.forEach(function(rec) {
+            destArr.push(rec.lat + '%2C' + rec.lon);
+          });
+        }
 
+        var destStr = destArr.join('%7C');
 
-        // console.log(result)
-        recData.map(function(rec, idx) {
-          rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
-        });
+        return requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.lon + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
+        // combine original data with new distance values
+        .then(function(result) {
+          if (recData) {
+            recData.map(function(rec, idx) {
+              rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
+            });
+          }
+
         return recData;
+        })
       })
       .then(function(finalData) {
         res.status(201).send(finalData);
       });
-      });
     });
+  },
+
   },
 
   findIndicesOfMax(inp, count) {
