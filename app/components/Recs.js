@@ -16,45 +16,44 @@ export default class Recs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      long: undefined,
-      lat: undefined
+      token: ''
     };
   }
 
   getRecs() {
-    AsyncStorage.getItem('jwt')
-    .then((token) => {
-      return fetch(`${this.props.apiRoot}/api/recs/${this.props.userId}/${this.state.lat}/${this.state.long}`, {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let long = position.coords.longitude;
+
+      fetch(`${this.props.apiRoot}/api/recs/${lat}/${long}`, {
         method: 'GET',
         headers: {
-          authorization: token
+          authorization: this.state.token
         }
       })
-      // format it a way that it can be used
-      .then((result) => result.json())
-      .then((result) => {
+      .then((data) => data.json())
+      .then((recs) => {
         this.setState({
-          // this is for listView
-          recs: ds.cloneWithRowsAndSections({recList: result})
+          recs: ds.cloneWithRowsAndSections({
+            recList: recs
+          })
         });
       })
       .catch((err) => console.error(err));
-    });
-  }
-
-
-  componentWillMount() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      var longitude = position.coords.longitude;
-      var latitude = position.coords.latitude;
-      this.setState({long: longitude});
-      this.setState({lat: latitude});
-      this.getRecs();
     }, (error) => {
       alert('Please enable location services.');
     }, {
       enableHighAccurracy: true, timeout: 20000, maxinumAge: 1000
     });
+  }
+
+  componentDidMount () {
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      this.setState({
+        token: token
+      }, this.getRecs);
+    }).done();
   }
 
   render() {

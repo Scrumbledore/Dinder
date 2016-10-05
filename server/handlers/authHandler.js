@@ -9,48 +9,64 @@ module.exports = {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.find({ where: { email }})
-      .then(user => {
-        if (user) {
-          return next(new Error('User Already Exists!'));
-        } else {
-          const newUser = User.create ({
-            email: email,
-            password: password
-          })
-          .then(newUser => res.json({ token: jwt.encode({ id: User.id }, config.JWT_SECRET) }) );
-        }
-      })
-      .catch(error => {
-        res.sendStatus(500);
-        console.log(error);
-      });
+    User.findOne({
+      where: {
+        email: email
+      }
+    })
+    .then(user => {
+      if (user) {
+        return next(new Error('User Already Exists!'));
+      } else {
+        User.create ({
+          email: email,
+          password: password
+        })
+        .then(newUser => res.json({
+          token: jwt.encode({
+            id: newUser.id
+          }, config.JWT_SECRET)
+        }));
+      }
+    })
+    .catch(error => {
+      res.sendStatus(500);
+      console.log(error);
+    });
   },
 
   signIn(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.find({ where: { email }})
-      .then(User => {
-        if (!User) {
-          return next(new Error('No User Found!'));
+    User.findOne({
+      where: {
+        email: email
+      }
+    })
+    .then(user => {
+      if (!user) {
+        return next(new Error('No user Found!'));
+      }
+      bcrypt.compare(password, user.password, function(err, match) {
+        if (match) {
+          console.log('login successful');
+          res.json({
+            token: jwt.encode({
+              id: user.id
+            }, config.JWT_SECRET)
+          });
+        } else if (err) {
+          console.log('login error');
+        } else {
+          console.log('no match');
         }
-        bcrypt.compare(password, User.password, function(err, match) {
-          if (match) {
-            console.log('login successful');
-            res.json({ token: jwt.encode({ id: User.id }, config.JWT_SECRET) });
-          } else if (err) {
-            console.log('login error');
-          } else {
-            console.log('no match');
-          }
-        });
-      })
-      .catch(error => {
-        res.sendStatus(500);
-        console.log(error);
       });
+    })
+    .catch(error => {
+      res.sendStatus(500);
+      console.log(error);
+    });
   },
 
   authorize(req, res, next) {
