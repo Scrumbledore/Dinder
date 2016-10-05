@@ -24,7 +24,7 @@ module.exports = function (app, express) {
   // for getting pictures of food for user to swipe on
   app.get('/api/photo/:lat/:long/:query', userHandler.getPhotos);
 
-  app.get('/api/sRecs/:userid', machineHandler.retrain);
+  app.get('/api/sRecs', machineHandler.retrain);
 
   // vote yets on a photo (since it's post we can technical pass in body if we want)
   app.post('/api/yes/:photoid', photoHandler.voteYes);
