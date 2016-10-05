@@ -188,7 +188,8 @@ module.exports = {
      var userID = req.params.userID || 21;
      req.params.lat = req.params.lat || 37.78188;
      req.params.lon = req.params.lon || -122.41522;
-    return User.findOne({ where: {id: userID }})  // fixMe take in dynamic userID
+
+    return User.findOne({ where: {id: userID }})
     .then(function(data) {
       //console.log(data);
       return data.getPhotos();
@@ -198,6 +199,7 @@ module.exports = {
       var items = [];
       var promiseArr = [];
 
+      //coerce photosRatings to a normalize datastract 0-1
       photos.map(function(photo) {
         var tueple = [[], 0, 0];
         if (photo.UserPhotos.dataValues.like === true) {
@@ -214,6 +216,7 @@ module.exports = {
 
       });
 
+      //associate categories with tueples
       training.forEach(function(item) {
         var p = Category.findAll({ attributes: ['name'], where: {PlaceId: item[2]} })
         .then(function(data) {
@@ -236,6 +239,8 @@ module.exports = {
       });
     })
     .then(function(trainingObj) {
+
+      //Get distinct Categories data and order it, then give me constant time lookup both ways
       orderedTraining = trainingObj.sort((a,b) => {return b.weight - a.weight});
       Category.aggregate('name', 'DISTINCT', { plain: false })
       .then(function(data) {
@@ -256,7 +261,8 @@ module.exports = {
         return keyObj;
       })
       .then(function(categoryObj) {
-        //console.log(categoryObj, trainingObj);
+
+        //make training data form tueples
         trainingObj.forEach(function(userRating) {
           var newArray = Array.apply(null, Array(categoryObj.length)).map(Number.prototype.valueOf, 0);
           userRating.category.forEach(function(categoryRating) {
@@ -270,6 +276,8 @@ module.exports = {
         return categoryObj;
       })
       .then(function(makeTraining) {
+
+        //start training and test neural values
         Network = new Architect.Perceptron(makeTraining.length, Math.floor(makeTraining.length * 0.2), makeTraining.length);
         Network.trainer.train(synapticTrainingData, trainingOptions);
 
@@ -282,6 +290,8 @@ module.exports = {
         return finalData
       })
       .then(function(recData) {
+
+        //begin distance associate with records
         var destArr = [];
         if (recData) {
           recData.forEach(function(rec) {
@@ -307,8 +317,6 @@ module.exports = {
         res.status(201).send(finalData);
       });
     });
-  },
-
   },
 
   findIndicesOfMax(inp, count) {
@@ -363,7 +371,7 @@ module.exports = {
       businessIds.push(x[Math.floor(Math.random() * x.length)]);
     }
 
-
+    //return our recommendations
     return Place.findAll({
       where: {
         id: businessIds
