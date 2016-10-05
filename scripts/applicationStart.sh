@@ -1,3 +1,4 @@
 #!/bin/sh
 # Applicaiton Start install
-# sudo pm2 reload all
+pm2 start server/index.js
+# pm2 reload all
