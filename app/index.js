@@ -75,8 +75,8 @@ export default class Dinder extends Component {
             key='tabbar'
             tabs={true}>
             <Scene
-              img='camera'
-              key='camera'
+             img='camera'
+             key='camera'
               component={RNCamera}
               icon={TabIcon}
               title='Camera'
