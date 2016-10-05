@@ -1,3 +1,3 @@
 #!/bin/sh
 # Applicaiton Start install
-pm2 reload all
+sudo pm2 reload all
