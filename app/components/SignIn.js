@@ -51,10 +51,11 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
-
-        <Text style={styles.welcome}>
-          Welcome to Dinder!
-        </Text>
+        <View style={{marginTop: -275}}>
+          <Text style={{fontFamily: 'Noteworthy-light', fontSize: 50, margin: 100}}>
+            Dinder
+          </Text>
+        </View>
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>email:</Text>
           <TextInput
