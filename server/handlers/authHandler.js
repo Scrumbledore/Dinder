@@ -5,33 +5,23 @@ const bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
 
-  signUp(req, res, next) {
+  signUp(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({
-      where: {
-        email: email
-      }
+    // PostgreSQL performs error checking on the user model
+
+    User.create ({
+      email: email,
+      password: password
     })
-    .then(user => {
-      if (user) {
-        return next(new Error('User Already Exists!'));
-      } else {
-        User.create ({
-          email: email,
-          password: password
-        })
-        .then(newUser => res.json({
-          token: jwt.encode({
-            id: newUser.id
-          }, config.JWT_SECRET)
-        }));
-      }
-    })
-    .catch(error => {
-      res.sendStatus(500);
-      console.log(error);
+    .then(newUser => res.json({
+      token: jwt.encode({
+        id: newUser.id
+      }, config.JWT_SECRET)
+    }))
+    .catch(err => {
+      res.status(500).json(err);
     });
   },
 

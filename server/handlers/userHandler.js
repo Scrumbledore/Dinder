@@ -185,9 +185,9 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-     var userID = req.params.userID || 21;
-     req.params.lat = req.params.lat || 37.78188;
-     req.params.lon = req.params.lon || -122.41522;
+     var userID = req.userId;
+     req.params.lat = req.params.lat;
+     req.params.lon = req.params.lon;
 
     return User.findOne({ where: {id: userID }})
     .then(function(data) {

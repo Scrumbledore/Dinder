@@ -10,16 +10,18 @@ var UserPhotos = require('../server/database/models/userPhotos.js');
 require('../server/database/joins.js')(connection);
 
 var api;
+var token;
 var instanceIds = {};
 
 var models = [
-  {
-    schema: User,
-    name: 'User',
-    options: {
-      email: 'test@example.com'
-    }
-  },
+  // {
+  //   schema: User,
+  //   name: 'User',
+  //   options: {
+  //     email: 'test@example.com',
+  //     password: 'password'
+  //   }
+  // },
   {
     schema: Photo,
     name: 'Photo',
@@ -45,7 +47,7 @@ describe('Database Handlers', function () {
         : config.apiRoot)
         + ':'
         + config.port
-        + '/';
+        + '/api/';
 
     models.forEach(function (m, i) {
       m.schema.findOne({
@@ -71,6 +73,18 @@ describe('Database Handlers', function () {
   });
 
   after(function (done) {
+    User.findOne({
+      where: {
+        email: 'test@example.com'
+      }
+    })
+    .then(function (user) {
+      user.destroy();
+    })
+    .catch(function (err) {
+      done(err);
+    });
+
     models.forEach(function (m, i) {
       m.schema.findOne({
         where: m.options
@@ -86,20 +100,71 @@ describe('Database Handlers', function () {
         }
       })
       .catch(function (err) {
-        done();
+        done(err);
       });
     });
   });
 
+  it('should sign up users and return a JWT token', function (done) {
+    request({
+      method: 'POST',
+      url: api + 'signup',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        password: 'password'
+      })
+    }, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      var parsed = JSON.parse(body);
+      expect(parsed).to.be.ok;
+      expect(parsed).to.have.ownProperty('token');
+      token = parsed.token;
+      done();
+    });
+  });
+
+  xit('should sign out users');
+
+  it('should not sign up users with duplicate email addresses', function (done) {
+    request({
+      method: 'POST',
+      url: api + 'signup',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        password: 'password'
+      })
+    }, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      var parsed = JSON.parse(body);
+      expect(parsed.name).to.equal('SequelizeUniqueConstraintError');
+      done();
+    });
+  });
+
+  xit('should sign in users and return a JWT token');
+
   it('should persist user likes (swipe left/right)', function (done) {
 
-    var call = api
-             + 'api/yes/'
-             + instanceIds['User']
-             + '/'
-             + instanceIds['Photo'];
+    var call = api + 'yes/' + instanceIds['Photo'];
 
-    request.post(call, function (err, res, body) {
+    request({
+      method: 'POST',
+      url: call,
+      headers: {
+        'content-type': 'application/json',
+        'authorization': token
+      }
+    }, function (err, res, body) {
       if (err) {
         done(err);
       }
@@ -112,7 +177,6 @@ describe('Database Handlers', function () {
 
     UserPhotos.findOne({
       where: {
-        UserId: instanceIds['User'],
         PhotoId: instanceIds['Photo']
       }
     })
@@ -127,19 +191,21 @@ describe('Database Handlers', function () {
 
   it('should persist user favorites', function (done) {
 
-    var call = api
-             + 'api/favorites/'
-             + instanceIds['User']
-             + '/'
-             + instanceIds['Photo'];
+    var call = api + 'favorite/' + instanceIds['Photo'];
 
-    request.post(call, function (err, res, body) {
+    request({
+      method: 'POST',
+      url: call,
+      headers: {
+        'content-type': 'application/json',
+        'authorization': token
+      }
+    }, function (err, res, body) {
       if (err) {
         done(err);
       }
       UserPhotos.findOne({
         where: {
-          UserId: instanceIds['User'],
           PhotoId: instanceIds['Photo']
         }
       })
