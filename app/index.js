@@ -10,6 +10,8 @@ import Favorites from './components/Favorites';
 import Recs from './components/Recs';
 import Menu from './components/Menu';
 import RNCamera from './components/Camera';
+import Photos from './components/Photos';
+import CameraRoll from './components/CameraRoll';
 
 
 var config = require('../config.js');
@@ -46,14 +48,14 @@ export default class Dinder extends Component {
     };
   }
 
-  componentWillMount() {
-    AsyncStorage.getItem('jwt')
-    .then((value) => {
-      if (value) {
-        Actions.tabbar();
-      }
-    }).done();
-  }
+  // componentWillMount() {
+  //   AsyncStorage.getItem('jwt')
+  //   .then((value) => {
+  //     if (value) {
+  //       Actions.tabbar();
+  //     }
+  //   }).done();
+  // }
 
   render() {
     return (
@@ -75,11 +77,21 @@ export default class Dinder extends Component {
             key='tabbar'
             tabs={true}>
             <Scene
-             img='camera'
-             key='camera'
+              key='camera'
               component={RNCamera}
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
+            <Scene
+              key='cameraroll'
+              component={CameraRoll}
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
+            <Scene
+             img='camera'
+             key='photos'
+              component={Photos}
               icon={TabIcon}
-              title='Camera'
+              title='Photos'
               apiRoot={this.state.apiRoot}
               userId={this.state.userId} />
             <Scene

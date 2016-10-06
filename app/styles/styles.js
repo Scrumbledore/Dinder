@@ -6,6 +6,30 @@ export default StyleSheet.create({
 //+++++ COMPONENT SPECIFIC +++++
 //++++++++++++++++++++++++++++++
 
+////+++++ Camera Roll +++++
+  CRcontainer: {
+    flex: 1,
+    backgroundColor: '#F6AE2D',
+  },
+  CRcontent: {
+    marginTop: 15,
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  CRtext: {
+    fontSize: 16,
+    alignItems: 'center',
+    color: '#fff',
+  },
+  CRbold: {
+    fontWeight: 'bold',
+  },
+  CRinfo: {
+    fontSize: 12,
+  },
 ////+++++ Camera +++++
 
   camContainer: {
