@@ -114,9 +114,7 @@ describe('Database Handlers', function () {
     var long = -76.6392;
     var query = 'pizza';
     var call = api + 'photo/' + lat + '/' + long + '/' + query;
-
     this.timeout(0);
-
     request({
       method: 'GET',
       url: call,
@@ -136,9 +134,7 @@ describe('Database Handlers', function () {
   });
 
   it('should persist user likes (swipe left/right)', function (done) {
-
     var call = api + 'yes/' + instances['Photo'].id;
-
     request({
       method: 'POST',
       url: call,
@@ -156,7 +152,6 @@ describe('Database Handlers', function () {
   });
 
   it('should default to favorited = false for photos', function (done) {
-
     UserPhotos.findOne({
       where: {
         PhotoId: instances['Photo'].id
@@ -172,9 +167,7 @@ describe('Database Handlers', function () {
   });
 
   it('should persist user favorites', function (done) {
-
     var call = api + 'favorite/' + instances['Photo'].id;
-
     request({
       method: 'POST',
       url: call,
@@ -206,9 +199,7 @@ describe('Database Handlers', function () {
     var long = -76.6392;
     var query = 'pizza';
     var call = api + 'photo/' + lat + '/' + long + '/' + query;
-
     this.timeout(0);
-
     request({
       method: 'GET',
       url: call,
@@ -221,15 +212,10 @@ describe('Database Handlers', function () {
         done(err);
       }
       var newPhotos = JSON.parse(body);
-
       expect(photos.length).to.not.equal(newPhotos.length);
-
       expect(photos.filter(function (photo) {
-
         return !newPhotos.includes(photo);
-
       })[0].id).to.equal(instances['Photo'].id);
-
       done();
     });
   });
