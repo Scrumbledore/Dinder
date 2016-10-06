@@ -186,8 +186,8 @@ module.exports = {
 
   getRecommendations: function (req, res) {
      var userID = req.userId;
-     req.params.lat = req.params.lat;
-     req.params.lon = req.params.lon;
+     // req.params.lat = req.params.lat;
+     // req.params.lon = req.params.lon;
 
     return User.findOne({ where: {id: userID }})
     .then(function(data) {
@@ -300,11 +300,12 @@ module.exports = {
         }
 
         var destStr = destArr.join('%7C');
-
-        return requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.lon + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
+        console.log(req.params,'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
+        return requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
         // combine original data with new distance values
         .then(function(result) {
           if (recData) {
+            console.log(result)
             recData.map(function(rec, idx) {
               rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
             });
