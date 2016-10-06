@@ -104,9 +104,6 @@ module.exports = {
 
   getPhotos: function (req, res) {
 
-    // remenmber to check if the photos are included in UserPhotos,
-    // and only return un-touched photos for the logged-in user
-
     var photos = [];
 
     var request = {

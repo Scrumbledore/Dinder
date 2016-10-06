@@ -7,7 +7,7 @@
     "server": "nodemon -w server server/index.js",
     "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive spec/",
     "lint": "eslint ./",
-    "cover": "istanbul cover node_modules/.bin/_mocha spec/"
+    "cover": "istanbul cover node_modules/.bin/_mocha --recursive spec/"
   },
   "pre-commit": [
     "lint"

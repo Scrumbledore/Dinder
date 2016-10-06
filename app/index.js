@@ -48,14 +48,14 @@ export default class Dinder extends Component {
     };
   }
 
-  // componentWillMount() {
-  //   AsyncStorage.getItem('jwt')
-  //   .then((value) => {
-  //     if (value) {
-  //       Actions.tabbar();
-  //     }
-  //   }).done();
-  // }
+  componentWillMount() {
+    AsyncStorage.getItem('jwt')
+    .then((value) => {
+      if (value) {
+        Actions.tabbar();
+      }
+    }).done();
+  }
 
   render() {
     return (
