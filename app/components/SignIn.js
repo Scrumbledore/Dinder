@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Icon, Button, Navigator} from 'react-native-elements';
-import { Text, View, AsyncStorage, TextInput } from 'react-native';
+import { Text, Image, View, TouchableOpacity, AsyncStorage, TextInput } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import index from '../index';
@@ -51,10 +51,12 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
-
-        <Text style={styles.welcome}>
-          Welcome to Dinder!
-        </Text>
+        <View>
+         <Image source={{uri: 'https://static.pexels.com/photos/5249/bread-food-restaurant-people.jpg'}} resizeMode="cover" style={styles.coverImage}/>
+          <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80,top: -110}}>
+            Dinder
+          </Text>
+        </View>
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>email:</Text>
           <TextInput
@@ -68,21 +70,30 @@ export default class SignIn extends Component {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>password:</Text>
-          <TextInput
-            placeholder="password"
-            secureTextEntry={true}
-            autoCorrect={false}
-            style={styles.textInputBox}
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
+            <TouchableOpacity style={{
+    paddingRight: 5,
+    paddingLeft: 5,
+    marginRight: 5,
+    marginLeft: 5,
+    flex: 3,
+    borderColor: 'red',
+  }} >
+            <TextInput
+              placeholder="password"
+              secureTextEntry={true}
+              autoCorrect={false}
+              style={styles.textInputBox}
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+            />
+            </TouchableOpacity>
           </View>
 
           <View>
           <Button
             onPress={this.userSignIn.bind(this)}
             buttonStyle={styles.buttonBlue}
-            title='Sign In'
+            title='Log In'
           /></View>
           <Text style={styles.errorTextStyle}>{this.state.error}</Text>
           <Text onPress={Actions.signup}>Don't have an account? Sign up here!</Text>

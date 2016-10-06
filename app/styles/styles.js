@@ -178,7 +178,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#d4d4d4',
+    backgroundColor: 'rgba(212,212,212,.6)',
   },
   welcome: {
     fontSize: 24
@@ -208,7 +208,19 @@ export default StyleSheet.create({
   inputContainer: {
     height: 40,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 10
+  },
+  coverImage: {
+    height: 300,
+    width: 400,
+    opacity: 0.5,
+    position: 'absolute',
+    top:-200,
+    right: 0,
+    bottom: 0,
+    alignSelf: 'stretch',
+    left: -100,
   },
 
 ////+++++ Buttons +++++
@@ -216,6 +228,6 @@ export default StyleSheet.create({
     marginBottom: 15,
     marginTop: 15,
     borderRadius: 6,
-    backgroundColor: 'steelblue'
+    backgroundColor: '#1da1f2'
   }
 });
