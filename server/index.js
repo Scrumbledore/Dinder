@@ -12,7 +12,7 @@ require('./database/joins.js')(connection);
 app.set('port', config.port);
 
 // nuke the database by passing {force: true} inside sync()
-connection.sync().then(function () {
+connection.sync({force: true}).then(function () {
   app.listen(app.get('port'), function() {
     console.log('listening on port ', app.get('port'));
   });

@@ -1,4 +1,3 @@
-var Sequelize = require('sequelize');
 var request = require('request');
 var requestPromise = require('request-promise');
 var User = require('../database/models/user.js');
@@ -25,8 +24,6 @@ var trainingOptions = {
   iterations: 10000
 };
 
-var photos = [];
-
 var yelpOptions = function (options) {
   var search = typeof options === 'string' ? options
     : 'search?term='
@@ -45,18 +42,10 @@ var yelpOptions = function (options) {
   };
 };
 
-var findPlace = function (business) {
-  return Place.findOne({
-    where: {
-      name: business.name
-    }
-  });
-};
-
-var newPlace = function (business) {
-  return Place.build({
-    lat: business.coordinates.latitude || 0,
-    lon: business.coordinates.longitude || 0,
+var newPlace = function (business, res) {
+  Place.create({
+    lat: business.coordinates.latitude,
+    lon: business.coordinates.longitude,
     name: business.name,
     address: business.location.address1,
     city: business.location.city,
@@ -65,42 +54,25 @@ var newPlace = function (business) {
     url: business.image_url,
     rating: business.rating,
     price: business.price
-  });
+  })
+  .then(function (place) {
+    saveCategories(business.categories, place.id);
+    savePhotos(business.id, place.id, res);
+  })
+  .catch(function (err) {
+    throw err;
+  })
 };
 
 var saveCategories = function (categories, placeId) {
   categories.forEach(function (category) {
-    Category.findOne({
-      where: {
-        name: category.title
-      }
-    })
-    .then(function (record) {
-      if (!record) {
-        Category.create({
-          name: category.title,
-          PlaceId: placeId
-        });
-      }
+    Category.create({
+      name: category.title,
+      PlaceId: placeId
     })
     .catch(function (err) {
       throw err;
     });
-  });
-};
-
-var findPhoto = function (url) {
-  return Photo.findOne({
-    where: {
-      url: url
-    }
-  });
-};
-
-var newPhoto = function (url, placeId) {
-  return Photo.create({
-    url: url,
-    PlaceId: placeId
   });
 };
 
@@ -110,43 +82,47 @@ var savePhotos = function (businessId, placeId, res) {
     return JSON.parse(response).photos;
   })
   .then(function (images) {
+    var promises = []
     images.forEach(function (url) {
-      newPhoto(url, placeId)
-      .then(function (image) {
-        photos.push(image.toJSON());
-        if (photos.length === images.length) {
-          res.send(photos);
-        }
-      })
-      .catch(function (err) {
-        throw err;
-      });
+      promises.push(Photo.create({
+        url: url,
+        PlaceId: placeId
+      }));
     });
+    return Promise.all(promises);
+  })
+  .then(function (records) {
+    sendPhotos(records, res);
   })
   .catch(function (err) {
     throw err;
   });
-}
+};
 
-var getDatabasePhotos = function (placeId, res) {
-  Photo.findAll({
-    where: {
-      PlaceId: placeId
-    }
+var getSavedPhotos = function (placeId, res) {
+  Photo.findAll()
+  .then(function (records) {
+    sendPhotos(records.filter(function (record) {
+      return record.PlaceId === placeId;
+    }), res);
   })
-  .then(function (images) {
-    images.forEach(function (image) {
-      photos.push(image.toJSON());
-      if (photos.length === images.length) {
-        res.send(photos);
-      }
-    });
-  })
-}
+  .catch(function (err) {
+    throw err;
+  });
+};
+
+var sendPhotos = function (photos, res) {
+  res.json(photos.map(function (photo) {
+    return photo.toJSON();
+  }));
+};
 
 module.exports = {
 
   getPhotos: function (req, res) {
+
+    // remenmber to check if the photos are included in UserPhotos,
+    // and only return un-touched photos for the logged-in user
 
     var request = {
       keyword: req.params.query,
@@ -159,42 +135,20 @@ module.exports = {
       return JSON.parse(data).businesses;
     })
     .then(function(businesses) {
-
-      // check if the photos are included in UserPhotos!
-      // only return un-touched photos
-
-      var promises = [];
-
       businesses.forEach(function(business, bCount) {
-
-        promises.push(findPlace(business)
-        .then(function(record) {
-          if (!record) {
-            return newPlace(business);
-          } else {
-            return record;
+        Place.findOne({
+          where: {
+            name: business.name
           }
         })
-        .then(function (place) {
-          if (place.isNewRecord) {
-            place.save()
-            .then(function () {
-              saveCategories(business.categories, place.id);
-              savePhotos(business.id, place.id, res);
-            });
+        .then(function (record) {
+          if (record) {
+            getSavedPhotos(record.id, res);
           } else {
-            getDatabasePhotos(place.id, res);
+            newPlace(business, res);
           }
         });
-
       });
-
-      return Sequelize.Promise.all(promises);
-    })
-    .then(function (promised) {
-
-      // what is promised = an array
-
     })
     .catch(function (err) {
       throw err;
