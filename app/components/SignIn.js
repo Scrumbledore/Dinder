@@ -54,7 +54,7 @@ export default class SignIn extends Component {
         <View>
          <Image source={{uri: 'https://static.pexels.com/photos/5249/bread-food-restaurant-people.jpg'}} resizeMode="cover" style={styles.coverImage}/>
           <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80,top: -110}}>
-            Dinder
+            DinDin
           </Text>
         </View>
         <View style={styles.inputContainer}>

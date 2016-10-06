@@ -20,13 +20,13 @@ export default class SignUp extends Component {
 
   userSignUp() {
     return fetch(`${this.props.apiRoot}/api/signup`, {
-      method: 'POST', 
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ 
-        email: this.state.email, 
+      body: JSON.stringify({
+        email: this.state.email,
         password: this.state.password
       })
     })
@@ -39,7 +39,7 @@ export default class SignUp extends Component {
         Actions.tabbar();
 
       } else {
-        return res.error;        
+        return res.error;
       }
     })
     .catch((error) => {
@@ -52,7 +52,7 @@ export default class SignUp extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Dinder! Sign Up here!
+          Welcome to DinDin! Sign Up here!
         </Text>
 
         <View style={styles.inputContainer}>
@@ -61,7 +61,7 @@ export default class SignUp extends Component {
             placeholder='user@dinderdore.com'
             autoCorrect={false}
             autoCapitalize='none'
-            style={styles.textInputBox} 
+            style={styles.textInputBox}
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
           />
@@ -72,14 +72,14 @@ export default class SignUp extends Component {
             placeholder="password"
             secureTextEntry={true}
             autoCorrect={false}
-            style={styles.textInputBox} 
+            style={styles.textInputBox}
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
           </View>
 
           <View>
-            <Button 
+            <Button
               onPress={this.userSignUp.bind(this)}
               buttonStyle={styles.buttonBlue}
               title='Sign Up'

@@ -24,7 +24,7 @@ export default class Food extends Component {
       let lat = position.coords.latitude;
       let long = position.coords.longitude;
 
-      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/pizza`, // fixme: dummy data
+      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/food`, // fixme: dummy data
         {
           method: 'GET',
           headers: {
@@ -227,7 +227,7 @@ export default class Food extends Component {
           <Text style={styles.yuptext}>Yum!</Text>
         </Animated.View>
         <Animated.View style={[styles.nope, nopeStyle]}>
-          <Text style={styles.nopeText}>Barf!</Text>
+          <Text style={styles.nopeText}>Ehh!</Text>
         </Animated.View>
       </View>
     );
