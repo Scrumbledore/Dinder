@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View} from 'react-native';
+import { Text, View, Image} from 'react-native';
 
 import styles from '../styles/styles.js';
 
@@ -9,8 +9,9 @@ export default class Menu extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
+      <View style={styles.menuContainer}>
+        <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
+        <Text >
           Welcome to the Menu Page!
         </Text>
       </View>

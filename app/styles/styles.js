@@ -193,6 +193,16 @@ export default StyleSheet.create({
     color: 'red',
   },
 
+////+++++ Menu +++++
+  menuContainer: {
+    top: 20,
+    flex: 1
+  },
+
+  profile: {
+    height: 300,
+    width: 400
+  },
 //++++++++++++++++++++++++++
 //+++++ GENERAL STYLES +++++
 //++++++++++++++++++++++++++
