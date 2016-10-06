@@ -203,6 +203,11 @@ export default StyleSheet.create({
 
   profile: {
     height: 275,
+    flex: 1
+  },
+
+  userProfile: {
+    height: 300,
     width: 400
   },
 //++++++++++++++++++++++++++

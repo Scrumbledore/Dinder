@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, View,  ScrollView, Image, AsyncStorage, Actions} from 'react-native';
 import { Icon, Button} from 'react-native-elements';
 
+
+
 import styles from '../styles/styles.js';
 
 export default class Menu extends Component {
@@ -23,8 +25,8 @@ export default class Menu extends Component {
           scrollEventThrottle={200}
           styles={{top: 20}}
           >
+        <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
 
-          <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
         <Text >
           Welcome to the Menu Page!
         </Text>
