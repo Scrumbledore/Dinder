@@ -1,18 +1,30 @@
 var request = require('request');
 var expect = require('chai').expect;
-var config = require('../config.js');
+var jwt = require('jwt-simple');
 var connection = require('../server/database/database.js');
 var User = require('../server/database/models/user.js');
 var Photo = require('../server/database/models/photo.js');
 var Place = require('../server/database/models/place.js');
 var UserPhotos = require('../server/database/models/userPhotos.js');
+var config = require('../config.js');
 
 require('../server/database/joins.js')(connection);
 
 var api;
 var token;
-var instanceIds = {};
 var photos;
+
+var instances = {
+  User: {
+    schema: User,
+    email: 'test@example.com',
+    password: 'password'
+  },
+  Photo: {
+    schema: Photo,
+    info: 'test'
+  }
+};
 
 describe('Database Handlers', function () {
 
@@ -27,19 +39,25 @@ describe('Database Handlers', function () {
   });
 
   after(function (done) {
-    User.findOne({
-      where: {
-        email: 'test@example.com'
-      }
-    })
-    .then(function (user) {
-      if (user) {
-        user.destroy();
-      }
-      done();
-    })
-    .catch(function (err) {
-      done(err);
+    Object.keys(instances).forEach(function (model, i) {
+      instances[model].schema.findOne({
+        where: {
+          id: instances[model].id
+        }
+      })
+      .then(function (record) {
+        if (record) {
+          return record.destroy();
+        }
+      })
+      .then(function () {
+        if (i + 1 === Object.keys(instances).length) {
+          done();
+        }
+      })
+      .catch(function (err) {
+        done();
+      });
     });
   });
 
@@ -51,8 +69,8 @@ describe('Database Handlers', function () {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'test@example.com',
-        password: 'password'
+        email: instances['User'].email,
+        password: instances['User'].password
       })
     }, function (err, res, body) {
       if (err) {
@@ -61,6 +79,7 @@ describe('Database Handlers', function () {
       var parsed = JSON.parse(body);
       expect(parsed).to.have.ownProperty('token');
       token = parsed.token;
+      instances['User'].id = jwt.decode(token, config.JWT_SECRET).id;
       done();
     });
   });
@@ -73,8 +92,8 @@ describe('Database Handlers', function () {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'test@example.com',
-        password: 'password'
+        email: instances['User'].email,
+        password: instances['User'].password
       })
     }, function (err, res, body) {
       if (err) {
@@ -111,14 +130,14 @@ describe('Database Handlers', function () {
       }
       photos = JSON.parse(body);
       expect(Array.isArray(photos)).to.be.true;
-      instanceIds['Photo'] = photos[0].id;
+      instances['Photo'].id = photos[0].id;
       done();
     });
   });
 
   it('should persist user likes (swipe left/right)', function (done) {
 
-    var call = api + 'yes/' + instanceIds['Photo'];
+    var call = api + 'yes/' + instances['Photo'].id;
 
     request({
       method: 'POST',
@@ -140,7 +159,7 @@ describe('Database Handlers', function () {
 
     UserPhotos.findOne({
       where: {
-        PhotoId: instanceIds['Photo']
+        PhotoId: instances['Photo'].id
       }
     })
     .then(function (record) {
@@ -154,7 +173,7 @@ describe('Database Handlers', function () {
 
   it('should persist user favorites', function (done) {
 
-    var call = api + 'favorite/' + instanceIds['Photo'];
+    var call = api + 'favorite/' + instances['Photo'].id;
 
     request({
       method: 'POST',
@@ -169,7 +188,7 @@ describe('Database Handlers', function () {
       }
       UserPhotos.findOne({
         where: {
-          PhotoId: instanceIds['Photo']
+          PhotoId: instances['Photo'].id
         }
       })
       .then(function (record) {
@@ -209,7 +228,7 @@ describe('Database Handlers', function () {
 
         return !newPhotos.includes(photo);
 
-      })[0].id).to.equal(instanceIds['Photo']);
+      })[0].id).to.equal(instances['Photo'].id);
 
       done();
     });

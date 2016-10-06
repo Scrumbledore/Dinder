@@ -48,3 +48,6 @@ dinder.pem
 # ios and android builds
 ios/
 android/
+
+#coverage
+coverage/
