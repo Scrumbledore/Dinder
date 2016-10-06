@@ -12,6 +12,7 @@ require('../server/database/joins.js')(connection);
 var api;
 var token;
 var instanceIds = {};
+var photos;
 
 describe('Database Handlers', function () {
 
@@ -108,9 +109,9 @@ describe('Database Handlers', function () {
       if (err) {
         done(err);
       }
-      var parsed = JSON.parse(body);
-      expect(Array.isArray(parsed)).to.be.true;
-      instanceIds['Photo'] = parsed[0].id;
+      photos = JSON.parse(body);
+      expect(Array.isArray(photos)).to.be.true;
+      instanceIds['Photo'] = photos[0].id;
       done();
     });
   });
@@ -178,6 +179,39 @@ describe('Database Handlers', function () {
       .catch(function (err) {
         done(err);
       });
+    });
+  });
+
+  it('should not serve photos that the user has already touched', function (done) {
+    var lat = 39.3085;
+    var long = -76.6392;
+    var query = 'pizza';
+    var call = api + 'photo/' + lat + '/' + long + '/' + query;
+
+    this.timeout(0);
+
+    request({
+      method: 'GET',
+      url: call,
+      headers: {
+        'content-type': 'application/json',
+        'authorization': token
+      }
+    }, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      var newPhotos = JSON.parse(body);
+
+      expect(photos.length).to.not.equal(newPhotos.length);
+
+      expect(photos.filter(function (photo) {
+
+        return !newPhotos.includes(photo);
+
+      })[0].id).to.equal(instanceIds['Photo']);
+
+      done();
     });
   });
 

@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt-nodejs');
 module.exports = {
 
   signUp(req, res) {
+
     const email = req.body.email;
     const password = req.body.password;
 

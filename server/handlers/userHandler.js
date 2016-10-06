@@ -141,8 +141,23 @@ module.exports = {
       return Promise.all(promises);
     })
     .then(function () {
-      res.json(photos.map(function (photo) {
-        return photo.toJSON();
+      return UserPhotos.findAll({
+        where: {
+          UserId: req.userId
+        }
+      });
+    })
+    .then(function (sieve) {
+      res.json(photos.filter(function (photo) {
+        var touched;
+        for (var i=0; i<sieve.length; i++) {
+          if (sieve[i].PhotoId === photo.id) {
+            touched = true;
+          }
+        }
+        if (!touched) {
+          return photo;
+        }
       }));
     })
     .catch(function (err) {
