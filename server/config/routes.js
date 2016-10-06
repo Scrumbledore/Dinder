@@ -7,7 +7,7 @@ module.exports = function (app, express) {
   // this is root entry - only used for verify server, not in production app
   app.get('/', function (req, res) {
     res.json({
-      message: 'hello, world v3.0.6'
+      message: 'hello, world v3.0.7'
     });
   });
 
