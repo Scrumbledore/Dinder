@@ -74,6 +74,7 @@ export default class Dinder extends Component {
             apiRoot={this.state.apiRoot}
             title='Sign Up' />
           <Scene
+            type='replace'
             key='tabbar'
             tabs={true}>
             <Scene

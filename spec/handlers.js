@@ -13,63 +13,16 @@ var api;
 var token;
 var instanceIds = {};
 
-var models = [
-  // {
-  //   schema: User,
-  //   name: 'User',
-  //   options: {
-  //     email: 'test@example.com',
-  //     password: 'password'
-  //   }
-  // },
-  {
-    schema: Photo,
-    name: 'Photo',
-    options: {
-      info: 'test'
-    }
-  },
-  {
-    schema: Place,
-    name: 'Place',
-    options: {
-      name: 'example'
-    }
-  }
-];
-
 describe('Database Handlers', function () {
 
   before(function (done, next) {
-
     api = (process.env.NODE_ENV !== 'production'
         ? 'http://localhost'
         : config.apiRoot)
         + ':'
         + config.port
         + '/api/';
-
-    models.forEach(function (m, i) {
-      m.schema.findOne({
-        where: m.options
-      })
-      .then(function (record) {
-        if (!record) {
-          return m.schema.create(m.options);
-        } else {
-          return record;
-        }
-      })
-      .then(function (instance) {
-        instanceIds[m.name] = instance.id;
-        if (i + 1 === models.length) {
-          done();
-        }
-      })
-      .catch(function (err) {
-        done(err);
-      });
-    });
+    done();
   });
 
   after(function (done) {
@@ -79,29 +32,15 @@ describe('Database Handlers', function () {
       }
     })
     .then(function (user) {
-      user.destroy();
+      if (user) {
+        user.destroy()
+        .then(done);
+      } else {
+        done();
+      }
     })
     .catch(function (err) {
       done(err);
-    });
-
-    models.forEach(function (m, i) {
-      m.schema.findOne({
-        where: m.options
-      })
-      .then(function (record) {
-        if (record) {
-          return record.destroy();
-        }
-      })
-      .then(function () {
-        if (i + 1 === models.length) {
-          done();
-        }
-      })
-      .catch(function (err) {
-        done(err);
-      });
     });
   });
 
@@ -121,14 +60,11 @@ describe('Database Handlers', function () {
         done(err);
       }
       var parsed = JSON.parse(body);
-      expect(parsed).to.be.ok;
       expect(parsed).to.have.ownProperty('token');
       token = parsed.token;
       done();
     });
   });
-
-  xit('should sign out users');
 
   it('should not sign up users with duplicate email addresses', function (done) {
     request({
@@ -150,8 +86,36 @@ describe('Database Handlers', function () {
       done();
     });
   });
+  xit('should sign out users');
+
 
   xit('should sign in users and return a JWT token');
+
+  it('should query Yelp and return photos based on user location', function (done) {
+    var lat = 39.3085;
+    var long = -76.6392;
+    var query ='pizza';
+    var call = api + 'photo/' + lat + '/' + long + '/' + query;
+
+    this.timeout(0);
+
+    request({
+      method: 'GET',
+      url: call,
+      headers: {
+        'content-type': 'application/json',
+        'authorization': token
+      }
+    }, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      var parsed = JSON.parse(body);
+      expect(Array.isArray(parsed)).to.be.true;
+      instanceIds['photo'] = parsed[0].id;
+      done();
+    });
+  });
 
   it('should persist user likes (swipe left/right)', function (done) {
 

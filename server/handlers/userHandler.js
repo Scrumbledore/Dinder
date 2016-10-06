@@ -1,3 +1,4 @@
+var Sequelize = require('sequelize');
 var request = require('request');
 var requestPromise = require('request-promise');
 var User = require('../database/models/user.js');
@@ -7,10 +8,7 @@ var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
 var config = require('../../config.js');
 
-
-
 var synapticRec = require('../../machineLearning/synapticRecommendations.js');
-
 
 var synaptic = require('synaptic');
 var Architect = synaptic.Architect;
@@ -26,6 +24,8 @@ var trainingOptions = {
   error: 0.005,
   iterations: 10000
 };
+
+var photos = [];
 
 var yelpOptions = function (options) {
   var search = typeof options === 'string' ? options
@@ -54,7 +54,7 @@ var findPlace = function (business) {
 };
 
 var newPlace = function (business) {
-  return Place.create({
+  return Place.build({
     lat: business.coordinates.latitude || 0,
     lon: business.coordinates.longitude || 0,
     name: business.name,
@@ -104,11 +104,49 @@ var newPhoto = function (url, placeId) {
   });
 };
 
+var savePhotos = function (businessId, placeId, res) {
+  requestPromise(yelpOptions(businessId))
+  .then(function (response) {
+    return JSON.parse(response).photos;
+  })
+  .then(function (images) {
+    images.forEach(function (url) {
+      newPhoto(url, placeId)
+      .then(function (image) {
+        photos.push(image.toJSON());
+        if (photos.length === images.length) {
+          res.send(photos);
+        }
+      })
+      .catch(function (err) {
+        throw err;
+      });
+    });
+  })
+  .catch(function (err) {
+    throw err;
+  });
+}
+
+var getDatabasePhotos = function (placeId, res) {
+  Photo.findAll({
+    where: {
+      PlaceId: placeId
+    }
+  })
+  .then(function (images) {
+    images.forEach(function (image) {
+      photos.push(image.toJSON());
+      if (photos.length === images.length) {
+        res.send(photos);
+      }
+    });
+  })
+}
+
 module.exports = {
 
   getPhotos: function (req, res) {
-
-    var photos = [];
 
     var request = {
       keyword: req.params.query,
@@ -121,8 +159,15 @@ module.exports = {
       return JSON.parse(data).businesses;
     })
     .then(function(businesses) {
+
+      // check if the photos are included in UserPhotos!
+      // only return un-touched photos
+
+      var promises = [];
+
       businesses.forEach(function(business, bCount) {
-        findPlace(business)
+
+        promises.push(findPlace(business)
         .then(function(record) {
           if (!record) {
             return newPlace(business);
@@ -131,32 +176,25 @@ module.exports = {
           }
         })
         .then(function (place) {
-          saveCategories(business.categories, place.id);
-          requestPromise(yelpOptions(business.id))
-          .then(function (data) {
-            return JSON.parse(data).photos;
-          })
-          .then(function (images) {
-            images.forEach(function (url, pCount) {
-              findPhoto(url)
-              .then(function (record) {
-                if (!record) {
-                  return newPhoto(url, place.id);
-                } else {
-                  return record;
-                }
-              })
-              .then(function (image) {
-                photos.push(image.toJSON());
-                if (bCount + 1 === businesses.length
-                  && pCount + 1 === images.length) {
-                  res.json(photos);
-                }
-              });
+          if (place.isNewRecord) {
+            place.save()
+            .then(function () {
+              saveCategories(business.categories, place.id);
+              savePhotos(business.id, place.id, res);
             });
-          });
+          } else {
+            getDatabasePhotos(place.id, res);
+          }
         });
+
       });
+
+      return Sequelize.Promise.all(promises);
+    })
+    .then(function (promised) {
+
+      // what is promised = an array
+
     })
     .catch(function (err) {
       throw err;
