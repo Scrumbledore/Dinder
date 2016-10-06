@@ -9,6 +9,7 @@ import {
 import styles from '../styles/styles';
 
 import CameraRollPicker from 'react-native-camera-roll-picker';
+import { Button } from 'react-native-elements';
 
 export default class CameraRoll extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ export default class CameraRoll extends Component {
     this.state = {
       num: 0,
       selected: [],
+      uploadSuccess: ''
     };
   }
 
@@ -32,13 +34,23 @@ export default class CameraRoll extends Component {
     console.log(this.state.selected);
   }
 
+  renderSuccessMessage() {
+
+    this.setState({
+      uploadSuccess: 'Upload Successful!'
+    });
+  }
+
   render() {
     return (
-      <View style={styles.CRcontainer}>
+      <View style={styles.container}>
         <View style={styles.CRcontent}>
-          <Text style={styles.CRtext}>
-            <Text style={styles.CRbold}> {this.state.num} </Text> image(s) selected
-          </Text>
+          
+          <Button
+            onPress={this.renderSuccessMessage.bind(this)}
+            buttonStyle={styles.buttonBlue}
+            title='Upload My Picture' />
+        <Text style={styles.CRtext}>{this.state.uploadSuccess}</Text>
         </View>
         <CameraRollPicker
           scrollRenderAheadDistance={500}
@@ -53,6 +65,7 @@ export default class CameraRoll extends Component {
           imagesPerRow={3}
           imageMargin={5}
           callback={this.getSelectedImages.bind(this)} />
+        
       </View>
     );
   }

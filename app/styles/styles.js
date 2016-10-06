@@ -9,11 +9,10 @@ export default StyleSheet.create({
 ////+++++ Camera Roll +++++
   CRcontainer: {
     flex: 1,
-    backgroundColor: '#F6AE2D',
+    backgroundColor: '#F6AE2D'
   },
   CRcontent: {
     marginTop: 15,
-    height: 50,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
