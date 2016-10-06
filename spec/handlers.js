@@ -33,11 +33,9 @@ describe('Database Handlers', function () {
     })
     .then(function (user) {
       if (user) {
-        user.destroy()
-        .then(done);
-      } else {
-        done();
+        user.destroy();
       }
+      done();
     })
     .catch(function (err) {
       done(err);
@@ -94,7 +92,7 @@ describe('Database Handlers', function () {
   it('should query Yelp and return photos based on user location', function (done) {
     var lat = 39.3085;
     var long = -76.6392;
-    var query ='pizza';
+    var query = 'pizza';
     var call = api + 'photo/' + lat + '/' + long + '/' + query;
 
     this.timeout(0);
@@ -112,7 +110,7 @@ describe('Database Handlers', function () {
       }
       var parsed = JSON.parse(body);
       expect(Array.isArray(parsed)).to.be.true;
-      instanceIds['photo'] = parsed[0].id;
+      instanceIds['Photo'] = parsed[0].id;
       done();
     });
   });

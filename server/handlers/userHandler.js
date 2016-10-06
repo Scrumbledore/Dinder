@@ -42,8 +42,8 @@ var yelpOptions = function (options) {
   };
 };
 
-var newPlace = function (business, res) {
-  Place.create({
+var newPlace = function (business) {
+  return Place.create({
     lat: business.coordinates.latitude,
     lon: business.coordinates.longitude,
     name: business.name,
@@ -57,11 +57,8 @@ var newPlace = function (business, res) {
   })
   .then(function (place) {
     saveCategories(business.categories, place.id);
-    savePhotos(business.id, place.id, res);
-  })
-  .catch(function (err) {
-    throw err;
-  })
+    return getNewPhotos(business.id, place.id);
+  });
 };
 
 var saveCategories = function (categories, placeId) {
@@ -76,45 +73,31 @@ var saveCategories = function (categories, placeId) {
   });
 };
 
-var savePhotos = function (businessId, placeId, res) {
-  requestPromise(yelpOptions(businessId))
+var getNewPhotos = function (businessId, placeId) {
+  return requestPromise(yelpOptions(businessId))
   .then(function (response) {
     return JSON.parse(response).photos;
   })
   .then(function (images) {
-    var promises = []
+    var promises = [];
+
     images.forEach(function (url) {
       promises.push(Photo.create({
         url: url,
         PlaceId: placeId
       }));
     });
+
     return Promise.all(promises);
-  })
-  .then(function (records) {
-    sendPhotos(records, res);
-  })
-  .catch(function (err) {
-    throw err;
   });
 };
 
-var getSavedPhotos = function (placeId, res) {
-  Photo.findAll()
-  .then(function (records) {
-    sendPhotos(records.filter(function (record) {
-      return record.PlaceId === placeId;
-    }), res);
-  })
-  .catch(function (err) {
-    throw err;
+var getSavedPhotos = function (placeId) {
+  return Photo.findAll({
+    where: {
+      PlaceId: placeId
+    }
   });
-};
-
-var sendPhotos = function (photos, res) {
-  res.json(photos.map(function (photo) {
-    return photo.toJSON();
-  }));
 };
 
 module.exports = {
@@ -123,6 +106,8 @@ module.exports = {
 
     // remenmber to check if the photos are included in UserPhotos,
     // and only return un-touched photos for the logged-in user
+
+    var photos = [];
 
     var request = {
       keyword: req.params.query,
@@ -135,20 +120,30 @@ module.exports = {
       return JSON.parse(data).businesses;
     })
     .then(function(businesses) {
-      businesses.forEach(function(business, bCount) {
-        Place.findOne({
+      var promises = [];
+      businesses.forEach(function(business) {
+        promises.push(Place.findOne({
           where: {
             name: business.name
           }
         })
         .then(function (record) {
           if (record) {
-            getSavedPhotos(record.id, res);
+            return getSavedPhotos(record.id);
           } else {
-            newPlace(business, res);
+            return newPlace(business);
           }
-        });
+        })
+        .then (function (images) {
+          photos = photos.concat(images);
+        }));
       });
+      return Promise.all(promises);
+    })
+    .then(function () {
+      res.json(photos.map(function (photo) {
+        return photo.toJSON();
+      }));
     })
     .catch(function (err) {
       throw err;
