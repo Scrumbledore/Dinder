@@ -28,7 +28,7 @@ var instances = {
 
 describe('Database Handlers', function () {
 
-  before(function (done, next) {
+  before(function (done) {
     api = (process.env.NODE_ENV !== 'production'
         ? 'http://localhost'
         : config.apiRoot)
@@ -104,8 +104,8 @@ describe('Database Handlers', function () {
       done();
     });
   });
-  xit('should sign out users');
 
+  xit('should sign out users');
 
   xit('should sign in users and return a JWT token');
 
@@ -128,6 +128,7 @@ describe('Database Handlers', function () {
       }
       photos = JSON.parse(body);
       expect(Array.isArray(photos)).to.be.true;
+      expect(photos.length).to.be.ok;
       instances['Photo'].id = photos[0].id;
       done();
     });
