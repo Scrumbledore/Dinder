@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Icon, Button } from 'react-native-elements';
 import { Text, View, TextInput, AsyncStorage, Navigator } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
 
 import styles from '../styles/styles.js';
 
