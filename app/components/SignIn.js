@@ -37,12 +37,10 @@ export default class SignIn extends Component {
     .then((res) => {
       if (!res.error) {
         AsyncStorage.setItem('jwt', res.token);
-        console.log('signin jwt', res.token);
         Actions.tabbar();
       }
     })
     .catch((error) => {
-      console.log(error);
       this.setState({error: 'Sign In Error!'});
     })
     .done();

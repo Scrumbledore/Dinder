@@ -19,47 +19,6 @@ export default class Food extends Component {
     };
   }
 
-  getPhotos () {
-    navigator.geolocation.getCurrentPosition((position) => {
-      let lat = position.coords.latitude;
-      let long = position.coords.longitude;
-
-      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/food`, // fixme: dummy data
-        {
-          method: 'GET',
-          headers: {
-            authorization: this.state.token
-          }
-        }
-      )
-      .then((data) => data.json())
-      .then((photos) => {
-        this.setState({
-          cards: photos,
-          loaded: true
-        });
-        this.fadeIn();
-      })
-      .catch((err) => console.log(err));
-
-    }, (error) => {
-      alert('Please enable location services.');
-    }, {
-      enableHighAccurracy: true,
-      timeout: 20000,
-      maxinumAge: 1000
-    });
-  }
-
-  componentDidMount () {
-    AsyncStorage.getItem('jwt')
-    .then((token) => {
-      this.setState({
-        token: token
-      }, this.getPhotos);
-    }).done();
-  }
-
   componentWillMount() {
     this.panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
@@ -100,6 +59,45 @@ export default class Food extends Component {
     });
   }
 
+  componentDidMount () {
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      this.setState({
+        token: token
+      }, this.getPhotos);
+    }).done();
+  }
+
+  getPhotos () {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let long = position.coords.longitude;
+      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/food`, // fixme: dummy data
+        {
+          method: 'GET',
+          headers: {
+            authorization: this.state.token
+          }
+        }
+      )
+      .then((data) => data.json())
+      .then((photos) => {
+        this.setState({
+          cards: photos,
+          loaded: true
+        });
+        this.fadeIn();
+      })
+      .catch((err) => console.log(err));
+    }, (error) => {
+      alert('Please enable location services.');
+    }, {
+      enableHighAccurracy: true,
+      timeout: 20000,
+      maxinumAge: 1000
+    });
+  }
+
   popCard () {
     this.state.swipe.setValue({
       x: 0,
@@ -134,19 +132,15 @@ export default class Food extends Component {
   }
 
   exchange (endpoint, id) {
-    AsyncStorage.getItem('jwt')
-    .then((token) => {
-      fetch(`${this.props.apiRoot}/api/${endpoint}/${id}`,
-        {
-          method: 'POST',
-          headers: {
-            authorization: token
-          }
+    fetch(`${this.props.apiRoot}/api/${endpoint}/${id}`,
+      {
+        method: 'POST',
+        headers: {
+          authorization: this.state.token
         }
-      )
-      // .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-    }).done();
+      }
+    )
+    .catch((err) => console.log(err));
   }
 
   renderCard () {

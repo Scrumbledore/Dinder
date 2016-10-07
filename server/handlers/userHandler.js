@@ -80,14 +80,12 @@ var getNewPhotos = function (businessId, placeId) {
   })
   .then(function (images) {
     var promises = [];
-
     images.forEach(function (url) {
       promises.push(Photo.create({
         url: url,
         PlaceId: placeId
       }));
     });
-
     return Promise.all(promises);
   });
 };
@@ -103,15 +101,12 @@ var getSavedPhotos = function (placeId) {
 module.exports = {
 
   getPhotos: function (req, res) {
-
     var photos = [];
-
     var request = {
       keyword: req.params.query,
       lat: req.params.lat,
       long: req.params.long
     };
-
     requestPromise(yelpOptions(request))
     .then(function(data) {
       return JSON.parse(data).businesses;
