@@ -25,7 +25,6 @@ export default class Menu extends Component {
           styles={{top: 20}}
           >
         <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.userProfile}/>
-
         <Text >
           Welcome to the Menu Page!
         </Text>

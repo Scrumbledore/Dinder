@@ -7,7 +7,7 @@ import styles from '../styles/styles.js';
 import {Actions} from 'react-native-redux-router';
 
 var config = require('../../config.js');
-var SWIPE_THRESHOLD = 120;
+var SWIPE_THRESHOLD = 96;
 
 export default class Food extends Component {
   constructor (props) {
@@ -54,7 +54,7 @@ export default class Food extends Component {
               x: 0,
               y: 0
             },
-            friction: 4
+            friction: 3
           }).start();
         }
       }
@@ -95,7 +95,7 @@ export default class Food extends Component {
       alert('Please enable location services.');
     }, {
       enableHighAccurracy: true,
-      timeout: 20000,
+      timeout: 2000,
       maxinumAge: 1000
     });
   }
@@ -116,7 +116,8 @@ export default class Food extends Component {
   fadeIn () {
     Animated.spring(this.state.enter, {
       toValue: 1,
-      friction: 5
+      delay: 250,
+      tension: 20
     }).start();
   }
 
@@ -155,7 +156,7 @@ export default class Food extends Component {
     let opacity = pan.x.interpolate({
       inputRange: [-200, 0, 200],
       outputRange: [0, 1, 0]
-    });
+    }) * this.state.enter;
     let animatedCardstyles = {
       transform: [
         {translateX},
@@ -240,8 +241,9 @@ export default class Food extends Component {
               : this.renderNoMore())}
 
         <Animated.View style={[styles.yup, yupStyle]}>
-          <Text style={styles.yuptext}>Yum!</Text>
+          <Text style={styles.yupText}>Yum!</Text>
         </Animated.View>
+
         <Animated.View style={[styles.nope, nopeStyle]}>
           <Text style={styles.nopeText}>Ehh!</Text>
         </Animated.View>

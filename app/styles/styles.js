@@ -175,7 +175,7 @@ export default StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: '#fafafa'
+    backgroundColor: 'hsla(0,0%,100%,0.8)'
   },
   yup: {
     borderColor: 'green',
