@@ -256,7 +256,7 @@ export default StyleSheet.create({
     width: 400,
     opacity: 0.5,
     position: 'absolute',
-    top:-200,
+    top: -200,
     right: 0,
     bottom: 0,
     alignSelf: 'stretch',

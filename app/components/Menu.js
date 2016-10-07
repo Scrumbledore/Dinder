@@ -3,7 +3,6 @@ import { Text, View,  ScrollView, Image, AsyncStorage, Actions} from 'react-nati
 import { Icon, Button} from 'react-native-elements';
 
 
-
 import styles from '../styles/styles.js';
 
 export default class Menu extends Component {
@@ -31,15 +30,15 @@ export default class Menu extends Component {
           Welcome to the Menu Page!
         </Text>
 
-        <View style={{height: 30, width:300}}>
+        <View style={{height: 30, width: 300}}>
 
         </View>
         </ScrollView>
         <Button
           onPress={this.userLogout.bind(this)}
           buttonStyle={{
-            width:100,
-            height:50,
+            width: 100,
+            height: 50,
             borderRadius: 6,
             backgroundColor: '#1da1f2',
           }}
