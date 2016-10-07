@@ -29,8 +29,7 @@ export default class Menu extends Component {
         <Text >
           Welcome to the Menu Page!
         </Text>
-
-        <View style={{height: 30, width: 300}}>
+        <View style={{height: 30, width:v300}}>
 
         </View>
         </ScrollView>
@@ -38,9 +37,7 @@ export default class Menu extends Component {
           onPress={this.userLogout.bind(this)}
           buttonStyle={{
             width: 100,
-            height: 50,
-            borderRadius: 6,
-            backgroundColor: '#1da1f2',
+            height: 50
           }}
           title='Log out'
         />
