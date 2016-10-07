@@ -7,10 +7,7 @@ var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
 var config = require('../../config.js');
 
-
-
 var synapticRec = require('../../machineLearning/synapticRecommendations.js');
-
 
 var synaptic = require('synaptic');
 var Architect = synaptic.Architect;
@@ -45,18 +42,10 @@ var yelpOptions = function (options) {
   };
 };
 
-var findPlace = function (business) {
-  return Place.findOne({
-    where: {
-      name: business.name
-    }
-  });
-};
-
 var newPlace = function (business) {
   return Place.create({
-    lat: business.coordinates.latitude || 0,
-    lon: business.coordinates.longitude || 0,
+    lat: business.coordinates.latitude,
+    lon: business.coordinates.longitude,
     name: business.name,
     address: business.location.address1,
     city: business.location.city,
@@ -65,23 +54,18 @@ var newPlace = function (business) {
     url: business.image_url,
     rating: business.rating,
     price: business.price
+  })
+  .then(function (place) {
+    saveCategories(business.categories, place.id);
+    return getNewPhotos(business.id, place.id);
   });
 };
 
 var saveCategories = function (categories, placeId) {
   categories.forEach(function (category) {
-    Category.findOne({
-      where: {
-        name: category.title
-      }
-    })
-    .then(function (record) {
-      if (!record) {
-        Category.create({
-          name: category.title,
-          PlaceId: placeId
-        });
-      }
+    Category.create({
+      name: category.title,
+      PlaceId: placeId
     })
     .catch(function (err) {
       throw err;
@@ -89,18 +73,30 @@ var saveCategories = function (categories, placeId) {
   });
 };
 
-var findPhoto = function (url) {
-  return Photo.findOne({
-    where: {
-      url: url
-    }
+var getNewPhotos = function (businessId, placeId) {
+  return requestPromise(yelpOptions(businessId))
+  .then(function (response) {
+    return JSON.parse(response).photos;
+  })
+  .then(function (images) {
+    var promises = [];
+
+    images.forEach(function (url) {
+      promises.push(Photo.create({
+        url: url,
+        PlaceId: placeId
+      }));
+    });
+
+    return Promise.all(promises);
   });
 };
 
-var newPhoto = function (url, placeId) {
-  return Photo.create({
-    url: url,
-    PlaceId: placeId
+var getSavedPhotos = function (placeId) {
+  return Photo.findAll({
+    where: {
+      PlaceId: placeId
+    }
   });
 };
 
@@ -121,42 +117,45 @@ module.exports = {
       return JSON.parse(data).businesses;
     })
     .then(function(businesses) {
-      businesses.forEach(function(business, bCount) {
-        findPlace(business)
-        .then(function(record) {
-          if (!record) {
-            return newPlace(business);
-          } else {
-            return record;
+      var promises = [];
+      businesses.forEach(function(business) {
+        promises.push(Place.findOne({
+          where: {
+            name: business.name
           }
         })
-        .then(function (place) {
-          saveCategories(business.categories, place.id);
-          requestPromise(yelpOptions(business.id))
-          .then(function (data) {
-            return JSON.parse(data).photos;
-          })
-          .then(function (images) {
-            images.forEach(function (url, pCount) {
-              findPhoto(url)
-              .then(function (record) {
-                if (!record) {
-                  return newPhoto(url, place.id);
-                } else {
-                  return record;
-                }
-              })
-              .then(function (image) {
-                photos.push(image.toJSON());
-                if (bCount + 1 === businesses.length
-                  && pCount + 1 === images.length) {
-                  res.json(photos);
-                }
-              });
-            });
-          });
-        });
+        .then(function (record) {
+          if (record) {
+            return getSavedPhotos(record.id);
+          } else {
+            return newPlace(business);
+          }
+        })
+        .then (function (images) {
+          photos = photos.concat(images);
+        }));
       });
+      return Promise.all(promises);
+    })
+    .then(function () {
+      return UserPhotos.findAll({
+        where: {
+          UserId: req.userId
+        }
+      });
+    })
+    .then(function (sieve) {
+      res.json(photos.filter(function (photo) {
+        var touched;
+        for (var i=0; i<sieve.length; i++) {
+          if (sieve[i].PhotoId === photo.id) {
+            touched = true;
+          }
+        }
+        if (!touched) {
+          return photo;
+        }
+      }));
     })
     .catch(function (err) {
       throw err;

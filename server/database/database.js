@@ -11,14 +11,4 @@ var connection = new Sequelize(config.DB_NAME, config.DB_USERNAME, config.DB_PAS
   logging: false
 });
 
-// var connection = new Sequelize('dinder', 'esoh', 'esoh', {
-//   host: 'localhost',
-//   dialect: 'postgres',
-//   pool: {
-//     max: 5,
-//     min: 0,
-//     idle: 10000,
-//   },
-// });
-
 module.exports = connection;
