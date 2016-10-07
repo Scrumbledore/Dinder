@@ -196,11 +196,13 @@ export default StyleSheet.create({
 ////+++++ Menu +++++
   menuContainer: {
     top: 20,
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   profile: {
-    height: 300,
+    height: 275,
     width: 400
   },
 //++++++++++++++++++++++++++
