@@ -1,93 +1,49 @@
 var request = require('request');
 var expect = require('chai').expect;
-var config = require('../config.js');
+var jwt = require('jwt-simple');
 var connection = require('../server/database/database.js');
 var User = require('../server/database/models/user.js');
 var Photo = require('../server/database/models/photo.js');
 var Place = require('../server/database/models/place.js');
 var UserPhotos = require('../server/database/models/userPhotos.js');
+var config = require('../config.js');
 
 require('../server/database/joins.js')(connection);
 
 var api;
 var token;
-var instanceIds = {};
+var photos;
 
-var models = [
-  // {
-  //   schema: User,
-  //   name: 'User',
-  //   options: {
-  //     email: 'test@example.com',
-  //     password: 'password'
-  //   }
-  // },
-  {
-    schema: Photo,
-    name: 'Photo',
-    options: {
-      info: 'test'
-    }
+var instances = {
+  User: {
+    schema: User,
+    email: 'test@example.com',
+    password: 'password'
   },
-  {
-    schema: Place,
-    name: 'Place',
-    options: {
-      name: 'example'
-    }
+  Photo: {
+    schema: Photo,
+    info: 'test'
   }
-];
+};
 
 describe('Database Handlers', function () {
 
   before(function (done, next) {
-
     api = (process.env.NODE_ENV !== 'production'
         ? 'http://localhost'
         : config.apiRoot)
         + ':'
         + config.port
         + '/api/';
-
-    models.forEach(function (m, i) {
-      m.schema.findOne({
-        where: m.options
-      })
-      .then(function (record) {
-        if (!record) {
-          return m.schema.create(m.options);
-        } else {
-          return record;
-        }
-      })
-      .then(function (instance) {
-        instanceIds[m.name] = instance.id;
-        if (i + 1 === models.length) {
-          done();
-        }
-      })
-      .catch(function (err) {
-        done(err);
-      });
-    });
+    done();
   });
 
   after(function (done) {
-    User.findOne({
-      where: {
-        email: 'test@example.com'
-      }
-    })
-    .then(function (user) {
-      user.destroy();
-    })
-    .catch(function (err) {
-      done(err);
-    });
-
-    models.forEach(function (m, i) {
-      m.schema.findOne({
-        where: m.options
+    Object.keys(instances).forEach(function (model, i) {
+      instances[model].schema.findOne({
+        where: {
+          id: instances[model].id
+        }
       })
       .then(function (record) {
         if (record) {
@@ -95,12 +51,12 @@ describe('Database Handlers', function () {
         }
       })
       .then(function () {
-        if (i + 1 === models.length) {
+        if (i + 1 === Object.keys(instances).length) {
           done();
         }
       })
       .catch(function (err) {
-        done(err);
+        done();
       });
     });
   });
@@ -113,22 +69,20 @@ describe('Database Handlers', function () {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'test@example.com',
-        password: 'password'
+        email: instances['User'].email,
+        password: instances['User'].password
       })
     }, function (err, res, body) {
       if (err) {
         done(err);
       }
       var parsed = JSON.parse(body);
-      expect(parsed).to.be.ok;
       expect(parsed).to.have.ownProperty('token');
       token = parsed.token;
+      instances['User'].id = jwt.decode(token, config.JWT_SECRET).id;
       done();
     });
   });
-
-  xit('should sign out users');
 
   it('should not sign up users with duplicate email addresses', function (done) {
     request({
@@ -138,8 +92,8 @@ describe('Database Handlers', function () {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'test@example.com',
-        password: 'password'
+        email: instances['User'].email,
+        password: instances['User'].password
       })
     }, function (err, res, body) {
       if (err) {
@@ -150,13 +104,37 @@ describe('Database Handlers', function () {
       done();
     });
   });
+  xit('should sign out users');
+
 
   xit('should sign in users and return a JWT token');
 
+  it('should query Yelp and return photos based on user location', function (done) {
+    var lat = 39.3085;
+    var long = -76.6392;
+    var query = 'pizza';
+    var call = api + 'photo/' + lat + '/' + long + '/' + query;
+    this.timeout(0);
+    request({
+      method: 'GET',
+      url: call,
+      headers: {
+        'content-type': 'application/json',
+        'authorization': token
+      }
+    }, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      photos = JSON.parse(body);
+      expect(Array.isArray(photos)).to.be.true;
+      instances['Photo'].id = photos[0].id;
+      done();
+    });
+  });
+
   it('should persist user likes (swipe left/right)', function (done) {
-
-    var call = api + 'yes/' + instanceIds['Photo'];
-
+    var call = api + 'yes/' + instances['Photo'].id;
     request({
       method: 'POST',
       url: call,
@@ -174,10 +152,9 @@ describe('Database Handlers', function () {
   });
 
   it('should default to favorited = false for photos', function (done) {
-
     UserPhotos.findOne({
       where: {
-        PhotoId: instanceIds['Photo']
+        PhotoId: instances['Photo'].id
       }
     })
     .then(function (record) {
@@ -190,9 +167,7 @@ describe('Database Handlers', function () {
   });
 
   it('should persist user favorites', function (done) {
-
-    var call = api + 'favorite/' + instanceIds['Photo'];
-
+    var call = api + 'favorite/' + instances['Photo'].id;
     request({
       method: 'POST',
       url: call,
@@ -206,7 +181,7 @@ describe('Database Handlers', function () {
       }
       UserPhotos.findOne({
         where: {
-          PhotoId: instanceIds['Photo']
+          PhotoId: instances['Photo'].id
         }
       })
       .then(function (record) {
@@ -216,6 +191,32 @@ describe('Database Handlers', function () {
       .catch(function (err) {
         done(err);
       });
+    });
+  });
+
+  it('should not serve photos that the user has already touched', function (done) {
+    var lat = 39.3085;
+    var long = -76.6392;
+    var query = 'pizza';
+    var call = api + 'photo/' + lat + '/' + long + '/' + query;
+    this.timeout(0);
+    request({
+      method: 'GET',
+      url: call,
+      headers: {
+        'content-type': 'application/json',
+        'authorization': token
+      }
+    }, function (err, res, body) {
+      if (err) {
+        done(err);
+      }
+      var newPhotos = JSON.parse(body);
+      expect(photos.length).to.not.equal(newPhotos.length);
+      expect(photos.filter(function (photo) {
+        return !newPhotos.includes(photo);
+      })[0].id).to.equal(instances['Photo'].id);
+      done();
     });
   });
 

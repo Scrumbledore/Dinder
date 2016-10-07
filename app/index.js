@@ -48,14 +48,14 @@ export default class Dinder extends Component {
     };
   }
 
-  // componentWillMount() {
-  //   AsyncStorage.getItem('jwt')
-  //   .then((value) => {
-  //     if (value) {
-  //       Actions.tabbar();
-  //     }
-  //   }).done();
-  // }
+  componentWillMount() {
+    AsyncStorage.getItem('jwt')
+    .then((value) => {
+      if (value) {
+        Actions.tabbar();
+      }
+    }).done();
+  }
 
   render() {
     return (
@@ -74,6 +74,7 @@ export default class Dinder extends Component {
             apiRoot={this.state.apiRoot}
             title='Sign Up' />
           <Scene
+            type='replace'
             key='tabbar'
             tabs={true}>
             <Scene
