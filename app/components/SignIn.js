@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Icon, Button, Navigator} from 'react-native-elements';
 import { Text, Image, View, TouchableOpacity, AsyncStorage, TextInput } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
 
 import index from '../index';
 import styles from '../styles/styles.js';
@@ -37,7 +37,12 @@ export default class SignIn extends Component {
     .then((res) => {
       if (!res.error) {
         AsyncStorage.setItem('jwt', res.token);
+<<<<<<< d705c040963d6f1a0b50640d601515f57ca0a38b
         Actions.tabbar();
+=======
+        console.log('signin jwt', res.token);
+        Actions.food();
+>>>>>>> Updated components to use redux and redux actions.
       }
     })
     .catch((error) => {
