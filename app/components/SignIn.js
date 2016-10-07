@@ -52,7 +52,7 @@ export default class SignIn extends Component {
     return (
       <View style={styles.container}>
         <View>
-         <Image source={{uri: 'https://static.pexels.com/photos/5249/bread-food-restaurant-people.jpg'}} resizeMode="cover" style={styles.coverImage}/>
+         <Image source={require('./assets/food.jpg')} resizeMode="cover" style={styles.coverImage}/>
           <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80,top: -110}}>
             DinDin
           </Text>
@@ -71,13 +71,13 @@ export default class SignIn extends Component {
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>password:</Text>
             <TouchableOpacity style={{
-    paddingRight: 5,
-    paddingLeft: 5,
-    marginRight: 5,
-    marginLeft: 5,
-    flex: 3,
-    borderColor: 'red',
-  }} >
+              paddingRight: 5,
+              paddingLeft: 5,
+              marginRight: 5,
+              marginLeft: 5,
+              flex: 3,
+              borderColor: 'red',
+            }} >
             <TextInput
               placeholder="password"
               secureTextEntry={true}
