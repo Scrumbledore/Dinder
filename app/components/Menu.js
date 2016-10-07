@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,  ScrollView, Image} from 'react-native';
+import { Text, View,  ScrollView, Image, AsyncStorage, Actions} from 'react-native';
 import { Icon, Button} from 'react-native-elements';
 
 import styles from '../styles/styles.js';
@@ -9,12 +9,15 @@ export default class Menu extends Component {
     super(props);
   }
   userLogout() {
-    console.log('I am logging out now !');
+    AsyncStorage.removeItem('jwt')
+    .then((value) => {
+      console.log('removed JWT2',value);
+      Actions.signin();
+    }).done();
   }
   render() {
     return (
       <View style={styles.menuContainer}>
-        <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
          <ScrollView
           onScroll={() => { console.log('onScroll!'); }}
           scrollEventThrottle={200}
@@ -25,12 +28,14 @@ export default class Menu extends Component {
         <Text >
           Welcome to the Menu Page!
         </Text>
+
+        <View style={{height: 30, width:300}}>
+
+        </View>
+        </ScrollView>
         <Button
           onPress={this.userLogout.bind(this)}
           buttonStyle={{
-            position: 'absolute',
-            right: 0,
-            left: 0,
             width:100,
             height:50,
             borderRadius: 6,
@@ -38,9 +43,7 @@ export default class Menu extends Component {
           }}
           title='Log out'
         />
-        </ScrollView>
-
-       <View style={{marginBottom: 100}}>
+       <View style={{marginBottom: 80}}>
           </View>
       </View>
     );
