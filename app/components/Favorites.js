@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, ListView, Image, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 
@@ -49,6 +50,7 @@ export default class Favorites extends Component {
     .catch((err) => console.error(err));
   }
 
+<<<<<<< fbfd31009d5af4b8537cc99eaef9839e695ec8bf
   randomQuote() {
     var quotes = [
       'OMG SO YUMMY!',
@@ -71,6 +73,28 @@ export default class Favorites extends Component {
     )
     .then(() => this.fetchFavs())
     .catch((err) => console.log(err));
+=======
+  render() {
+    if (this.state.favs === undefined || this.state.favs.getRowCount() === 0) {
+      return this.renderEmpty();
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
+          <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+          <Icon name='refresh' size={60} onPress={(e) => this.fetchFavs()} />
+          <View style={{marginBottom: 60}}>
+          </View>
+
+          <View>
+            <Icon name='local-pizza' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Food}/>
+            <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>Food </Text>
+          </View>
+
+        </View>
+      );
+    }
+>>>>>>>  Stashing changes
   }
 
   renderEmpty() {

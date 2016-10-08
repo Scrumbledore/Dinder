@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage } from 'react-native';
+import {   Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/styles.js';
+import {Actions} from 'react-native-redux-router';
 
 var config = require('../../config.js');
 var SWIPE_THRESHOLD = 120;
@@ -176,6 +178,8 @@ export default class Food extends Component {
           <TouchableOpacity style={styles.foodIcon} onPress = {() => this.fave()}>
             <Iconz name='md-star' color={this.state.faved ? '#FFDC00' : '#CCCCCC'} size={40} />
           </TouchableOpacity>
+            <Icon name='star-border' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Favorites}/>
+            <Icon name='assistant' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Recs}/>
         </View>
       </Animated.View>
     );

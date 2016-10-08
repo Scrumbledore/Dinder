@@ -12,6 +12,7 @@ import Menu from './components/Menu';
 import RNCamera from './components/Camera';
 import Photos from './components/Photos';
 import CameraRoll from './components/CameraRoll';
+import Nav from './components/Nav';
 
 import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
 
@@ -58,7 +59,7 @@ export default class Dinder extends Component {
     // AsyncStorage.getItem('jwt')
     // .then((value) => {
     //   if (value) {
-    //     Actions.tabbar();
+    //     Actions.Food();
     //   }
     // }).done();
   }
@@ -69,26 +70,44 @@ export default class Dinder extends Component {
             <View style={{position:'absolute',left:0,right:0,top:0,bottom:0,backgroundColor:'#F5FCFF'}}/>
             <Provider store={store}>
             <Router>
-                <Schema name="modal" sceneConfig={Animations.FlatFloatFromBottom} />
-                <Schema name="default" sceneConfig={Animations.FlatFloatFromRight} />
-                <Schema name="withoutAnimation"/>
-                <Schema name="tab" navbar={TabIcon}/>
+            <Schema name="modal" sceneConfig={Animations.FlatFloatFromBottom} />
+            <Schema name="default" sceneConfig={Animations.FlatFloatFromRight} />
+            <Schema name="withoutAnimation"/>
+            <Schema name="tab" navbar={Nav}/>
 
 
-                <Route name="signin" component={SignIn} initial={true} schema="modal"  icon={TabIcon}
+            <Route name="signin" component={SignIn} initial={true} schema="modal"  icon={TabIcon}
             apiRoot={this.state.apiRoot}
             title='Sign In' key='signin'/>
-                <Route name="signup" component={SignUp} schema="tab"/>
+            <Route name="signup" component={SignUp} schema="tab"/>
 
 
-            <Route name="food"  img='local-pizza'
-              key='food'
+            <Route name="Food"  img='local-pizza'
+              key='Food'
               component={Food}
               icon={TabIcon}
               title='Food'
               apiRoot={this.state.apiRoot}
               userId={this.state.userId}
               schema={"tab"}/>
+            <Route
+              name="Favorites"
+              img='star-border'
+              key="Favorites"
+              component={Favorites}
+              icon={TabIcon}
+              title="Favorites"
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId}/>
+            <Route
+              name='Recs'
+              img='assistant'
+              key='Recs'
+              component={Recs}
+              icon={TabIcon}
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId}
+              title='Recs' />
 
             </Router>
             </Provider>

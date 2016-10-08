@@ -37,12 +37,7 @@ export default class SignIn extends Component {
     .then((res) => {
       if (!res.error) {
         AsyncStorage.setItem('jwt', res.token);
-<<<<<<< d705c040963d6f1a0b50640d601515f57ca0a38b
-        Actions.tabbar();
-=======
-        console.log('signin jwt', res.token);
-        Actions.food();
->>>>>>> Updated components to use redux and redux actions.
+        Actions.Food();
       }
     })
     .catch((error) => {

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, utton } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
+import {Actions} from 'react-native-redux-router';
 
 import styles from '../styles/styles.js';
 
@@ -65,6 +66,10 @@ export default class Recs extends Component {
           <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Recommended For You...</Text>
           <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
           <View style={{marginBottom: 60}}>
+          </View>
+          <View>
+            <Icon name='local-pizza' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Food}/>
+            <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>Food </Text>
           </View>
         </View>
       );
