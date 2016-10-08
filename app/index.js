@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { AppRegistry, Text, View, Platform, AsyncStorage } from 'react-native';
 import { Scene, TabBar, Navigator } from 'react-native-router-flux';
+=======
+import {
+  AsyncStorage,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  ActionConst,
+  Actions,
+  Router,
+  Scene,
+  TabBar,
+} from 'react-native-router-flux';
+>>>>>>> save work on redux before merging @busby's branch
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { createStore } from 'redux';
+import { Provider, connect} from 'react-redux';
 
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -14,27 +34,39 @@ import Photos from './components/Photos';
 import CameraRoll from './components/CameraRoll';
 import Nav from './components/Nav';
 
+<<<<<<< HEAD
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
+=======
+import configureStore from './store';
 
-var config = require('../config.js');
+const store = configureStore();
+const RouterWithRedux = connect()(Router);
+>>>>>>> save work on redux before merging @busby's branch
 
+const config = require('../config.js');
+
+<<<<<<< HEAD
 let store = createStore(combineReducers({routerReducer}));
 
 // for tab menu below, not used elsewhere
 class TabIcon extends Component {
+=======
+class Nav extends Component {
+>>>>>>> save work on redux before merging @busby's branch
   render() {
     return (
-      <View>
-        <Icon name={ this.props.img } size={24} color={this.props.selected ? 'steelblue' : 'black' } />
-        <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>{this.props.title}</Text>
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('no')}>
+          <Iconz name='md-close' color={'#FF0000'} size={40} />
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-export default class Dinder extends Component {
+export default class DinDin extends Component {
   constructor(props) {
     super(props);
 
@@ -58,13 +90,18 @@ export default class Dinder extends Component {
     AsyncStorage.getItem('jwt')
     .then((value) => {
       if (value) {
+<<<<<<< HEAD
         Actions.Food();
+=======
+        Actions.tabbar(); // pass token to scenes as state?
+>>>>>>> save work on redux before merging @busby's branch
       }
     }).done();
   }
 
   render() {
     return (
+<<<<<<< HEAD
         <View style={{flex: 1}}>
           <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#F5FCFF'}}/>
           <Provider store={store}>
@@ -166,3 +203,23 @@ class Example extends React.Component {
 }
 
 AppRegistry.registerComponent('Example', () => Example);
+=======
+      <Provider store={store} >
+        <RouterWithRedux hideNavBar={true} apiRoot={this.state.apiRoot} nav={Nav} >
+          <Scene key='root' >
+            <Scene key='signin' component={SignIn} />
+            <Scene key='signup' component={SignUp} />
+            <Scene key='photos' component={Photos} />
+            <Scene key='camera' component={RNCamera} />
+            <Scene key='cameraroll' component={CameraRoll} />
+            <Scene key='favorites' component={Favorites} />
+            <Scene key='food' component={Food} />
+            <Scene key='recs' component={Recs} />
+            <Scene key='menu' component={Menu} />
+          </Scene>
+        </RouterWithRedux>
+      </Provider>
+    );
+  }
+}
+>>>>>>> save work on redux before merging @busby's branch

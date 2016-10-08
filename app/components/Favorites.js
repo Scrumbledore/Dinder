@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { Text, View, TouchableOpacity, ListView, Image, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-redux-router';
+=======
+import {
+  AsyncStorage,
+  Image,
+  ListView,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { Actions } from 'react-native-router-flux';
+>>>>>>> save work on redux before merging @busby's branch
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 
@@ -159,6 +171,7 @@ export default class Favorites extends Component {
         <View style={styles.container}>
           <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
           <ListView dataSource={this.state.faves} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+<<<<<<< HEAD
           <View style={{flexDirection: 'row', marginBottom: 10}}>
             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
               <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
@@ -176,6 +189,8 @@ export default class Favorites extends Component {
               <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
             </TouchableOpacity>
           </View>
+=======
+>>>>>>> save work on redux before merging @busby's branch
         </View>
       );
     }
