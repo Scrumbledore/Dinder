@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,  ScrollView, Image, AsyncStorage, Actions} from 'react-native';
+import { Text, View, ScrollView, Image, AsyncStorage, Actions} from 'react-native';
 import { Icon, Button} from 'react-native-elements';
 
 
@@ -12,7 +12,7 @@ export default class Menu extends Component {
   userLogout() {
     AsyncStorage.removeItem('jwt')
     .then((value) => {
-      console.log('removed JWT2',value);
+      console.log('removed JWT2', value);
       Actions.signin();
     }).done();
   }
@@ -29,7 +29,9 @@ export default class Menu extends Component {
         <Text >
           Welcome to the Menu Page!
         </Text>
-        <View style={{height: 30, width:v300}}>
+
+        <View style={{height: 30, width: 300}}>
+
 
         </View>
         </ScrollView>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage } from 'react-native';
-import {   Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/styles.js';

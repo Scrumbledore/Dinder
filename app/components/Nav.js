@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Animations, Actions, Schema} from 'react-native-redux-router';
+import { Animations, Actions, Schema} from 'react-native-redux-router';
 import { AppRegistry, Text, View, Platform, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 

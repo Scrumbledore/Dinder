@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, ListView, Image, AsyncStorage } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
+import { Actions } from 'react-native-redux-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 
