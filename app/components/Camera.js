@@ -90,7 +90,7 @@ export default class RNCamera extends Component {
     }
     this.setState({
       camera: {
-        ...this.state.camera,
+        camera: this.state.camera,
         type: newType
       },
     });
@@ -119,7 +119,7 @@ export default class RNCamera extends Component {
     }
     this.setState({
       camera: {
-        ...this.state.camera,
+        camera: this.state.camera,
         flashMode: newFlashMode,
       },
     });

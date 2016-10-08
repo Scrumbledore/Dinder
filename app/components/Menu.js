@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, Image, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Icon, Button} from 'react-native-elements';
-
+import { Actions } from 'react-native-router-flux';
 import styles from '../styles/styles.js';
 
 export default class Menu extends Component {
@@ -22,8 +22,6 @@ export default class Menu extends Component {
       <View style={styles.container}>
 
         <Text style={styles.welcome}>My DinDin Profile</Text>
-
-          {/*<Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>*/}
 
         <View style={styles.menuContainer}>
 
