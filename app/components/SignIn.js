@@ -1,9 +1,7 @@
-// import React, { Component, View, Text, StyleSheet } from 'react-native';
-
 import React, { Component } from 'react';
 import { Icon, Button, Navigator} from 'react-native-elements';
 import { Text, Image, View, TouchableOpacity, AsyncStorage, TextInput } from 'react-native';
-import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
+import { Actions } from 'react-native-router-flux';
 
 import index from '../index';
 import styles from '../styles/styles.js';
@@ -37,7 +35,7 @@ export default class SignIn extends Component {
     .then((res) => {
       if (!res.error) {
         AsyncStorage.setItem('jwt', res.token);
-        Actions.Food();
+        Actions.food();
       }
     })
     .catch((error) => {
@@ -51,7 +49,7 @@ export default class SignIn extends Component {
       <View style={styles.container}>
         <View>
          <Image source={require('./assets/food.jpg')} resizeMode="cover" style={styles.coverImage}/>
-         <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80, top: -110}}>
+          <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80,top: -110}}>
             DinDin
           </Text>
         </View>

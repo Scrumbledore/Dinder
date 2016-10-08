@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ListView, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, ListView, Image, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, utton } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
-import {Actions} from 'react-native-redux-router';
 
 import styles from '../styles/styles.js';
 
@@ -58,60 +57,26 @@ export default class Recs extends Component {
   }
 
   render() {
-    if (this.state.recs === undefined || this.state.recs.getRowCount() === 0) {
-      return this.renderEmpty();
-    } else {
-      return (
-        <View style={styles.recContainer}>
-          <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Recommended For You...</Text>
-          <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
-          <View style={{marginBottom: 10}}>
-          </View>
-          <View style={{flexDirection: 'row', bottom: 15}}>
-            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
-              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
-              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
-              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
-              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
-              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
+    return (
+      <View style={styles.container}>
+
+        <Text style={styles.welcome}>Recommended For You...</Text>
+
+        {!this.state.recs || this.state.recs.getRowCount() === 0
+          ? this.renderEmpty()
+          : <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>}
+
+        {this.props.nav()}
+
+      </View>
+    );
   }
 
   renderEmpty() {
     return (
-
-        <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-          <Text aligntText='center'>Locating the best food for you...</Text>
-          <View style={{flexDirection: 'row', top: 285}}>
-            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
-              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
-              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
-              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
-              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
-              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-          </View>
-        </View>
+      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <Text aligntText='center'>Locating the best food for you...</Text>
+      </View>
     );
   }
 
