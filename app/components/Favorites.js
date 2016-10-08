@@ -82,9 +82,8 @@ export default class Favorites extends Component {
         <View style={styles.container}>
           <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
           <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
-          <View style={{marginBottom: 60}}>
+          <View style={{marginBottom: 10}}>
           </View>
-
           <View style={{flexDirection: 'row', bottom: 10}}>
             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
               <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
