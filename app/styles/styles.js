@@ -75,6 +75,11 @@ export default StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
+  cameraNav: {
+    margin: 10,
+    top: 45,
+    left: 15
+  },
 
 
 ////+++++ Favorites +++++
@@ -163,7 +168,7 @@ export default StyleSheet.create({
 
   foodNav: {
     height: 30,
-    margin: 5
+    margin: 10
   },
 
   foodCard: {
