@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ListView, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, ListView, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, utton } from 'react-native-elements';
@@ -65,11 +65,24 @@ export default class Recs extends Component {
         <View style={styles.recContainer}>
           <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Recommended For You...</Text>
           <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>
-          <View style={{marginBottom: 60}}>
+          <View style={{marginBottom: 10}}>
           </View>
-          <View>
-            <Icon name='local-pizza' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Food}/>
-            <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>Food </Text>
+          <View style={{flexDirection: 'row', bottom: 15}}>
+            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
+              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
+              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
+              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
+              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
+              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -78,9 +91,27 @@ export default class Recs extends Component {
 
   renderEmpty() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-        <Text aligntText='center'>Locating the best food for you...</Text>
-      </View>
+
+        <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+          <Text aligntText='center'>Locating the best food for you...</Text>
+          <View style={{flexDirection: 'row', top: 285}}>
+            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
+              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
+              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
+              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
+              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
+              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+          </View>
+        </View>
     );
   }
 
