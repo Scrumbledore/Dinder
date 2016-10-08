@@ -160,6 +160,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
+  foodNav: {
+    height: 30,
+    margin: 10
+  },
+
   foodCard: {
     padding: 10,
     alignItems: 'center',
