@@ -166,22 +166,40 @@ export default class Food extends Component {
     };
 
     return (
-      <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
-        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{height: 300, width: 300}}/>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('no')}>
-            <Iconz name='md-close' color={'#FF0000'} size={40} />
+      <View>
+        <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
+          <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{height: 300, width: 300}}/>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('no')}>
+              <Iconz name='md-close' color={'#FF0000'} size={40} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('yes')}>
+              <Iconz name='md-checkmark' color={'#00FF00'} size={40} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.foodIcon} onPress = {() => this.fave()}>
+              <Iconz name='md-star' color={this.state.faved ? '#FFDC00' : '#CCCCCC'} size={40} />
+            </TouchableOpacity>
+          </View>
+
+        </Animated.View>
+        <View style={{flexDirection: 'row', top: 80}}>
+          <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
+            <Icon name='camera' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('yes')}>
-            <Iconz name='md-checkmark' color={'#00FF00'} size={40} />
+           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
+            <Icon name='star-border' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.foodIcon} onPress = {() => this.fave()}>
-            <Iconz name='md-star' color={this.state.faved ? '#FFDC00' : '#CCCCCC'} size={40} />
+          <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
+            <Icon name='local-pizza' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
-            <Icon name='star-border' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Favorites}/>
-            <Icon name='assistant' size={24} color={this.props.selected ? 'steelblue' : 'black' } onPress={Actions.Recs}/>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
+            <Icon name='assistant' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
+            <Icon name='menu' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
         </View>
-      </Animated.View>
+      </View>
     );
   }
 
