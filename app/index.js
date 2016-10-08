@@ -65,9 +65,9 @@ export default class Dinder extends Component {
 
   render() {
     return (
-        <View style={{flex:1}}>
-            <View style={{position:'absolute',left:0,right:0,top:0,bottom:0,backgroundColor:'#F5FCFF'}}/>
-            <Provider store={store}>
+        <View style={{flex: 1}}>
+          <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#F5FCFF'}}/>
+          <Provider store={store}>
             <Router>
             <Schema name="modal" sceneConfig={Animations.FlatFloatFromBottom} />
             <Schema name="default" sceneConfig={Animations.FlatFloatFromRight} />
@@ -75,22 +75,30 @@ export default class Dinder extends Component {
             <Schema name="tab" navbar={Nav}/>
 
 
-            <Route name="signin" component={SignIn} initial={true} schema="modal"  icon={TabIcon}
-            apiRoot={this.state.apiRoot}
-            title='Sign In' key='signin'/>
-            <Route name="signup" component={SignUp} schema="tab"/>
+            <Route name='signin'
+              component={SignIn}
+              initial={true}
+              schema='modal'
+              icon={TabIcon}
+              apiRoot={this.state.apiRoot}
+              title='Sign In'
+              key='signin'/>
 
+            <Route name='signup'
+              component={SignUp}
+              schema="tab"/>
 
-            <Route name="Food"  img='local-pizza'
+            <Route name='Food'
+              img='local-pizza'
               key='Food'
               component={Food}
               icon={TabIcon}
               title='Food'
               apiRoot={this.state.apiRoot}
               userId={this.state.userId}
-              schema={"tab"}/>
-            <Route
-              name="Favorites"
+              schema={'tab'}/>
+
+            <Route name='Favorites'
               img='star-border'
               key="Favorites"
               component={Favorites}
@@ -98,6 +106,7 @@ export default class Dinder extends Component {
               title="Favorites"
               apiRoot={this.state.apiRoot}
               userId={this.state.userId}/>
+
             <Route
               name='Recs'
               img='assistant'
@@ -107,18 +116,21 @@ export default class Dinder extends Component {
               apiRoot={this.state.apiRoot}
               userId={this.state.userId}
               title='Recs' />
+
             <Route
               name='Camera'
               key='Camera'
               component={RNCamera}
               apiRoot={this.state.apiRoot}
               userId={this.state.userId} />
+
             <Route
               name='CameraRoll'
               key='CameraRoll'
               component={CameraRoll}
               apiRoot={this.state.apiRoot}
               userId={this.state.userId} />
+
             <Route
               name='Photos'
               img='camera'
@@ -128,6 +140,7 @@ export default class Dinder extends Component {
               title='Photos'
               apiRoot={this.state.apiRoot}
               userId={this.state.userId} />
+
             <Route
               name='Menu'
               img='Menu'
@@ -135,22 +148,22 @@ export default class Dinder extends Component {
               component={Menu}
               icon={TabIcon}
               title='Menu' />
-            </Router>
-            </Provider>
 
+            </Router>
+          </Provider>
         </View>
     );
   }
 }
 
 class Example extends React.Component {
-    render() {
-        return (
-            <Provider store={store}>
-                {() => <Dinder />}
-            </Provider>
-        );
-    }
+  render() {
+    return (
+        <Provider store={store}>
+            {() => <Dinder />}
+        </Provider>
+    );
+  }
 }
 
 AppRegistry.registerComponent('Example', () => Example);
