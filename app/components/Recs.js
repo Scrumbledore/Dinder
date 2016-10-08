@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ListView, Image, AsyncStorage, Linking, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ListView, Image, AsyncStorage, TouchableHighlight, Linking, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
 import { Tabs, Tab, Button } from 'react-native-elements';
@@ -111,11 +111,17 @@ export default class Recs extends Component {
               <Text style={{fontStyle: 'italic', paddingRight: 10}}>~{rec.dist}</Text>
             </View>
           </View>
-          <View style={{flex: 2}}>
-            <Text>Uber here</Text>
-          </View>
+          <TouchableHighlight onPress={((e) => this.callUber())} style={{flex: 2}}>
+            <View>
+              <Text>Uber here</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
+  }
+
+  callUber() {
+    Linking.openURL('https://login.uber.com/oauth/v2/authorize?client_id=cYvOtLL60FJvwmeBKtzOwOm3itHYIiCw&response_type=code')
   }
 }
