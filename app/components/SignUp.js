@@ -1,9 +1,7 @@
-// import React, { Component, View, Text, StyleSheet } from 'react-native';
-
 import React, { Component } from 'react';
 import { Icon, Button } from 'react-native-elements';
 import { Text, View, TextInput, AsyncStorage, Navigator } from 'react-native';
-import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
+import { Actions } from 'react-native-router-flux';
 
 import styles from '../styles/styles.js';
 
@@ -36,7 +34,7 @@ export default class SignUp extends Component {
         //AsyncStorage.removeItem;
         AsyncStorage.setItem('jwt', res.token);
         console.log('jwt', res.token);
-        Actions.tabbar();
+        Actions.food();
 
       } else {
         return res.error;

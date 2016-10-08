@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, Platform, AsyncStorage } from 'react-native';
-import { Scene, TabBar, Navigator } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  AsyncStorage,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import {
+  Actions,
+  Router,
+  Scene
+} from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import styles from './styles/styles.js';
 
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -12,29 +23,10 @@ import Menu from './components/Menu';
 import RNCamera from './components/Camera';
 import Photos from './components/Photos';
 import CameraRoll from './components/CameraRoll';
-import Nav from './components/Nav';
 
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
+const config = require('../config.js');
 
-var config = require('../config.js');
-
-let store = createStore(combineReducers({routerReducer}));
-
-// for tab menu below, not used elsewhere
-class TabIcon extends Component {
-  render() {
-    return (
-      <View>
-        <Icon name={ this.props.img } size={24} color={this.props.selected ? 'steelblue' : 'black' } />
-        <Text style={{ color: this.props.selected ? 'steelblue' : 'black' }}>{this.props.title}</Text>
-      </View>
-    );
-  }
-}
-
-export default class Dinder extends Component {
+export default class DinDin extends Component {
   constructor(props) {
     super(props);
 
@@ -58,111 +50,65 @@ export default class Dinder extends Component {
     AsyncStorage.getItem('jwt')
     .then((value) => {
       if (value) {
-        Actions.Food();
+        Actions.food();
       }
     }).done();
   }
 
+  renderNav() {
+    let color = 'hsl(215.5,23.4%,62%)';
+    let size = 30;
+    let navIcon = {
+      textAlign: 'center',
+    };
+    let navBar = {
+      flexDirection: 'row',
+      backgroundColor: 'hsl(215.5,23.4%,36.9%)',
+      alignSelf: 'stretch',
+      width: null,
+      justifyContent: 'space-between',
+      paddingHorizontal: 30,
+      paddingVertical: 10,
+      borderTopWidth: 2,
+      borderColor: 'hsl(215.5,23.4%,26.9%)',
+      borderStyle: 'solid'
+    };
+    return (
+      <View style={navBar}>
+        <TouchableOpacity onPress={Actions.photos}>
+          <Icon name='camera' style={navIcon} color={color} size={size} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={Actions.favorites}>
+          <Icon name='star' style={navIcon} color={color} size={size} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={Actions.food}>
+          <Icon name='cutlery' style={navIcon} color={color} size={size} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={Actions.recs}>
+          <Icon name='search' style={navIcon} color={color} size={size} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={Actions.menu}>
+          <Icon name='bars' style={navIcon} color={color} size={size} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   render() {
     return (
-        <View style={{flex: 1}}>
-          <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: '#F5FCFF'}}/>
-          <Provider store={store}>
-            <Router>
-            <Schema name="modal" sceneConfig={Animations.FlatFloatFromBottom} />
-            <Schema name="default" sceneConfig={Animations.FlatFloatFromRight} />
-            <Schema name="withoutAnimation"/>
-            <Schema name="tab" navbar={Nav}/>
-
-
-            <Route name='signin'
-              component={SignIn}
-              initial={true}
-              icon={TabIcon}
-              apiRoot={this.state.apiRoot}
-              title='Sign In'
-              key='signin'/>
-
-            <Route name='signup'
-              component={SignUp}
-              schema="tab"/>
-
-            <Route name='Food'
-              img='local-pizza'
-              key='Food'
-              component={Food}
-              icon={TabIcon}
-              title='Food'
-              apiRoot={this.state.apiRoot}
-              userId={this.state.userId}
-              schema={'tab'}/>
-
-            <Route name='Favorites'
-              img='star-border'
-              key="Favorites"
-              component={Favorites}
-              icon={TabIcon}
-              title="Favorites"
-              apiRoot={this.state.apiRoot}
-              userId={this.state.userId}/>
-
-            <Route
-              name='Recs'
-              img='assistant'
-              key='Recs'
-              component={Recs}
-              icon={TabIcon}
-              apiRoot={this.state.apiRoot}
-              userId={this.state.userId}
-              title='Recs' />
-
-            <Route
-              name='Camera'
-              key='Camera'
-              component={RNCamera}
-              apiRoot={this.state.apiRoot}
-              userId={this.state.userId} />
-
-            <Route
-              name='CameraRoll'
-              key='CameraRoll'
-              component={CameraRoll}
-              apiRoot={this.state.apiRoot}
-              userId={this.state.userId} />
-
-            <Route
-              name='Photos'
-              img='camera'
-              key='Photos'
-              component={Photos}
-              icon={TabIcon}
-              title='Photos'
-              apiRoot={this.state.apiRoot}
-              userId={this.state.userId} />
-
-            <Route
-              name='Menu'
-              img='Menu'
-              key='Menu'
-              component={Menu}
-              icon={TabIcon}
-              title='Menu' />
-
-            </Router>
-          </Provider>
-        </View>
+      <Router hideNavBar={true} nav={this.renderNav} apiRoot={this.state.apiRoot} >
+        <Scene key='root' >
+          <Scene key='signin' type='replace' component={SignIn} initial={true} />
+          <Scene key='signup' type='replace' component={SignUp} />
+          <Scene key='photos' type='replace' component={Photos} />
+          <Scene key='camera' type='replace' component={RNCamera} />
+          <Scene key='cameraroll' type='replace' component={CameraRoll} />
+          <Scene key='favorites' type='replace' component={Favorites} />
+          <Scene key='food' type='replace' component={Food} />
+          <Scene key='recs' type='replace' component={Recs} />
+          <Scene key='menu' type='replace' component={Menu} />
+        </Scene>
+      </Router>
     );
   }
 }
-
-class Example extends React.Component {
-  render() {
-    return (
-        <Provider store={store}>
-            {() => <Dinder />}
-        </Provider>
-    );
-  }
-}
-
-AppRegistry.registerComponent('Example', () => Example);

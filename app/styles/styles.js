@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: '#F6AE2D'
   },
   CRcontent: {
-    marginTop: 15,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -32,8 +32,7 @@ export default StyleSheet.create({
 ////+++++ Camera +++++
 
   camContainer: {
-    flex: 1,
-    marginBottom: 50
+    flex: 1
   },
   preview: {
     flex: 1,
@@ -55,7 +54,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bottomOverlay: {
-    bottom: 0,
+    bottom: 50,
     //backgroundColor: 'rgba(0,0,0,0.4)',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -74,11 +73,6 @@ export default StyleSheet.create({
   },
   buttonsSpace: {
     width: 10,
-  },
-  cameraNav: {
-    margin: 10,
-    top: 45,
-    left: 15
   },
 
 
@@ -158,24 +152,16 @@ export default StyleSheet.create({
 
 ////+++++ Food +++++
 
-  foodIcon: {
-    width: 100,
-    height: 60,
-    marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  foodNav: {
-    height: 30,
-    margin: 10
-  },
-
   foodCard: {
+    width: 350,
+    height: 350,
     padding: 10,
-    alignItems: 'center',
+    backgroundColor: 'hsl(0,0%,100%)',
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: 'hsl(215.5,23.4%,62%)',
+    borderStyle: 'solid',
     alignSelf: 'center',
-    backgroundColor: '#fafafa'
   },
   yup: {
     borderColor: 'green',
@@ -214,11 +200,6 @@ export default StyleSheet.create({
 
   profile: {
     height: 275,
-    flex: 1
-  },
-
-  userProfile: {
-    height: 300,
     width: 400
   },
 //++++++++++++++++++++++++++
@@ -229,10 +210,18 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(212,212,212,.6)',
+    backgroundColor: 'hsl(216.4,23.7%,76.9%)'
   },
   welcome: {
-    fontSize: 24
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    width: null,
+    fontSize: 30,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    fontWeight: 'bold',
+    color: 'hsl(215.5,23.4%,62%)',
+    backgroundColor: 'hsl(215.5,23.4%,36.9%)'
   },
   errorTextStyle: {
     fontSize: 20,
@@ -267,7 +256,7 @@ export default StyleSheet.create({
     width: 400,
     opacity: 0.5,
     position: 'absolute',
-    top: -200,
+    top:-200,
     right: 0,
     bottom: 0,
     alignSelf: 'stretch',

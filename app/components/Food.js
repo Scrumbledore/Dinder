@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage } from 'react-native';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Iconz from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/styles.js';
-import {Actions} from 'react-native-redux-router';
 
 var config = require('../../config.js');
-var SWIPE_THRESHOLD = 120;
+var SWIPE_THRESHOLD = 96;
 
 export default class Food extends Component {
   constructor (props) {
     super(props);
+    console.log(this.props)
     this.state = {
       swipe: new Animated.ValueXY(),
       enter: new Animated.Value(0),
@@ -54,7 +52,7 @@ export default class Food extends Component {
               x: 0,
               y: 0
             },
-            friction: 4
+            friction: 3
           }).start();
         }
       }
@@ -95,7 +93,7 @@ export default class Food extends Component {
       alert('Please enable location services.');
     }, {
       enableHighAccurracy: true,
-      timeout: 20000,
+      timeout: 2000,
       maxinumAge: 1000
     });
   }
@@ -116,7 +114,8 @@ export default class Food extends Component {
   fadeIn () {
     Animated.spring(this.state.enter, {
       toValue: 1,
-      friction: 5
+      delay: 250,
+      tension: 20
     }).start();
   }
 
@@ -152,6 +151,7 @@ export default class Food extends Component {
       inputRange: [-200, 0, 200],
       outputRange: ['-30deg', '0deg', '30deg']
     });
+    let scale = this.state.enter;
     let opacity = pan.x.interpolate({
       inputRange: [-200, 0, 200],
       outputRange: [0, 1, 0]
@@ -160,91 +160,86 @@ export default class Food extends Component {
       transform: [
         {translateX},
         {translateY},
-        {rotate}
+        {rotate},
+        {scale}
       ],
       opacity
     };
 
+    let checkColor = 'hsl(130,100%,50%)';
+    let crossColor = 'hsl(0,100%,50%)';
+    let starColor = this.state.faved ? 'hsl(50,100%,50%)' : 'hsl(0,0%,50%)';
+    let foodIcon = {
+      textAlign: 'center'
+    };
+    let touchBar = {
+      flexDirection: 'row',
+      alignSelf: 'stretch',
+      width: null,
+      justifyContent: 'space-between',
+      paddingHorizontal: 10,
+      paddingTop: 10
+    };
     return (
-      <View>
-        <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
-          <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{height: 300, width: 300}}/>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('no')}>
-              <Iconz name='md-close' color={'#FF0000'} size={40} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.foodIcon} onPress={() => this.judge('yes')}>
-              <Iconz name='md-checkmark' color={'#00FF00'} size={40} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.foodIcon} onPress = {() => this.fave()}>
-              <Iconz name='md-star' color={this.state.faved ? '#FFDC00' : '#CCCCCC'} size={40} />
-            </TouchableOpacity>
-          </View>
-
-        </Animated.View>
-        <View style={{flexDirection: 'row', top: 100}}>
-          <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
-            <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+      <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
+        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{flex: 1, alignSelf: 'stretch', width: null, borderRadius: 3}} />
+        <View style={touchBar}>
+          <TouchableOpacity  onPress={() => this.judge('no')}>
+            <Icon style={foodIcon} name='times-circle' color={crossColor} size={50} />
           </TouchableOpacity>
-           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
-            <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          <TouchableOpacity  onPress={() => this.fave()}>
+            <Icon style={foodIcon} name='star' color={starColor} size={50} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
-            <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-          </TouchableOpacity>
-             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
-            <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-          </TouchableOpacity>
-             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
-            <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          <TouchableOpacity  onPress={() => this.judge('yes')}>
+            <Icon style={foodIcon} name='check-circle' color={checkColor} size={50} />
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
     );
   }
 
   renderNoMore () {
     return (
-      <View>
-        <Text>No More Cards</Text>
-        <Text>Show more Recommendations?</Text>
-        <TouchableOpacity style={styles.foodIcon} onPress={() => this.getPhotos()}>
-          <Iconz name='ios-pizza' size={40} color='#111111'/>
-        </TouchableOpacity>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Icon name='cutlery' style={{marginRight: 10}} size={40} color='hsl(0,0%,50%)'/>
+        <View style={{flexDirection: 'column'}}>
+          <Text>No More Cards!</Text>
+          <Text>Try searching from a new location</Text>
+          </View>
       </View>
     );
   }
 
   render () {
-
     let pan = this.state.swipe;
-
     let yupStyle = {
       opacity: pan.x.interpolate({
         inputRange: [0, 150],
         outputRange: [0, 1]
       })
     };
-
     let nopeStyle = {
       opacity: pan.x.interpolate({
         inputRange: [-150, 0],
         outputRange: [1, 0]
       })
     };
-
     return (
       <View style={styles.container}>
-        {!this.state.loaded ? <Text>Loading...</Text>
-          : (this.state.cards.length ? this.renderCard()
-              : this.renderNoMore())}
-
+        <Text style={styles.welcome}>Foods Near You</Text>
+        <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
+          {!this.state.loaded ? <Text>Loading...</Text>
+            : (this.state.cards.length ? this.renderCard()
+                : this.renderNoMore())}
+        </View>
         <Animated.View style={[styles.yup, yupStyle]}>
-          <Text style={styles.yuptext}>Yum!</Text>
+          <Text style={styles.yupText}>Yum!</Text>
         </Animated.View>
+
         <Animated.View style={[styles.nope, nopeStyle]}>
-          <Text style={styles.nopeText}>Ehh!</Text>
+          <Text style={styles.nopeText}>Meh.</Text>
         </Animated.View>
+        {this.props.nav()}
       </View>
     );
   }
