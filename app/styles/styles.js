@@ -54,7 +54,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bottomOverlay: {
-    bottom: 0,
+    bottom: 50,
     //backgroundColor: 'rgba(0,0,0,0.4)',
     flexDirection: 'row',
     justifyContent: 'center',
