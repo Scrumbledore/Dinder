@@ -163,7 +163,7 @@ export default StyleSheet.create({
 
   foodNav: {
     height: 30,
-    margin: 10
+    margin: 5
   },
 
   foodCard: {
