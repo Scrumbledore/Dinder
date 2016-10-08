@@ -73,45 +73,45 @@ export default class Favorites extends Component {
     )
     .then(() => this.fetchFavs())
     .catch((err) => console.log(err));
-
-  render() {
-    if (this.state.favs === undefined || this.state.favs.getRowCount() === 0) {
-      return this.renderEmpty();
-    } else {
-      return (
-        <View style={styles.container}>
-          <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
-          <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
-          <View style={{marginBottom: 10}}>
-          </View>
-          <View style={{flexDirection: 'row', bottom: 10}}>
-            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
-              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
-              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
-              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
-              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
-              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
   }
+  // render() {
+  //   if (this.state.favs === undefined || this.state.favs.getRowCount() === 0) {
+  //     return this.renderEmpty();
+  //   } else {
+  //     return (
+  //       <View style={styles.container}>
+  //         <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
+  //         <ListView dataSource={this.state.favs} renderRow={(favorite) => this.favoriteEntry(favorite)} />
+  //         <View style={{marginBottom: 10}}>
+  //         </View>
+  //         <View style={{flexDirection: 'row', bottom: 10}}>
+  //           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
+  //             <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+  //           </TouchableOpacity>
+  //            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
+  //             <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+  //           </TouchableOpacity>
+  //           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
+  //             <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+  //           </TouchableOpacity>
+  //              <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
+  //             <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+  //           </TouchableOpacity>
+  //              <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
+  //             <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+  //           </TouchableOpacity>
+  //         </View>
+  //       </View>
+  //     );
+  //   }
+  // }
 
   renderEmpty() {
     return (
       <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
         <Icon name='cake' size={60}/>
         <Text >You haven't favorited anything yet.</Text>
-        <View style={{flexDirection: 'row', bottom: 10}}>
+        <View style={{flexDirection: 'row', top: 260}}>
           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
             <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
@@ -159,8 +159,22 @@ export default class Favorites extends Component {
         <View style={styles.container}>
           <Text style={{marginTop: 30, fontSize: 24, fontWeight: '800'}}>Your Favorite NOMS!!</Text>
           <ListView dataSource={this.state.faves} renderRow={(favorite) => this.favoriteEntry(favorite)} />
-          <Icon name='refresh' size={60} onPress={(e) => this.fetchFavs()} />
-          <View style={{marginBottom: 60}}>
+          <View style={{flexDirection: 'row', marginBottom: 10}}>
+            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
+              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
+              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
+              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
+              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
+              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
           </View>
         </View>
       );

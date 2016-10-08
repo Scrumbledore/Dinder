@@ -24,7 +24,7 @@ export default class Menu extends Component {
           scrollEventThrottle={200}
           styles={{top: 20}}
           >
-        <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
+        <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.userProfile}/>
 
         <Text >
           Welcome to the Menu Page!
@@ -38,8 +38,11 @@ export default class Menu extends Component {
         <Button
           onPress={this.userLogout}
           buttonStyle={{
-            width: 100,
-            height: 50
+            width:100,
+            height:50,
+            bottom: 25,
+            borderRadius: 6,
+            backgroundColor: '#1da1f2',
           }}
           title='Log out'
         />

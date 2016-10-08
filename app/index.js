@@ -78,7 +78,6 @@ export default class Dinder extends Component {
             <Route name='signin'
               component={SignIn}
               initial={true}
-              schema='modal'
               icon={TabIcon}
               apiRoot={this.state.apiRoot}
               title='Sign In'
