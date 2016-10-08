@@ -48,12 +48,34 @@ export default class Recs extends Component {
   }
 
   componentDidMount () {
+    console.log('props0:', this.props)
+    Linking.addEventListener('url', this._handleOpenURL)
+    console.log("mounting222")
     AsyncStorage.getItem('jwt')
     .then((token) => {
       this.setState({
         token: token
       }, this.getRecs);
     }).done();
+    console.log('props1:', this.props)
+
+  }
+
+  _handleOpenURL(e) {
+    if (e.url.indexOf('uber') > 0) {
+      console.log("hhohohoh")
+      var code = e.url.slice(e.url.indexOf('=') + 1)
+      console.log('props:', this.props)
+      console.log('state:', this.state)
+      // fetch(`${this.props.apiRoot}/uber/${code}`, {
+      //   method: 'GET',
+      //   headers: {
+      //     authorization: this.state.token
+      //   }
+      // })
+      // .then((data) => data.json())
+      // .then((uber) => AsyncStroage.setItem('uber', uber))
+    }
   }
 
   render() {
@@ -111,7 +133,7 @@ export default class Recs extends Component {
               <Text style={{fontStyle: 'italic', paddingRight: 10}}>~{rec.dist}</Text>
             </View>
           </View>
-          <TouchableHighlight onPress={((e) => this.callUber())} style={{flex: 2}}>
+          <TouchableHighlight onPress={((e) => this.authUber())} style={{flex: 2}}>
             <View>
               <Text>Uber here</Text>
             </View>
@@ -121,7 +143,15 @@ export default class Recs extends Component {
     );
   }
 
-  callUber() {
-    Linking.openURL('https://login.uber.com/oauth/v2/authorize?client_id=cYvOtLL60FJvwmeBKtzOwOm3itHYIiCw&response_type=code')
+  authUber() {
+    AsyncStorage.getItem('uber', function(uber) {
+      console.log('date!@#!@#!@#!@#!@#!@#!@#!@#!@#', new Date())
+      if (uber) {
+        console.log("have valid token")
+        // do something else
+      } else {
+        Linking.openURL('https://login.uber.com/oauth/v2/authorize?client_id=cYvOtLL60FJvwmeBKtzOwOm3itHYIiCw&response_type=code')
+      }
+    })
   }
 }

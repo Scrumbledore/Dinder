@@ -68,8 +68,8 @@ module.exports = {
     var token = req.headers.authorization;
     var path = req.originalUrl.indexOf('/api/') > -1
              ? req.originalUrl.replace('/api/', '')
-             : req.originalUrl;
-    if (path === '/' || path === 'signin' || path === 'signup') {
+             : req.path;
+    if (path === '/' || path === 'signin' || path === 'signup' || path === '/uber') {
       next();
     } else if (!token) {
       res.sendStatus(401);

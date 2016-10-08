@@ -198,6 +198,19 @@ module.exports = {
     });
   },
 
+  // use this to call exchange code for token
+  getUber: function(req, res) {
+    var code = req.params.code
+    console.log(code)
+
+
+    // request to uber
+
+
+    res.status(201).send()
+
+  },
+
   getRecommendations: function (req, res) {
     var userID = req.userId;
     return User.findOne({ where: {id: userID }})
