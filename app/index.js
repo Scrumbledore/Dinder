@@ -56,12 +56,12 @@ export default class Dinder extends Component {
   }
 
   componentWillMount() {
-    // AsyncStorage.getItem('jwt')
-    // .then((value) => {
-    //   if (value) {
-    //     Actions.Food();
-    //   }
-    // }).done();
+    AsyncStorage.getItem('jwt')
+    .then((value) => {
+      if (value) {
+        Actions.Food();
+      }
+    }).done();
   }
 
   render() {
@@ -108,7 +108,34 @@ export default class Dinder extends Component {
               apiRoot={this.state.apiRoot}
               userId={this.state.userId}
               title='Recs' />
-
+            <Route
+              name='Camera'
+              key='Camera'
+              component={RNCamera}
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
+            <Route
+              name='CameraRoll'
+              key='CameraRoll'
+              component={CameraRoll}
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
+            <Route
+              name='Photos'
+              img='camera'
+              key='Photos'
+              component={Photos}
+              icon={TabIcon}
+              title='Photos'
+              apiRoot={this.state.apiRoot}
+              userId={this.state.userId} />
+            <Route
+              name='Menu'
+              img='Menu'
+              key='Menu'
+              component={Menu}
+              icon={TabIcon}
+              title='Menu' />
             </Router>
             </Provider>
 
