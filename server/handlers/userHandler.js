@@ -142,7 +142,7 @@ module.exports = {
     .then(function (sieve) {
       res.json(photos.filter(function (photo) {
         var touched;
-        for (var i=0; i<sieve.length; i++) {
+        for (var i = 0; i < sieve.length; i++) {
           if (sieve[i].PhotoId === photo.id) {
             touched = true;
           }
@@ -179,9 +179,7 @@ module.exports = {
   },
 
   getRecommendations: function (req, res) {
-     var userID = req.userId;
-     // req.params.lat = req.params.lat;
-     // req.params.lon = req.params.lon;
+    var userID = req.userId;
 
     return User.findOne({ where: {id: userID }})
     .then(function(data) {
@@ -235,7 +233,7 @@ module.exports = {
     .then(function(trainingObj) {
 
       //Get distinct Categories data and order it, then give me constant time lookup both ways
-      orderedTraining = trainingObj.sort((a,b) => {return b.weight - a.weight});
+      orderedTraining = trainingObj.sort((a, b) => { return b.weight - a.weight; });
       Category.aggregate('name', 'DISTINCT', { plain: false })
       .then(function(data) {
 
@@ -276,12 +274,11 @@ module.exports = {
         Network.trainer.train(synapticTrainingData, trainingOptions);
 
         var newArray = Array.apply(null, Array(makeTraining.length)).map(Number.prototype.valueOf, 0);
-        return module.exports.evaluate(newArray,Network);
+        return module.exports.evaluate(newArray, Network);
 
       })
       .then(function(finalData) {
-        console.log(finalData, '$$$$ swag');
-        return finalData
+        return finalData;
       })
       .then(function(recData) {
 
@@ -294,19 +291,18 @@ module.exports = {
         }
 
         var destStr = destArr.join('%7C');
-        console.log(req.params,'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
+
         return requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
         // combine original data with new distance values
         .then(function(result) {
           if (recData) {
-            console.log(result)
             recData.map(function(rec, idx) {
               rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
             });
           }
 
-        return recData;
-        })
+          return recData;
+        });
       })
       .then(function(finalData) {
         res.status(201).send(finalData);

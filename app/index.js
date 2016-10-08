@@ -14,12 +14,11 @@ import Photos from './components/Photos';
 import CameraRoll from './components/CameraRoll';
 import Nav from './components/Nav';
 
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 import {Router, routerReducer, Route, Container, Animations, Actions, Schema} from 'react-native-redux-router';
 
 var config = require('../config.js');
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-
 
 let store = createStore(combineReducers({routerReducer}));
 
