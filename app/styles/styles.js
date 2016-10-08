@@ -75,6 +75,11 @@ export default StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
+  cameraNav: {
+    margin: 10,
+    top: 45,
+    left: 15
+  },
 
 
 ////+++++ Favorites +++++
@@ -160,6 +165,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
+  foodNav: {
+    height: 30,
+    margin: 10
+  },
+
   foodCard: {
     padding: 10,
     alignItems: 'center',
@@ -203,6 +214,11 @@ export default StyleSheet.create({
 
   profile: {
     height: 275,
+    flex: 1
+  },
+
+  userProfile: {
+    height: 300,
     width: 400
   },
 //++++++++++++++++++++++++++
@@ -251,7 +267,7 @@ export default StyleSheet.create({
     width: 400,
     opacity: 0.5,
     position: 'absolute',
-    top:-200,
+    top: -200,
     right: 0,
     bottom: 0,
     alignSelf: 'stretch',

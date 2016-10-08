@@ -8,11 +8,14 @@ import {
   View,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import {Actions} from 'react-native-redux-router';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Button } from 'react-native-vector-icons/Ionicons';
 import { RNS3 } from 'react-native-aws3';
 
 import styles from '../styles/styles';
 import config from '../../config';
+
 
 export default class RNCamera extends Component {
   constructor(props) {
@@ -41,7 +44,7 @@ export default class RNCamera extends Component {
       .then((data) => {
         console.log(data);
         const file = {
-          uri: data.path, 
+          uri: data.path,
           name:  userId + '_' + timestamp + '.jpg',
           type: 'image/jpeg'
         };
@@ -59,7 +62,7 @@ export default class RNCamera extends Component {
           .then(response => {
             if (response.status !== 201) {
               throw new Error('Failed to upload image to S3', response);
-             } 
+             }
             //decide how to integrate into database
             //else {
             //   fetch('http://localhost:1337/api/userimages' {
@@ -72,7 +75,7 @@ export default class RNCamera extends Component {
             //       uri: file.uri,
             //       user: file.name,
             //     })
-            //   }             
+            //   }
             // }
             console.log('*** BODY ***', response.body);
           });
@@ -92,7 +95,7 @@ export default class RNCamera extends Component {
 
     this.setState({
       camera: {
-        ...this.state.camera,
+        camera: this.state.camera,
         type: newType
       },
     });
@@ -125,7 +128,7 @@ export default class RNCamera extends Component {
 
     this.setState({
       camera: {
-        ...this.state.camera,
+        camera: this.state.camera,
         flashMode: newFlashMode,
       },
     });
@@ -166,7 +169,7 @@ export default class RNCamera extends Component {
         <View style={[styles.overlay, styles.topOverlay]}>
           <TouchableOpacity
             style={styles.typeButton}
-            onPress={this.switchType} 
+            onPress={this.switchType}
           >
             <Image
               source={this.typeIcon}
@@ -192,8 +195,25 @@ export default class RNCamera extends Component {
               />
             </TouchableOpacity>
           }
-          
+
         </View>
+          <View style={{flexDirection: 'row', top: 10}}>
+            <TouchableOpacity style={styles.cameraNav} onPress = {Actions.Photos}>
+              <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+             <TouchableOpacity style={styles.cameraNav} onPress = {Actions.Favorites}>
+              <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cameraNav} onPress = {Actions.Food}>
+              <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.cameraNav} onPress = {Actions.Recs}>
+              <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+               <TouchableOpacity style={styles.cameraNav} onPress = {Actions.Menu}>
+              <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+            </TouchableOpacity>
+          </View>
       </View>
     );
   }

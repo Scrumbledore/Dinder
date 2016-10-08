@@ -3,7 +3,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount, render } from 'enzyme';
-import Menu from '../../app/components/Menu'
+import Menu from '../../app/components/Menu';
 
 
 // var React = require('react');

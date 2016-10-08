@@ -76,7 +76,7 @@ module.exports = {
       });
     })
     .then(function(trainingObj) {
-      orderedTraining = trainingObj.sort((a,b) => {return b.weight - a.weight});
+      orderedTraining = trainingObj.sort((a, b) => { return b.weight - a.weight; });
       Category.aggregate('name', 'DISTINCT', { plain: false })
       .then(function(data) {
 
@@ -114,13 +114,13 @@ module.exports = {
         Network.trainer.train(synapticTrainingData, trainingOptions);
 
         var newArray = Array.apply(null, Array(makeTraining.length)).map(Number.prototype.valueOf, 0);
-        return module.exports.evaluate(newArray,Network);
+        return module.exports.evaluate(newArray, Network);
 
       })
       .then(function(finalData) {
         console.log(finalData);
         res.status(201).send(finalData);
-      })
+      });
     });
   },
 
