@@ -182,21 +182,21 @@ export default class Food extends Component {
           </View>
 
         </Animated.View>
-        <View style={{flexDirection: 'row', top: 80}}>
+        <View style={{flexDirection: 'row', top: 100}}>
           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
-            <Icon name='camera' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+            <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
            <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
-            <Icon name='star-border' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+            <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
-            <Icon name='local-pizza' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+            <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
              <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
-            <Icon name='assistant' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+            <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
              <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
-            <Icon name='menu' size={60} color={this.props.selected ? 'steelblue' : 'black' } />
+            <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>
         </View>
       </View>

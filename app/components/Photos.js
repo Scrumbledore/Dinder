@@ -35,7 +35,7 @@ export default class Photos extends Component {
           onPress={Actions.CameraRoll}
           buttonStyle={styles.buttonBlue}
           title='Get Photo From Library' />
-        <View style={{flexDirection: 'row', top: 170}}>
+        <View style={{flexDirection: 'row', top: 190}}>
           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
             <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
           </TouchableOpacity>

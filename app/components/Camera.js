@@ -197,7 +197,7 @@ export default class RNCamera extends Component {
           }
 
         </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', top: 10}}>
             <TouchableOpacity style={styles.cameraNav} onPress = {Actions.Photos}>
               <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
             </TouchableOpacity>

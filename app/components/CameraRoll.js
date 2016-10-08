@@ -3,14 +3,15 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 
 import styles from '../styles/styles';
-
+import {Actions} from 'react-native-redux-router';
 import CameraRollPicker from 'react-native-camera-roll-picker';
 import { Button } from 'react-native-elements';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
 export default class CameraRoll extends Component {
   constructor(props) {
     super(props);
@@ -45,12 +46,11 @@ export default class CameraRoll extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.CRcontent}>
-          
           <Button
             onPress={this.renderSuccessMessage.bind(this)}
             buttonStyle={styles.buttonBlue}
             title='Upload My Picture' />
-        <Text style={styles.CRtext}>{this.state.uploadSuccess}</Text>
+          <Text style={styles.CRtext}>{this.state.uploadSuccess}</Text>
         </View>
         <CameraRollPicker
           scrollRenderAheadDistance={500}
@@ -65,7 +65,23 @@ export default class CameraRoll extends Component {
           imagesPerRow={3}
           imageMargin={5}
           callback={this.getSelectedImages.bind(this)} />
-        
+        <View style={{flexDirection: 'row', top: -10}}>
+          <TouchableOpacity style={styles.foodNav} onPress = {Actions.Photos}>
+            <Icon name='camera' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
+           <TouchableOpacity style={styles.foodNav} onPress = {Actions.Favorites}>
+            <Icon name='star-border' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.foodNav} onPress = {Actions.Food}>
+            <Icon name='local-pizza' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Recs}>
+            <Icon name='assistant' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
+             <TouchableOpacity style={styles.foodNav} onPress = {Actions.Menu}>
+            <Icon name='menu' size={50} color={this.props.selected ? 'steelblue' : 'black' } />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
