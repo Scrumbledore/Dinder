@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   Text,
   View,
+  AsyncStorage
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Camera from 'react-native-camera';
 import { Button } from 'react-native-vector-icons/Ionicons';
 import { RNS3 } from 'react-native-aws3';
+import Camera from 'react-native-camera';
 
 import styles from '../styles/styles';
 import config from '../../config';
@@ -28,55 +29,68 @@ export default class RNCamera extends Component {
         flashMode: Camera.constants.FlashMode.auto,
       }
     }
-    this.takePicture = this.takePicture.bind(this);
-    this.switchType = this.switchType.bind(this);
-    this.switchFlash = this.switchFlash.bind(this);
   };
 
+  componentDidMount () {
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      this.setState({
+        token: token
+      }, this.getPhotos);
+    }).done();
+  }
+
   takePicture() {
-    const userId = this.props.userId;
     const timestamp = new Date().getTime().toString();
     this.camera.capture()
-    .then((data) => {
-      console.log(data);
-      const file = {
-        uri: data.path,
-        name:  userId + '_' + timestamp + '.jpg',
-        type: 'image/jpeg'
-      };
+      .then((data) => {
+        console.log(data);
+        const file = {
+          uri: data.path, 
+          name:  timestamp + '.jpg',
+          type: 'image/jpeg'
+        };
 
-      const options = {
-        keyPrefix: config.S3_NAME_PREFIX,
-        bucket: config.S3_BUCKET,
-        region: config.S3_REGION,
-        accessKey: config.S3_ACCESS_KEY,
-        secretKey: config.S3_SECRET_KEY,
-        successActionStatus: 201
-      };
+        //get s3 signed url on server
+        fetch(`${this.props.apiRoot}/api/s3upload`, {
+          method: 'POST',
+          headers: {
+            authorization: this.state.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: file.name,
+            contentType: 'image/jpeg'
+          })
+        })//fetch
+        .then(response => response.json())
 
-      RNS3.put(file, options)
-      .then(response => {
-        if (response.status !== 201) {
-          throw new Error('Failed to upload image to S3', response);
-         }
-        //decide how to integrate into database
-        //else {
-        //   fetch('http://localhost:1337/api/userimages' {
-        //     method: 'POST',
-        //     headers: {
-        //       'Accept': 'application/json',
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //       uri: file.uri,
-        //       user: file.name,
-        //     })
-        //   }
-        // }
-        console.log('*** BODY ***', response.body);
-      });
-    })
-    .catch(err => console.error(err));
+        // upload image to s3 using signed url from server
+        .then(options =>{
+          console.log("server side options", options)
+        RNS3.put(file, options)
+          .then(response => {
+            if (response.status !== 201) {
+              throw new Error('Failed to upload image to S3', response);
+            } 
+
+        //post url and info to photo database
+            fetch(`${this.props.apiRoot}/api/images`, {
+              method: 'POST',
+              headers: {
+                authorization: this.state.token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                url: response.body.postResponse.location,
+              })
+            })//fetch userimages   
+          })//thenresponse
+        })//thenoptions
+      })//thendata
+      .catch(err => console.error(err));
   }
 
   switchType() {
@@ -90,7 +104,7 @@ export default class RNCamera extends Component {
     }
     this.setState({
       camera: {
-        camera: this.state.camera,
+        ...this.state.camera,
         type: newType
       },
     });
@@ -119,7 +133,7 @@ export default class RNCamera extends Component {
     }
     this.setState({
       camera: {
-        camera: this.state.camera,
+        ...this.state.camera,
         flashMode: newFlashMode,
       },
     });
@@ -138,6 +152,7 @@ export default class RNCamera extends Component {
     return icon;
   }
 
+
   render() {
     return (
       <View style={styles.camContainer}>
@@ -153,18 +168,19 @@ export default class RNCamera extends Component {
           defaultTouchtoFocus
           mirrorImage={false} />
         <View style={[styles.overlay, styles.topOverlay]}>
-          <TouchableOpacity style={styles.typeButton} onPress={this.switchType} >
+          <TouchableOpacity style={styles.typeButton} onPress={this.switchType.bind(this)} >
             <Image source={this.typeIcon} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.flashButton} onPress={this.switchFlash} >
+          <TouchableOpacity style={styles.flashButton} onPress={this.switchFlash.bind(this)} >
             <Image source={this.flashIcon} />
           </TouchableOpacity>
         </View>
         <View style={[styles.overlay, styles.bottomOverlay]}>
-            <TouchableOpacity style={styles.captureButton} onPress={this.takePicture} >
+            <TouchableOpacity style={styles.captureButton} onPress={this.takePicture.bind(this)} >
               <Image source={require('../assets/ic_photo_camera_36pt.png')} />
             </TouchableOpacity>
         </View>
+
         {this.props.nav()}
       </View>
     );

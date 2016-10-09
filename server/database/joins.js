@@ -24,7 +24,7 @@ module.exports = function (connection) {
     through: UserRatings
   });
 
-
+  User.hasMany(Upload);
   Place.hasMany(Photo);
   Place.hasMany(Category);
 

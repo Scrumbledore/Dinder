@@ -199,8 +199,9 @@ export default StyleSheet.create({
   },
 
   profile: {
-    height: 275,
-    width: 400
+    height: 100,
+    width: 100,
+    borderRadius: 50
   },
 //++++++++++++++++++++++++++
 //+++++ GENERAL STYLES +++++
@@ -256,7 +257,7 @@ export default StyleSheet.create({
     width: 400,
     opacity: 0.5,
     position: 'absolute',
-    top:-200,
+    top: -200,
     right: 0,
     bottom: 0,
     alignSelf: 'stretch',

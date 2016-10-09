@@ -10,7 +10,7 @@ module.exports = {
     const email = req.body.email;
     const password = req.body.password;
 
-    console.log(email, password)
+    console.log(email, password);
 
     // PostgreSQL performs error checking on the user model
 
@@ -32,7 +32,7 @@ module.exports = {
     const email = req.body.email;
     const password = req.body.password;
 
-    console.log(email, password)
+    console.log(email, password);
 
     User.findOne({
       where: {

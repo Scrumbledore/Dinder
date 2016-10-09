@@ -12,6 +12,7 @@ import {
   Scene
 } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles/styles.js';
 
 import SignIn from './components/SignIn';
@@ -21,8 +22,6 @@ import Favorites from './components/Favorites';
 import Recs from './components/Recs';
 import Menu from './components/Menu';
 import RNCamera from './components/Camera';
-import Photos from './components/Photos';
-import CameraRoll from './components/CameraRoll';
 
 const config = require('../config.js');
 
@@ -50,6 +49,7 @@ export default class DinDin extends Component {
     AsyncStorage.getItem('jwt')
     .then((value) => {
       if (value) {
+        console.log(value);
         Actions.food();
       }
     }).done();
@@ -98,11 +98,9 @@ export default class DinDin extends Component {
     return (
       <Router hideNavBar={true} nav={this.renderNav} apiRoot={this.state.apiRoot} >
         <Scene key='root' >
-          <Scene key='signin' type='replace' component={SignIn} initial={true} />
+          <Scene key='signin' type='replace' component={SignIn} />
           <Scene key='signup' type='replace' component={SignUp} />
-          <Scene key='photos' type='replace' component={Photos} />
-          <Scene key='camera' type='replace' component={RNCamera} />
-          <Scene key='cameraroll' type='replace' component={CameraRoll} />
+          <Scene key='photos' type='replace' component={RNCamera} />
           <Scene key='favorites' type='replace' component={Favorites} />
           <Scene key='food' type='replace' component={Food} />
           <Scene key='recs' type='replace' component={Recs} />

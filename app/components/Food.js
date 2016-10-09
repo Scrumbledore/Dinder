@@ -9,7 +9,6 @@ var SWIPE_THRESHOLD = 96;
 export default class Food extends Component {
   constructor (props) {
     super(props);
-    console.log(this.props)
     this.state = {
       swipe: new Animated.ValueXY(),
       enter: new Animated.Value(0),
@@ -184,13 +183,13 @@ export default class Food extends Component {
       <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
         <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{flex: 1, alignSelf: 'stretch', width: null, borderRadius: 3}} />
         <View style={touchBar}>
-          <TouchableOpacity  onPress={() => this.judge('no')}>
+          <TouchableOpacity onPress={() => this.judge('no')}>
             <Icon style={foodIcon} name='times-circle' color={crossColor} size={50} />
           </TouchableOpacity>
-          <TouchableOpacity  onPress={() => this.fave()}>
+          <TouchableOpacity onPress={() => this.fave()}>
             <Icon style={foodIcon} name='star' color={starColor} size={50} />
           </TouchableOpacity>
-          <TouchableOpacity  onPress={() => this.judge('yes')}>
+          <TouchableOpacity onPress={() => this.judge('yes')}>
             <Icon style={foodIcon} name='check-circle' color={checkColor} size={50} />
           </TouchableOpacity>
         </View>
@@ -227,7 +226,7 @@ export default class Food extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Foods Near You</Text>
-        <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           {!this.state.loaded ? <Text>Loading...</Text>
             : (this.state.cards.length ? this.renderCard()
                 : this.renderNoMore())}
