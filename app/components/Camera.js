@@ -44,7 +44,6 @@ export default class RNCamera extends Component {
     const timestamp = new Date().getTime().toString();
     this.camera.capture()
       .then((data) => {
-        console.log(data);
         const file = {
           uri: data.path, 
           name:  timestamp + '.jpg',
@@ -68,7 +67,6 @@ export default class RNCamera extends Component {
 
         // upload image to s3 using signed url from server
         .then(options =>{
-          console.log("server side options", options)
         RNS3.put(file, options)
           .then(response => {
             if (response.status !== 201) {
