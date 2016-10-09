@@ -12,7 +12,6 @@ import {
   Scene
 } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles/styles.js';
 
 import SignIn from './components/SignIn';
