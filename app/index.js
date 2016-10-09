@@ -98,7 +98,7 @@ export default class DinDin extends Component {
     return (
       <Router hideNavBar={true} nav={this.renderNav} apiRoot={this.state.apiRoot} >
         <Scene key='root' >
-          <Scene key='signin' type='replace' component={SignIn} />
+          <Scene key='signin' type='replace' component={SignIn} initial={true}/>
           <Scene key='signup' type='replace' component={SignUp} />
           <Scene key='photos' type='replace' component={RNCamera} />
           <Scene key='favorites' type='replace' component={Favorites} />
