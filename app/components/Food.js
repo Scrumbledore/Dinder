@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage } from 'react-native';
+import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/styles.js';
 
@@ -181,6 +181,9 @@ export default class Food extends Component {
     };
     return (
       <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
+        <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+          <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
+        </TouchableOpacity>
         <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{flex: 1, alignSelf: 'stretch', width: null, borderRadius: 3}} />
         <View style={touchBar}>
           <TouchableOpacity onPress={() => this.judge('no')}>
