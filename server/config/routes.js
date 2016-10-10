@@ -35,4 +35,10 @@ module.exports = function (app, express) {
   app.post('/api/signin', authHandler.signIn);
 
   app.post('/api/signup', authHandler.signUp);
+
+  app.post('/api/s3upload', s3Handler.sendPolicy);
+
+  app.post('/api/images', userHandler.postUserImage);
+
+  app.get('/api/images', userHandler.getUserImage);
 };
