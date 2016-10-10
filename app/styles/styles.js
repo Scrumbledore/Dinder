@@ -80,7 +80,7 @@ export default StyleSheet.create({
 
   foodFavCardOuter: {
     padding: 10,
-    alignItems: 'center',
+    //alignItems: 'right',
     alignSelf: 'center',
     backgroundColor: '#fafafa',
     marginBottom: 4
@@ -127,7 +127,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'stretch',
-    height: 50
+    height: 70
   },
   foodRecCardBottomComment: {
     flex: 1,
@@ -262,6 +262,14 @@ export default StyleSheet.create({
     bottom: 0,
     alignSelf: 'stretch',
     left: -100,
+  },
+  yelpLogo: {
+    height: 30,
+    alignSelf: 'flex-end'
+  },
+  yelpLogoCenter: {
+    height: 30,
+    alignSelf: 'center'
   },
 
 ////+++++ Buttons +++++

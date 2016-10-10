@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ListView, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, ListView, Image, AsyncStorage, Linking, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Iconz from 'react-native-vector-icons/Ionicons';
-import { Tabs, Tab, utton } from 'react-native-elements';
+import { Tabs, Tab, Button } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 
 import styles from '../styles/styles.js';
@@ -88,6 +88,11 @@ export default class Recs extends Component {
             <Text style={styles.foodRecName}>{rec.name}</Text>
             <View>
               <View>
+                <View>
+                  <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+                    <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogoCenter} />
+                  </TouchableOpacity>
+                </View>
                 <StarRating rating={rec.rating * 1} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
               </View>
               <Text style={{textAlign: 'center', fontSize: 16, color: '#66cc66', fontWeight: '900'}}>{rec.price}</Text>

@@ -5,7 +5,8 @@ import {
   ListView,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Linking
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -92,7 +93,13 @@ export default class Favorites extends Component {
   favoriteEntry(favorite) {
     return (
       <View style={styles.foodFavCardOuter} >
+        <View>
+          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+            <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.foodFavCardInner} >
+
           <Image source={{uri: favorite.url}} resizeMode='contain' style={{width: 350, height: 300}} />
         </View>
         <View style={styles.foodFavCardComment} >
