@@ -102,8 +102,6 @@ var getSavedPhotos = function (placeId) {
 module.exports = {
 
   postUserImage: function (req, res) {
-    console.log(req.body.url);
-    console.log(req.userId);
     Upload.create({
       url: req.body.url,
       UserId: req.userId
