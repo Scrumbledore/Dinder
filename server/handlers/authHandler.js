@@ -69,7 +69,7 @@ module.exports = {
     var path = req.originalUrl.indexOf('/api/') > -1
              ? req.originalUrl.replace('/api/', '')
              : req.path;
-    if (path === '/' || path === 'signin' || path === 'signup' || path === '/uber') {
+    if (path === '/' || path === 'signin' || path === 'signup' || path.indexOf('uber') > -1) {
       next();
     } else if (!token) {
       res.sendStatus(401);

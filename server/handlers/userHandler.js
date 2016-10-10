@@ -200,14 +200,42 @@ module.exports = {
 
   // use this to call exchange code for token
   getUber: function(req, res) {
-    var code = req.params.code
-    console.log(code)
+    console.log('getUber invoked on userHandle');
+    console.log('ret', req.body.code);
+    var code = req.body.code;
 
+    var options = {
+      url: 'https://login.uber.com/oauth/v2/token',
+      form: {
+        client_secret: config.UBER_CLIENT_SECRET,
+        client_id: config.UBER_CLIENT_ID,
+        grant_type: 'authorization_code',
+        redirect_uri: 'iOSdindin://uber',
+        code: code
+      },
+      method: 'POST'
+    }
 
+    request(options, function(err, response, body) {
+      console.log(body)
+    })
+
+    // request.get(`https://login.uber.com/oauth/v2/token`, {
+    //   form: {
+    //     client_secret: config.UBER_CLIENT_SECRET,
+    //     client_id: config.UBER_CLIENT_ID,
+    //     grante_type: 'authoriazation_code',
+    //     redirect_uri: 'iOSdindin://uber',
+    //     code: code
+    //   }
+    // }).on('response', function(data) {
+    //   console.log("i got a response")
+    //   console.log(data.body);
+    //   console.log("end of response")
+    // });
     // request to uber
 
-
-    res.status(201).send()
+    // res.status(201).send({'uber' : code })
 
   },
 

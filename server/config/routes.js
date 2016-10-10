@@ -13,7 +13,7 @@ module.exports = function (app, express) {
   });
 
   // client sends code to server to get token
-  app.get('/uber/:code', userHandler.getUber)
+  app.post('/uber', userHandler.getUber)
 
   // for getting favorited pictures for a userid
   app.get('/api/favorites', userHandler.getFavorites);

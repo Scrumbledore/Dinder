@@ -48,33 +48,58 @@ export default class Recs extends Component {
   }
 
   componentDidMount () {
-    console.log('props0:', this.props)
-    Linking.addEventListener('url', this._handleOpenURL)
-    console.log("mounting222")
+    // console.log('props0:', this.props)
+    Linking.addEventListener('url', this._handleOpenURL);
+    // console.log("mounting222")
     AsyncStorage.getItem('jwt')
     .then((token) => {
       this.setState({
         token: token
       }, this.getRecs);
     }).done();
-    console.log('props1:', this.props)
 
   }
 
   _handleOpenURL(e) {
+
     if (e.url.indexOf('uber') > 0) {
-      console.log("hhohohoh")
-      var code = e.url.slice(e.url.indexOf('=') + 1)
-      console.log('props:', this.props)
-      console.log('state:', this.state)
-      // fetch(`${this.props.apiRoot}/uber/${code}`, {
-      //   method: 'GET',
-      //   headers: {
-      //     authorization: this.state.token
-      //   }
-      // })
+      var urlCode = e.url.slice(e.url.indexOf('=') + 1);
+
+      console.log(`http://localhost:1337/uber`);
+      var code = {code: urlCode};
+      console.log(code)
+      fetch(`http://localhost:1337/uber`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(code)
+        //   authorization: this.state.token
+        // }
+      })
       // .then((data) => data.json())
-      // .then((uber) => AsyncStroage.setItem('uber', uber))
+      // .then((data) => {
+      //   return data.uber;
+      // })
+      // .then((uber) => {
+      //   AsyncStorage.setItem('uber', uber, () => {
+      //     AsyncStorage.getItem('uber', (err, val) => console.log('val=========================', val));
+      //   });
+      // })
+
+
+
+      //   .then(() => AsyncStorage.getItem('uber', (err, val) => console.log('val=========================', val)));
+      // })
+        // if (uber) {
+        //   AsyncStorage.setItem('uber', uber.uber)
+        // } else {
+        //   console.log("YOU HAD NOOO UBBBBBERRERER!!!")
+        // } 
+
+      // .then(() => AsyncStorage.getAllKeys((val) => console.log('val=========================', val)))
+      .catch((err) => console.warn(err));
     }
   }
 
@@ -146,8 +171,12 @@ export default class Recs extends Component {
   authUber() {
     AsyncStorage.getItem('uber', function(uber) {
       console.log('date!@#!@#!@#!@#!@#!@#!@#!@#!@#', new Date())
+      console.log("================================================================")
+      console.log(uber)
       if (uber) {
         console.log("have valid token")
+        console.log("================================================================")
+        console.log(uber)
         // do something else
       } else {
         Linking.openURL('https://login.uber.com/oauth/v2/authorize?client_id=cYvOtLL60FJvwmeBKtzOwOm3itHYIiCw&response_type=code')
