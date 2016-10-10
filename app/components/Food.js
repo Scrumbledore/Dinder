@@ -186,11 +186,10 @@ export default class Food extends Component {
 
     return (
       <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
-        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={styles.foodImg} >
-          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
-            <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
-          </TouchableOpacity>
-        </Image>
+        <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+          <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
+        </TouchableOpacity>
+        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{flex: 1, alignSelf: 'stretch', width: null, borderRadius: 3}} />
         <View style={styles.touchBar} >
           <TouchableOpacity onPress={() => this.judge('no')} >
             <Icon style={{textAlign: 'center'}} name='times-circle' color={crossColor} size={size} />
