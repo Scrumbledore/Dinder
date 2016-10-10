@@ -55,7 +55,7 @@ export default class DinDin extends Component {
   }
 
   renderNav() {
-    let color = 'hsl(215.5,23.4%,62%)';
+    let color = 'hsl(0.9,100%,96%)';
     let size = 30;
     return (
       <View style={styles.navBar}>

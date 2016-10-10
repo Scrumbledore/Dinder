@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ListView, Image, AsyncStorage, TouchableHighlight, Linking, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Iconz from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Tabs, Tab, Button } from 'react-native-elements';
+
 import StarRating from 'react-native-star-rating';
 
 import styles from '../styles/styles.js';
@@ -91,7 +91,7 @@ export default class Recs extends Component {
     return (
       <View style={styles.container}>
 
-        <Text style={styles.welcome}>Recommended For You...</Text>
+        <Text style={styles.welcome}>Recommended For You</Text>
 
         {!this.state.recs || this.state.recs.getRowCount() === 0
           ? this.renderEmpty()
@@ -114,39 +114,36 @@ export default class Recs extends Component {
 
   recEntry(rec) {
     return (
-      <View style={styles.foodRecCardOuter}>
-        <View style={styles.foodRecCardComment} >
-            <Text style={styles.foodRecName}>{rec.name}</Text>
-            <View>
-              <View>
-                <View>
-                  <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
-                    <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogoCenter} />
-                  </TouchableOpacity>
-                </View>
-                <StarRating rating={rec.rating * 1} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'#d8ae47'} starSize={20}/>
-              </View>
-              <Text style={{textAlign: 'center', fontSize: 16, color: '#66cc66', fontWeight: '900'}}>{rec.price}</Text>
-            </View>
+      <View style={styles.foodCard}>
+        <View style={[styles.cardRowStyle, {alignItems: 'center'}]}>
+          <Text style={styles.foodRecName}>{rec.name}</Text>
+          <StarRating rating={rec.rating * 1} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'hsl(45.8,100%,49.8%)'} starSize={20}/>
         </View>
-        <View style={styles.foodRecCardInner}>
-          <Image source={{uri: rec.url}}
-          resizeMode='contain' style={{width: 350, height: 350}} />
-        </View>
-        <View style={styles.foodRecCardBottomComment} >
-          <View style={{flex: 3}}>
+        <Image source={{uri: rec.url}} resizeMode='cover' style={styles.foodImg} >
+          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+            <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
+          </TouchableOpacity>
+        </Image>
+        <View style={[styles.cardRowStyle, {alignItems: 'center'}]} >
+          <View style={{flexDirection: 'column'}}>
             <Text>{rec.address}</Text>
             <Text>{rec.city}, {rec.state}</Text>
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch'}}>
-              <Text>{rec.zip}</Text>
-              <Text style={{fontStyle: 'italic', paddingRight: 10}}>~{rec.dist}</Text>
-            </View>
+            <Text>{rec.zip}</Text>
           </View>
-          <TouchableHighlight onPress={((e) => this.getUber(rec.name, rec.address, rec.city, rec.state, rec.lat, rec.lon))} style={{flex: 2}}>
-            <View>
-              <Text>Uber here</Text>
-            </View>
-          </TouchableHighlight>
+          <View>
+            <Text style={{textAlign: 'center', fontSize: 16, color: 'hsl(120.9,92.1%,59.6%)', fontWeight: '900'}}>{rec.price}</Text>
+            <Text style={{textAlign: 'right', fontStyle: 'italic'}}>~{rec.dist}</Text>
+          </View>
+          <Button
+            onPress={(() => this.getUber(rec.name, rec.address, rec.city, rec.state, rec.lat, rec.lon))}
+            buttonStyle={{
+              width: 100,
+              height: 50,
+              marginRight: 0,
+              borderRadius: 6,
+              backgroundColor: '#1da1f2',
+            }}
+            title='Uber Here' />
         </View>
       </View>
     );

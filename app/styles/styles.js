@@ -156,47 +156,65 @@ export default StyleSheet.create({
   foodCard: {
     width: width - 8,
     height: width - 8,
+    marginVertical: 8,
     padding: 8,
     backgroundColor: 'hsl(0,0%,100%)',
     borderWidth: 1,
     borderRadius: 3,
-    borderColor: 'hsl(215,24%,60%)',
+    borderColor: 'hsl(240.9,24%,80%)',
     borderStyle: 'solid',
     alignSelf: 'center',
+  },
+  foodImg: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
+    borderRadius: 3
   },
   touchBar: {
     flexDirection: 'row',
     alignSelf: 'stretch',
+    alignItems: 'center',
     width: null,
     justifyContent: 'space-between',
     paddingHorizontal: 30,
-    paddingTop: 5
+    paddingTop: 8
+  },
+  cardRowStyle: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    paddingHorizontal: 3,
+    paddingVertical: 8
+  },
+  pop: {
+    position: 'absolute',
+    width: width * 0.5,
+    height: width * 0.5,
+    top: height * 0.25,
+    borderRadius: width / 2,
+    justifyContent: 'center'
   },
   yup: {
-    borderColor: 'green',
-    borderWidth: 2,
-    position: 'absolute',
-    padding: 20,
-    top: 60,
-    borderRadius: 5,
-    right: 20,
-  },
-  yupText: {
-    fontSize: 16,
-    color: 'green',
+    backgroundColor: 'hsl(120.9,92.1%,59.6%)',
+    right: -(width * 0.25)
   },
   nope: {
-    borderColor: 'red',
-    borderWidth: 2,
-    position: 'absolute',
-    top: 60,
-    padding: 20,
-    borderRadius: 5,
-    left: 20,
+    backgroundColor: 'hsl(0.9,92.1%,59.6%)',
+    left: -(width * 0.25)
+  },
+  popText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'hsl(0,0%,100%)'
+  },
+  yupText: {
+    textAlign: 'left',
+    marginLeft: width * 0.0625
   },
   nopeText: {
-    fontSize: 16,
-    color: 'red',
+    textAlign: 'right',
+    marginRight: width * 0.0625
   },
 
 ////+++++ Menu +++++
@@ -222,18 +240,18 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'hsl(215,24%,80%)'
+    backgroundColor: 'hsl(240.9,20%,96%)'
   },
   welcome: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     width: null,
-    fontSize: 30,
+    fontSize: 24,
     paddingBottom: 3,
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     fontWeight: 'bold',
-    backgroundColor: 'hsl(215,24%,60%)',
-    color: 'hsl(215,24%,35%)'
+    color: 'hsl(0,0%,100%)',
+    backgroundColor: 'hsl(240.9,10%,20%)'
   },
   errorTextStyle: {
     fontSize: 20,
@@ -276,7 +294,7 @@ export default StyleSheet.create({
   },
   yelpLogo: {
     height: 30,
-    alignSelf: 'flex-end'
+    margin: 8
   },
   yelpLogoCenter: {
     height: 30,
@@ -284,14 +302,14 @@ export default StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
-    backgroundColor: 'hsl(215,24%,40%)',
+    backgroundColor: 'hsl(0.9,100%,59.6%)',
     alignSelf: 'stretch',
     width: null,
     justifyContent: 'space-between',
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderTopWidth: 2,
-    borderColor: 'hsl(215,24%,35%)',
+    borderColor: 'hsl(355.5,100%,74.7%)',
     borderStyle: 'solid'
   },
 
