@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
+const { height, width } = Dimensions.get('window');
+
 export default StyleSheet.create({
 
 //++++++++++++++++++++++++++++++
@@ -7,6 +9,7 @@ export default StyleSheet.create({
 //++++++++++++++++++++++++++++++
 
 ////+++++ Camera Roll +++++
+
   CRcontainer: {
     flex: 1,
     backgroundColor: '#F6AE2D'
@@ -29,6 +32,7 @@ export default StyleSheet.create({
   CRinfo: {
     fontSize: 12,
   },
+
 ////+++++ Camera +++++
 
   camContainer: {
@@ -74,7 +78,6 @@ export default StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
-
 
 ////+++++ Favorites +++++
 
@@ -148,20 +151,26 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
 
-
-
 ////+++++ Food +++++
 
   foodCard: {
-    width: 350,
-    height: 350,
-    padding: 10,
+    width: width - 8,
+    height: width - 8,
+    padding: 8,
     backgroundColor: 'hsl(0,0%,100%)',
     borderWidth: 1,
     borderRadius: 3,
-    borderColor: 'hsl(215.5,23.4%,62%)',
+    borderColor: 'hsl(215,24%,60%)',
     borderStyle: 'solid',
     alignSelf: 'center',
+  },
+  touchBar: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    width: null,
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    paddingTop: 5
   },
   yup: {
     borderColor: 'green',
@@ -191,6 +200,7 @@ export default StyleSheet.create({
   },
 
 ////+++++ Menu +++++
+
   menuContainer: {
     top: 20,
     flex: 1,
@@ -203,6 +213,7 @@ export default StyleSheet.create({
     width: 100,
     borderRadius: 50
   },
+
 //++++++++++++++++++++++++++
 //+++++ GENERAL STYLES +++++
 //++++++++++++++++++++++++++
@@ -211,18 +222,18 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'hsl(216.4,23.7%,76.9%)'
+    backgroundColor: 'hsl(215,24%,80%)'
   },
   welcome: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     width: null,
     fontSize: 30,
-    paddingVertical: 8,
+    paddingBottom: 3,
     paddingHorizontal: 10,
     fontWeight: 'bold',
-    color: 'hsl(215.5,23.4%,62%)',
-    backgroundColor: 'hsl(215.5,23.4%,36.9%)'
+    backgroundColor: 'hsl(215,24%,60%)',
+    color: 'hsl(215,24%,35%)'
   },
   errorTextStyle: {
     fontSize: 20,
@@ -271,8 +282,21 @@ export default StyleSheet.create({
     height: 30,
     alignSelf: 'center'
   },
+  navBar: {
+    flexDirection: 'row',
+    backgroundColor: 'hsl(215,24%,40%)',
+    alignSelf: 'stretch',
+    width: null,
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderTopWidth: 2,
+    borderColor: 'hsl(215,24%,35%)',
+    borderStyle: 'solid'
+  },
 
 ////+++++ Buttons +++++
+
   buttonBlue: {
     marginBottom: 15,
     marginTop: 15,

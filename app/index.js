@@ -57,37 +57,22 @@ export default class DinDin extends Component {
   renderNav() {
     let color = 'hsl(215.5,23.4%,62%)';
     let size = 30;
-    let navIcon = {
-      textAlign: 'center',
-    };
-    let navBar = {
-      flexDirection: 'row',
-      backgroundColor: 'hsl(215.5,23.4%,36.9%)',
-      alignSelf: 'stretch',
-      width: null,
-      justifyContent: 'space-between',
-      paddingHorizontal: 30,
-      paddingVertical: 10,
-      borderTopWidth: 2,
-      borderColor: 'hsl(215.5,23.4%,26.9%)',
-      borderStyle: 'solid'
-    };
     return (
-      <View style={navBar}>
+      <View style={styles.navBar}>
         <TouchableOpacity onPress={Actions.photos}>
-          <Icon name='camera' style={navIcon} color={color} size={size} />
+          <Icon name='camera' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.favorites}>
-          <Icon name='star' style={navIcon} color={color} size={size} />
+          <Icon name='star' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.food}>
-          <Icon name='cutlery' style={navIcon} color={color} size={size} />
+          <Icon name='cutlery' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.recs}>
-          <Icon name='search' style={navIcon} color={color} size={size} />
+          <Icon name='search' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.menu}>
-          <Icon name='bars' style={navIcon} color={color} size={size} />
+          <Icon name='bars' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
       </View>
     );
