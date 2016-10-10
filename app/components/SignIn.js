@@ -48,7 +48,7 @@ export default class SignIn extends Component {
     return (
       <View style={styles.container}>
         <View>
-         <Image source={require('./assets/food.jpg')} resizeMode="cover" style={styles.coverImage}/>
+         <Image source={require('./assets/food.png')} resizeMode="cover" style={styles.coverImage}/>
           <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80, top: -110}}>
             DinDin
           </Text>
