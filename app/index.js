@@ -12,7 +12,6 @@ import {
   Scene
 } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles/styles.js';
 
 import SignIn from './components/SignIn';
@@ -98,7 +97,7 @@ export default class DinDin extends Component {
     return (
       <Router hideNavBar={true} nav={this.renderNav} apiRoot={this.state.apiRoot} >
         <Scene key='root' >
-          <Scene key='signin' type='replace' component={SignIn} />
+          <Scene key='signin' type='replace' component={SignIn} initial={true}/>
           <Scene key='signup' type='replace' component={SignUp} />
           <Scene key='photos' type='replace' component={RNCamera} />
           <Scene key='favorites' type='replace' component={Favorites} />
