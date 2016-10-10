@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
+const { height, width } = Dimensions.get('window');
+
 export default StyleSheet.create({
 
 //++++++++++++++++++++++++++++++
@@ -7,6 +9,7 @@ export default StyleSheet.create({
 //++++++++++++++++++++++++++++++
 
 ////+++++ Camera Roll +++++
+
   CRcontainer: {
     flex: 1,
     backgroundColor: '#F6AE2D'
@@ -29,6 +32,7 @@ export default StyleSheet.create({
   CRinfo: {
     fontSize: 12,
   },
+
 ////+++++ Camera +++++
 
   camContainer: {
@@ -74,7 +78,6 @@ export default StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
-
 
 ////+++++ Favorites +++++
 
@@ -148,49 +151,74 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
 
-
-
 ////+++++ Food +++++
 
   foodCard: {
-    width: 350,
-    height: 350,
-    padding: 10,
+    width: width - 8,
+    height: width - 8,
+    marginVertical: 8,
+    padding: 8,
     backgroundColor: 'hsl(0,0%,100%)',
     borderWidth: 1,
     borderRadius: 3,
-    borderColor: 'hsl(215.5,23.4%,62%)',
+    borderColor: 'hsl(240.9,24%,80%)',
     borderStyle: 'solid',
     alignSelf: 'center',
   },
-  yup: {
-    borderColor: 'green',
-    borderWidth: 2,
-    position: 'absolute',
-    padding: 20,
-    top: 60,
-    borderRadius: 5,
-    right: 20,
+  foodImg: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
+    borderRadius: 3
   },
-  yupText: {
-    fontSize: 16,
-    color: 'green',
+  touchBar: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    width: null,
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    paddingTop: 8
+  },
+  cardRowStyle: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    paddingHorizontal: 3,
+    paddingVertical: 8
+  },
+  pop: {
+    position: 'absolute',
+    width: width * 0.5,
+    height: width * 0.5,
+    top: height * 0.25,
+    borderRadius: width / 2,
+    justifyContent: 'center'
+  },
+  yup: {
+    backgroundColor: 'hsl(120.9,92.1%,59.6%)',
+    right: -(width * 0.25)
   },
   nope: {
-    borderColor: 'red',
-    borderWidth: 2,
-    position: 'absolute',
-    top: 60,
-    padding: 20,
-    borderRadius: 5,
-    left: 20,
+    backgroundColor: 'hsl(0.9,92.1%,59.6%)',
+    left: -(width * 0.25)
+  },
+  popText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'hsl(0,0%,100%)'
+  },
+  yupText: {
+    textAlign: 'left',
+    marginLeft: width * 0.0625
   },
   nopeText: {
-    fontSize: 16,
-    color: 'red',
+    textAlign: 'right',
+    marginRight: width * 0.0625
   },
 
 ////+++++ Menu +++++
+
   menuContainer: {
     top: 20,
     flex: 1,
@@ -203,6 +231,7 @@ export default StyleSheet.create({
     width: 100,
     borderRadius: 50
   },
+
 //++++++++++++++++++++++++++
 //+++++ GENERAL STYLES +++++
 //++++++++++++++++++++++++++
@@ -211,18 +240,18 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'hsl(216.4,23.7%,76.9%)'
+    backgroundColor: 'hsl(240.9,20%,96%)'
   },
   welcome: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     width: null,
-    fontSize: 30,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
+    fontSize: 24,
+    paddingBottom: 3,
+    paddingHorizontal: 8,
     fontWeight: 'bold',
-    color: 'hsl(215.5,23.4%,62%)',
-    backgroundColor: 'hsl(215.5,23.4%,36.9%)'
+    color: 'hsl(0,0%,100%)',
+    backgroundColor: 'hsl(240.9,10%,20%)'
   },
   errorTextStyle: {
     fontSize: 20,
@@ -265,14 +294,27 @@ export default StyleSheet.create({
   },
   yelpLogo: {
     height: 30,
-    alignSelf: 'flex-end'
+    margin: 8
   },
   yelpLogoCenter: {
     height: 30,
     alignSelf: 'center'
   },
+  navBar: {
+    flexDirection: 'row',
+    backgroundColor: 'hsl(0.9,100%,59.6%)',
+    alignSelf: 'stretch',
+    width: null,
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderTopWidth: 2,
+    borderColor: 'hsl(355.5,100%,74.7%)',
+    borderStyle: 'solid'
+  },
 
 ////+++++ Buttons +++++
+
   buttonBlue: {
     marginBottom: 15,
     marginTop: 15,

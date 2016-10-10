@@ -165,35 +165,27 @@ export default class Food extends Component {
       opacity
     };
 
-    let checkColor = 'hsl(130,100%,50%)';
-    let crossColor = 'hsl(0,100%,50%)';
-    let starColor = this.state.faved ? 'hsl(50,100%,50%)' : 'hsl(0,0%,50%)';
-    let foodIcon = {
-      textAlign: 'center'
-    };
-    let touchBar = {
-      flexDirection: 'row',
-      alignSelf: 'stretch',
-      width: null,
-      justifyContent: 'space-between',
-      paddingHorizontal: 10,
-      paddingTop: 10
-    };
+    let size = 50;
+    let checkColor = 'hsl(120.9,92.1%,59.6%)';
+    let crossColor = 'hsl(0.9,92.1%,59.6%)';
+    let starColor = this.state.faved ? 'hsl(45.8,100%,49.8%)' : 'hsl(0,0%,59.6%)';
+
     return (
       <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
-        <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
-          <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
-        </TouchableOpacity>
-        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{flex: 1, alignSelf: 'stretch', width: null, borderRadius: 3}} />
-        <View style={touchBar}>
-          <TouchableOpacity onPress={() => this.judge('no')}>
-            <Icon style={foodIcon} name='times-circle' color={crossColor} size={50} />
+        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={styles.foodImg} >
+          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+            <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.fave()}>
-            <Icon style={foodIcon} name='star' color={starColor} size={50} />
+        </Image>
+        <View style={styles.touchBar} >
+          <TouchableOpacity  onPress={() => this.judge('no')} >
+            <Icon style={{textAlign: 'center'}} name='times-circle' color={crossColor} size={size} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.judge('yes')}>
-            <Icon style={foodIcon} name='check-circle' color={checkColor} size={50} />
+          <TouchableOpacity  onPress={() => this.fave()} >
+            <Icon style={{textAlign: 'center'}} name='star' color={starColor} size={size} />
+          </TouchableOpacity>
+          <TouchableOpacity  onPress={() => this.judge('yes')} >
+            <Icon style={{textAlign: 'center'}} name='check-circle' color={checkColor} size={size} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -216,30 +208,29 @@ export default class Food extends Component {
     let pan = this.state.swipe;
     let yupStyle = {
       opacity: pan.x.interpolate({
-        inputRange: [0, 150],
-        outputRange: [0, 1]
+        inputRange: [0, 80],
+        outputRange: [0, 0.6]
       })
     };
     let nopeStyle = {
       opacity: pan.x.interpolate({
-        inputRange: [-150, 0],
-        outputRange: [1, 0]
+        inputRange: [-80, 0],
+        outputRange: [0.6, 0]
       })
     };
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Foods Near You</Text>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{flex: 1}}>
+        <Text style={styles.welcome}>Food Near You</Text>
+        <View style={styles.container}>
           {!this.state.loaded ? <Text>Loading...</Text>
             : (this.state.cards.length ? this.renderCard()
                 : this.renderNoMore())}
         </View>
-        <Animated.View style={[styles.yup, yupStyle]}>
-          <Text style={styles.yupText}>Yum!</Text>
+        <Animated.View style={[styles.pop, styles.yup, yupStyle]}>
+          <Text style={[styles.popText, styles.yupText]}>Yum!</Text>
         </Animated.View>
-
-        <Animated.View style={[styles.nope, nopeStyle]}>
-          <Text style={styles.nopeText}>Meh.</Text>
+        <Animated.View style={[styles.pop, styles.nope, nopeStyle]}>
+          <Text style={[styles.popText, styles.nopeText]}>Meh.</Text>
         </Animated.View>
         {this.props.nav()}
       </View>

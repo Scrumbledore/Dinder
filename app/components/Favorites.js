@@ -9,8 +9,7 @@ import {
   Linking
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Iconz from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from '../styles/styles.js';
 
@@ -84,7 +83,7 @@ export default class Favorites extends Component {
   renderEmpty() {
     return (
       <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-        <Icon name='cake' size={60}/>
+        <Icon name='cutlery' size={60}/>
         <Text >You haven't favorited anything yet.</Text>
         <Icon name='refresh' size={60} onPress={() => this.fetchFavs()} />
       </View>
@@ -92,26 +91,23 @@ export default class Favorites extends Component {
   }
   favoriteEntry(favorite) {
     return (
-      <View style={styles.foodFavCardOuter} >
-        <View>
+      <View style={styles.foodCard} >
+        <Image source={{uri: favorite.url}} resizeMode='cover' style={styles.foodImg}>
           <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
             <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
           </TouchableOpacity>
-        </View>
-        <View style={styles.foodFavCardInner} >
-
-          <Image source={{uri: favorite.url}} resizeMode='contain' style={{width: 350, height: 300}} />
-        </View>
-        <View style={styles.foodFavCardComment} >
+        </Image>
+        <View style={[styles.cardRowStyle, {alignItems: 'center'}]} >
           <Text style={{fontSize: 20, fontFamily: 'Noteworthy'}}>{this.randomQuote()}</Text>
           <TouchableOpacity style={styles.foodIcon} onPress = {() => this.unFavorite(favorite.id)}>
-            <Iconz name='md-star' color='#FFDC00' size={40} />
+            <Icon name='minus-square' color='hsl(0,0%,59.6%)' size={20} />
           </TouchableOpacity>
         </View>
       </View>
     );
   }
   render() {
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>My Favorite Photos</Text>

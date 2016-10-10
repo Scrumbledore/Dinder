@@ -9,7 +9,7 @@ import PhotoGrid from 'react-native-photo-grid';
 export default class Menu extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       items: undefined,
       token: '',
       loaded: false
@@ -95,7 +95,7 @@ export default class Menu extends Component {
     return (
       <View style={styles.container}>
 
-        <Text style={styles.welcome}>My DinDin Profile</Text>
+        <Text style={styles.welcome}>My DinDin</Text>
 
         <View style={styles.menuContainer}>
 
@@ -116,11 +116,6 @@ export default class Menu extends Component {
 
             {!this.state.loaded ? <Text>Loading...</Text>
         : (this.state.items.length ? this.renderGrid() : this.renderEmpty())}
-        
-
-          
-
-        
 
         </View>
 
