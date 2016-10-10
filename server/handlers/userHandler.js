@@ -198,6 +198,37 @@ module.exports = {
     });
   },
 
+  // // use this to call exchange code for token
+  // // only needed if going OAuth route
+  // // Not used at this time.
+  // getUber: function(req, res) {
+  //   console.log('getUber invoked on userHandle');
+  //   console.log('ret', req.body.code);
+  //   var code = req.body.code;
+
+  //   var options = {
+  //     url: 'https://login.uber.com/oauth/v2/token',
+  //     form: {
+  //       client_secret: config.UBER_CLIENT_SECRET,
+  //       client_id: config.UBER_CLIENT_ID,
+  //       grant_type: 'authorization_code',
+  //       redirect_uri: 'iOSdindin://uber',
+  //       code: code
+  //     },
+  //     method: 'POST'
+  //   };
+
+  //   request(options, function(err, response, body) {
+  //     newBody = (JSON.parse(body));
+  //     // add expiration date onto body to send to client
+  //     var expires = new Date();
+  //     expires.setSeconds(expires.getSeconds() + newBody.expires_in);
+  //     newBody.expires = expires;
+  //     res.status(201).send(JSON.stringify(newBody));
+  //   });
+
+  // },
+
   getRecommendations: function (req, res) {
     var userID = req.userId;
     return User.findOne({ where: {id: userID }})
