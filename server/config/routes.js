@@ -2,6 +2,7 @@ var userHandler = require('../handlers/userHandler.js');
 var photoHandler = require('../handlers/photoHandler.js');
 var authHandler = require('../handlers/authHandler.js');
 var machineHandler = require('../../machineLearning/synapticRecommendations.js');
+var s3Handler = require('../handlers/s3Handler.js');
 
 module.exports = function (app, express) {
   // this is root entry - only used for verify server, not in production app
@@ -35,4 +36,10 @@ module.exports = function (app, express) {
   app.post('/api/signin', authHandler.signIn);
 
   app.post('/api/signup', authHandler.signUp);
+
+  app.post('/api/s3upload', s3Handler.sendPolicy);
+
+  app.post('/api/images', userHandler.postUserImage);
+
+  app.get('/api/images', userHandler.getUserImage);
 };

@@ -11,4 +11,6 @@ var connection = new Sequelize(config.DB_NAME, config.DB_USERNAME, config.DB_PAS
   logging: false
 });
 
+
+
 module.exports = connection;

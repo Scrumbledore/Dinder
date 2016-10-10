@@ -5,6 +5,7 @@ var Photo = require('../database/models/photo.js');
 var Place = require('../database/models/place.js');
 var Category = require('../database/models/category.js');
 var UserPhotos = require('../database/models/userPhotos.js');
+var Upload = require('../database/models/upload.js');
 var config = require('../../config.js');
 
 var synapticRec = require('../../machineLearning/synapticRecommendations.js');
@@ -100,6 +101,25 @@ var getSavedPhotos = function (placeId) {
 
 module.exports = {
 
+  postUserImage: function (req, res) {
+    Upload.create({
+      url: req.body.url,
+      UserId: req.userId
+    })
+    .then(data => res.send(data))
+    .catch(err => { throw err; } );
+  },
+
+  getUserImage: function(req, res) {
+    Upload.findAll({
+      where: {
+        UserId: req.userId
+      }
+    })
+    .then(urls => res.send(urls))
+    .catch(err => { throw err; });
+  },
+
   getPhotos: function (req, res) {
     var photos = [];
     var request = {
@@ -180,7 +200,6 @@ module.exports = {
 
   getRecommendations: function (req, res) {
     var userID = req.userId;
-
     return User.findOne({ where: {id: userID }})
     .then(function(data) {
       //console.log(data);
@@ -291,7 +310,6 @@ module.exports = {
         }
 
         var destStr = destArr.join('%7C');
-
         return requestPromise('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' + req.params.lat + ',' + req.params.long + '&destinations=' + destStr + '&key=' + config.MAPS_KEY)
         // combine original data with new distance values
         .then(function(result) {
@@ -300,7 +318,6 @@ module.exports = {
               rec.dist = JSON.parse(result).rows[0].elements[idx].distance.text;
             });
           }
-
           return recData;
         });
       })

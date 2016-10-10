@@ -3,10 +3,17 @@ import { Text, View, ScrollView, Image, TouchableOpacity, AsyncStorage} from 're
 import { Icon, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import styles from '../styles/styles.js';
+import PhotoGrid from 'react-native-photo-grid';
+
 
 export default class Menu extends Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      items: undefined,
+      token: '',
+      loaded: false
+    };
   }
 
   userLogout() {
@@ -17,6 +24,73 @@ export default class Menu extends Component {
     }).done();
   }
 
+  componentDidMount() {
+    AsyncStorage.getItem('jwt')
+    .then((token) => {
+      this.setState({
+        token: token
+      }, this.fetchPhotos);
+    }).done();
+  }
+
+  fetchPhotos() {
+    return fetch(`${this.props.apiRoot}/api/images/`,
+      {
+        method: 'GET',
+        headers: {
+          authorization: this.state.token
+        }
+      }
+    )
+    .then((data) => data.json())
+    .then((photos) => {
+      this.setState({
+        items: photos,
+        loaded: true
+      });
+    })
+    .catch((err) => console.error(err));
+  }
+
+  renderEmpty() {
+    return (
+      <View style={styles.container}>
+        <Icon name='camera' size={60}/>
+        <Text>No images saved yet!</Text>
+
+      </View>
+    );
+  }
+
+  renderItem(item, itemSize) {
+    return (
+      <TouchableOpacity
+        key={item.id}
+        style={{ width: itemSize, height: itemSize }}
+        onPress={ () => {
+          //redirect to larger
+          // console.log(item.url);
+        }}>
+        <Image
+          resizeMode = "cover"
+          style={styles.menuContainer}
+          source={{ uri: item.url }}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  renderGrid() {
+    return (
+      <PhotoGrid
+        data={this.state.items}
+        itemsPerRow={3}
+        itemMargin={0}
+        renderItem={this.renderItem} />
+    );
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -25,26 +99,28 @@ export default class Menu extends Component {
 
         <View style={styles.menuContainer}>
 
-          <ScrollView
-            onScroll={() => { console.log('onScroll!'); }}
-            scrollEventThrottle={200}
-            styles={{top: 20}} >
-
-            <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
-
-            <Text>Welcome to the Menu Page!</Text>
-
-          </ScrollView>
-
-          <Button
+        <Button
             onPress={this.userLogout}
             buttonStyle={{
-              width:100,
-              height:50,
+              width: 100,
+              height: 50,
               borderRadius: 6,
+              margin: 5,
               backgroundColor: '#1da1f2',
             }}
             title='Log out' />
+
+            <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
+
+            <Text>My Saved Photos</Text>
+
+            {!this.state.loaded ? <Text>Loading...</Text>
+        : (this.state.items.length ? this.renderGrid() : this.renderEmpty())}
+        
+
+          
+
+        
 
         </View>
 
