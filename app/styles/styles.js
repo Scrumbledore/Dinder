@@ -219,6 +219,10 @@ export default StyleSheet.create({
     textAlign: 'right',
     marginRight: width * 0.0625
   },
+  menuLoading: {
+    height: 200,
+    width: 200,
+  },
 
 ////+++++ Menu +++++
 
