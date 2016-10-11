@@ -24,6 +24,8 @@ import RNCamera from './components/Camera';
 
 const config = require('../config.js');
 
+console.disableYellowBox = true;
+
 export default class DinDin extends Component {
   constructor(props) {
     super(props);

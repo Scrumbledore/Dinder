@@ -120,7 +120,7 @@ export default class Recs extends Component {
           <StarRating rating={rec.rating * 1} selectedStar={(rating) => console.log(rating)} disabled={true} starColor={'hsl(45.8,100%,49.8%)'} starSize={20}/>
         </View>
         <Image source={{uri: rec.url}} resizeMode='cover' style={styles.foodImg} >
-          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/biz/' + rec.yelpid).catch(err => console.error('An error occurred', err)) }>
             <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
           </TouchableOpacity>
         </Image>
@@ -129,6 +129,9 @@ export default class Recs extends Component {
             <Text>{rec.address}</Text>
             <Text>{rec.city}, {rec.state}</Text>
             <Text>{rec.zip}</Text>
+            <TouchableOpacity onPress={() => Linking.openURL('tel:' + rec.phone).catch(err => console.error('An error occurred', err)) }>
+              <Text>Call Now! <Text style={styles.phone}>{rec.phone}</Text></Text>
+            </TouchableOpacity>
           </View>
           <View>
             <Text style={{textAlign: 'center', fontSize: 16, color: 'hsl(120.9,92.1%,59.6%)', fontWeight: '900'}}>{rec.price}</Text>
@@ -163,7 +166,7 @@ export default class Recs extends Component {
           return Linking.openURL(`uber://?client_id=${config.UBER_CLIENT_ID}&action=setPickup&pickup[latitude]=${lat}&pickup[longitude]=${long}&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLong}&dropoff[nickname]=${destName.replace(/\s/g, '%20')}&dropoff[formatted_address]=${destAdd.replace(/\s/g, '%20')}%2C%20${destCity.replace(/\s/g, '%20')}%2C%20${destState.replace(/\s/g, '%20')}%20${destZip}&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d`);
         }
       });
-    })
+    });
 
     // // This approach was going towards a deeper integration to request on behalf of user
     // // Did not scope out front end so delegated to Uber itselfs
