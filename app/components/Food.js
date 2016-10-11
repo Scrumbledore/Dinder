@@ -1,3 +1,5 @@
+// Thank you: https://github.com/brentvatne/react-native-animated-demo-tinder
+
 import React, { Component } from 'react';
 import { Text, Image, View, TouchableOpacity, Animated, PanResponder, AsyncStorage, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
