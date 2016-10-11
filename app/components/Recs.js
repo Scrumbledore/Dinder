@@ -158,10 +158,10 @@ export default class Recs extends Component {
       let long = position.coords.longitude;
       // below is link for testing purposes
       // console.log(`uber://?client_id=${config.UBER_CLIENT_ID}&action=setPickup&pickup[latitude]=${lat}&pickup[longitude]=${long}&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLong}&dropoff[nickname]=${destName.replace(/\s/g, '%20')}&dropoff[formatted_address]=${destAdd.replace(/\s/g, '%20')}%2C%20${destCity.replace(/\s/g, '%20')}%2C%20${destState.replace(/\s/g, '%20')}%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d`)
-      Linking.canOpenURL(`uber://`).then(supported => {
+      Linking.canOpenURL('uber://').then(supported => {
         if (!supported) {
           // should proably have better flow on not supported
-          return Linking.openURL(`https://m.uber.com/sign-up?client_id=${config.UBER_CLIENT_ID}`)
+          return Linking.openURL(`https://m.uber.com/sign-up?client_id=${config.UBER_CLIENT_ID}`);
         } else {
           return Linking.openURL(`uber://?client_id=${config.UBER_CLIENT_ID}&action=setPickup&pickup[latitude]=${lat}&pickup[longitude]=${long}&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLong}&dropoff[nickname]=${destName.replace(/\s/g, '%20')}&dropoff[formatted_address]=${destAdd.replace(/\s/g, '%20')}%2C%20${destCity.replace(/\s/g, '%20')}%2C%20${destState.replace(/\s/g, '%20')}%20${destZip}&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d`);
         }
