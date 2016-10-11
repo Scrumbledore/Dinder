@@ -315,7 +315,7 @@ export default StyleSheet.create({
   yelpLogoCenter: {
     height: 30,
     alignSelf: 'center'
-  }
+  },
   navBar: {
     flexDirection: 'row',
     backgroundColor: 'hsl(215,24%,40%)',
