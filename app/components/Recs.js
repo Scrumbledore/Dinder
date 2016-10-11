@@ -106,7 +106,7 @@ export default class Recs extends Component {
   renderEmpty() {
     return (
       <View style={{flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-        <Text aligntText='center'>Locating the best food for you...</Text>
+        <Image source={require('./assets/loadingRed.gif')} resizeMode="cover" style={styles.menuLoading}/>
       </View>
     );
   }
