@@ -134,7 +134,6 @@ module.exports = {
       return JSON.parse(data).businesses;
     })
     .then(function(businesses) {
-      console.log('***businesses***', businesses);
       var promises = [];
       businesses.forEach(function(business) {
         promises.push(Place.findOne({
