@@ -135,7 +135,7 @@ export default class Recs extends Component {
             <Text style={{textAlign: 'right', fontStyle: 'italic'}}>~{rec.dist}</Text>
           </View>
           <Button
-            onPress={(() => this.getUber(rec.name, rec.address, rec.city, rec.state, rec.lat, rec.lon))}
+            onPress={(() => this.getUber(rec.name, rec.address, rec.city, rec.state, rec.lat, rec.lon, rec.zip))}
             buttonStyle={{
               width: 100,
               height: 50,
@@ -149,7 +149,7 @@ export default class Recs extends Component {
     );
   }
 
-  getUber(destName, destAdd, destCity, destState, destLat, destLong) {
+  getUber(destName, destAdd, destCity, destState, destLat, destLong, destZip) {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let long = position.coords.longitude;
@@ -158,9 +158,9 @@ export default class Recs extends Component {
       Linking.canOpenURL(`uber://`).then(supported => {
         if (!supported) {
           // should proably have better flow on not supported
-          alert('Uber is not installed');
+          return Linking.openURL(`https://m.uber.com/sign-up?client_id=${config.UBER_CLIENT_ID}`)
         } else {
-          return Linking.openURL(`uber://?client_id=${config.UBER_CLIENT_ID}&action=setPickup&pickup[latitude]=${lat}&pickup[longitude]=${long}&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLong}&dropoff[nickname]=${destName.replace(/\s/g, '%20')}&dropoff[formatted_address]=${destAdd.replace(/\s/g, '%20')}%2C%20${destCity.replace(/\s/g, '%20')}%2C%20${destState.replace(/\s/g, '%20')}%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d`);
+          return Linking.openURL(`uber://?client_id=${config.UBER_CLIENT_ID}&action=setPickup&pickup[latitude]=${lat}&pickup[longitude]=${long}&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLong}&dropoff[nickname]=${destName.replace(/\s/g, '%20')}&dropoff[formatted_address]=${destAdd.replace(/\s/g, '%20')}%2C%20${destCity.replace(/\s/g, '%20')}%2C%20${destState.replace(/\s/g, '%20')}%20${destZip}&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d`);
         }
       });
     })
