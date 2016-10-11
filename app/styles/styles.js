@@ -150,6 +150,9 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column'
   },
+  phone: {
+    color: '#1da1f2'
+  },
 
 ////+++++ Food +++++
 

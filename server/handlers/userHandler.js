@@ -54,7 +54,9 @@ var newPlace = function (business) {
     zip: business.location.zip_code,
     url: business.image_url,
     rating: business.rating,
-    price: business.price
+    price: business.price,
+    phone: business.phone,
+    yelpid: business.id,
   })
   .then(function (place) {
     saveCategories(business.categories, place.id);
@@ -132,6 +134,7 @@ module.exports = {
       return JSON.parse(data).businesses;
     })
     .then(function(businesses) {
+      console.log('***businesses***', businesses);
       var promises = [];
       businesses.forEach(function(business) {
         promises.push(Place.findOne({
