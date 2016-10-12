@@ -14,7 +14,6 @@ export default class PhotoTaken extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        {this.props.backdrop()}
         <Text style={styles.welcome}>Photo Saved!</Text>
         <View style={styles.container}>
           <View style={styles.foodCard}>
