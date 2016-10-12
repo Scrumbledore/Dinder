@@ -120,3 +120,31 @@ make sure they work also.
 If rebasing broke anything, fix it, then repeat the above process until
 you get here again and nothing is broken and all the tests pass.
 
+### Make a pull request
+
+Make a clear pull request from your fork and branch to the upstream master
+branch, detailing exactly what changes you made and what feature this
+should add. The clearer your pull request is the faster you can get
+your changes incorporated into this repo.
+
+At least one other person MUST give your changes a code review, and once
+they are satisfied they will merge your changes into upstream. Alternatively,
+they may have some requested changes. You should make more commits to your
+branch to fix these, then follow this process again from rebasing onwards.
+
+Once you get back here, make a comment requesting further review and
+someone will look at your code again. If they like it, it will get merged,
+else, just repeat again.
+
+Thanks for contributing!
+
+### Guidelines
+
+1. Uphold the current code standard:
+    - Keep your code [DRY][https://en.wikipedia.org/wiki/Don%27t_repeat_yourself].
+    - Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
+1. Run the [tests][https://github.com/Scrumbledore/Dinder/tree/master/spec] before submitting a pull request.
+1. Tests are very, very important. Submit tests if your pull request contains
+   new, testable behavior.
+1. Your pull request is comprised of a single squashed commit.
+
