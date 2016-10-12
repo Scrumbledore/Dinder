@@ -70,7 +70,6 @@ export default class RNCamera extends Component {
         // upload image to s3 using signed url from server
         .then(options =>{
           photourl = options.url;
-          console.log("photourl: ", photourl)
         RNS3.put(file, options)
           .then(response => {
             if (response.status !== 201) {
