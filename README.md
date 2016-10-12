@@ -107,4 +107,4 @@ Note that this project initiates linting with a pre-commit script.
 ### Tasks & Contributing
 View the waffle.io issues [here](https://waffle.io/Scrumbledore/Dinder)
 
-Please make sure to follow our [style guide] [STYLE-GUIDE.md] and [contibution guide] [CONTRIBUTING.md].
+Please make sure to follow our [style guide](STYLE-GUIDE.md) and [contibution guide](CONTRIBUTING.md).
