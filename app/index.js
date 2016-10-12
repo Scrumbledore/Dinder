@@ -37,11 +37,19 @@ export default class DinDin extends Component {
     var apiRoot = config.apiRoot;
 
     // for testing locally with npm run server
+<<<<<<< HEAD
     // if (process.env.NODE_ENV !== 'production') {
     //   apiRoot = Platform.OS === 'android'
     //           ? config.androidLocalRoot
     //           : config.iosLocalRoot;
     // }
+=======
+    if (process.env.NODE_ENV !== 'production') {
+      apiRoot = Platform.OS === 'android'
+              ? config.androidLocalRoot
+              : config.iosLocalRoot;
+    }
+>>>>>>> touchup
 
     apiRoot += ':'
             + config.port;

@@ -330,18 +330,6 @@ export default StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
-    backgroundColor: 'hsl(215,24%,40%)',
-    alignSelf: 'stretch',
-    width: null,
-    justifyContent: 'space-between',
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderTopWidth: 2,
-    borderColor: 'hsl(215,24%,35%)',
-    borderStyle: 'solid'
-  },
-  navBar: {
-    flexDirection: 'row',
     backgroundColor: 'hsl(0.9,100%,59.6%)',
     alignSelf: 'stretch',
     alignItems: 'center',

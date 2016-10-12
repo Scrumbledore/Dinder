@@ -54,6 +54,7 @@ export default class SignIn extends Component {
             DinDin
           </Text>
         </View>
+
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>email:</Text>
           <TextInput
@@ -62,9 +63,9 @@ export default class SignIn extends Component {
             autoCapitalize='none'
             style={styles.textInputBox}
             value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
+            onChangeText={email => this.setState({ email })} />
         </View>
+
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>password:</Text>
             <TouchableOpacity style={{
@@ -73,27 +74,23 @@ export default class SignIn extends Component {
               marginRight: 5,
               marginLeft: 5,
               flex: 3,
-              borderColor: 'red',
-            }} >
-            <TextInput
-              placeholder="password"
-              secureTextEntry={true}
-              autoCorrect={false}
-              style={styles.textInputBox}
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-            />
-            </TouchableOpacity>
-          </View>
+              borderColor: 'red' }} >
+              <TextInput
+                placeholder="password"
+                secureTextEntry={true}
+                autoCorrect={false}
+                style={styles.textInputBox}
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })} />
+          </TouchableOpacity>
+        </View>
 
-          <View>
-          <Button
-            onPress={this.userSignIn.bind(this)}
-            buttonStyle={styles.buttonBlue}
-            title='Log In'
-          /></View>
-          <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-          <Text onPress={Actions.signup}>Don't have an account? Sign up here!</Text>
+        <Button
+          onPress={this.userSignIn.bind(this)}
+          buttonStyle={styles.buttonBlue}
+          title='Log In' />
+        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        <Text onPress={Actions.signup}>Don't have an account? Sign up here!</Text>
       </View>
     );
   }
