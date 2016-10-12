@@ -37,19 +37,11 @@ export default class DinDin extends Component {
     var apiRoot = config.apiRoot;
 
     // for testing locally with npm run server
-<<<<<<< HEAD
     // if (process.env.NODE_ENV !== 'production') {
     //   apiRoot = Platform.OS === 'android'
     //           ? config.androidLocalRoot
     //           : config.iosLocalRoot;
     // }
-=======
-    if (process.env.NODE_ENV !== 'production') {
-      apiRoot = Platform.OS === 'android'
-              ? config.androidLocalRoot
-              : config.iosLocalRoot;
-    }
->>>>>>> touchup
 
     apiRoot += ':'
             + config.port;
@@ -84,7 +76,7 @@ export default class DinDin extends Component {
           <Icon name='cutlery' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.recs}>
-          <Icon name='bolt' style={{textAlign: 'center'}} color={color} size={size} />
+          <Icon name='search' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.menu}>
           <Icon name='bars' style={{textAlign: 'center'}} color={color} size={size} />
