@@ -35,3 +35,35 @@ Use github’s interface to make a fork of the repo, then add that repo as an up
 ```
 git remote add upstream https://github.com/Scrumbledore/Dinder.git
 ```
+### Cut a namespaced feature branch from master
+
+Your branch should follow this naming convention:
+  - bug/...
+  - feat/...
+  - test/...
+  - doc/...
+  - refactor/...
+
+These commands will help you do this:
+
+``` bash
+
+# Creates your branch and brings you there
+git checkout -b `your-branch-name`
+```
+
+### Make commits to your feature branch.
+
+Prefix each commit like so
+  - (feat) Added a new feature
+  - (fix) Fixed inconsistent tests [Fixes #0]
+  - (refactor) ...
+  - (cleanup) ...
+  - (test) ...
+  - (doc) ...
+
+Make changes and commits on your branch, and make sure that you
+only make changes that are relevant to this branch. If you find
+yourself making unrelated changes, make a new branch for those
+changes.
+
