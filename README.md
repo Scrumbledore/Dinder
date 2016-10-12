@@ -34,6 +34,15 @@ From within the root directory:
 ```
 npm install
 ```
+Then link the required npm packages with react-native link:
+
+```
+react-native link react-native-camera
+```
+
+```
+react-native link react-native-vector-icons
+```
 
 ### Development
 This app is built in Javascript using React-Native. Before contributing please consider taking some time and familiarizing with [React-Native](https://facebook.github.io/react-native/).
