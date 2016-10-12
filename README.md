@@ -49,7 +49,7 @@ Start a local API server instance using nodemon, and watch for changes in the `.
 ```
 npm run server
 ```
-The secrets.json file is the location for API keys and not committed as part of this repo. Contributors are expected to acquire their own API keys for local development. API keys current sign on server instance and are called when referenced.
+The secrets.json file is the location for API keys required for full application functionality. A sample file with required key placeholders is provided in the root directory. Contributors are expected to acquire their own API keys for local development. API keys current sign on server instance and are called when referenced.
 
 #### Compiling and Deploying with the React-Native Package Manager
 This project targets both Android and iOS devices, and as such requires slightly different methods for compiling and installing. Follow the [recommended guidelines](https://facebook.github.io/react-native/releases/0.21/docs/getting-started.html) to setup your dev environment.
