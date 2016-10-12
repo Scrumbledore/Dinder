@@ -221,7 +221,7 @@ export default class Food extends Component {
       })
     };
     return (
-      <View style={{flex: 1, marginTop: 17}}>
+      <View style={{flex: 1}}>
         <Text style={styles.welcome}>Food Near You</Text>
         <View style={styles.container}>
           {!this.state.loaded ?

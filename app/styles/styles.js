@@ -247,18 +247,18 @@ export default StyleSheet.create({
 //++++++++++++++++++++++++++
 
   container: {
-    marginTop: 17,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'hsl(240.9,20%,96%)'
   },
   welcome: {
+    marginTop: 17,
     flexDirection: 'row',
-    alignSelf: 'stretch',
+    textAlign:'center',
+    fontFamily:'Avenir-Book',
     width: null,
     fontSize: 24,
-    paddingBottom: 3,
     paddingHorizontal: 8,
     fontWeight: 'bold',
     color: 'hsl(0,0%,100%)',
