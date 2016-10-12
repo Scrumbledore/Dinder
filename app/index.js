@@ -21,6 +21,8 @@ import Favorites from './components/Favorites';
 import Recs from './components/Recs';
 import Menu from './components/Menu';
 import RNCamera from './components/Camera';
+import PhotoTaken from './components/PhotoTaken';
+import ViewUserPhoto from './components/ViewUserPhoto';
 
 const config = require('../config.js');
 
@@ -91,6 +93,8 @@ export default class DinDin extends Component {
           <Scene key='food' type='replace' component={Food} />
           <Scene key='recs' type='replace' component={Recs} />
           <Scene key='menu' type='replace' component={Menu} />
+          <Scene key='phototaken' type='replace' component={PhotoTaken} />
+          <Scene key='viewuserphoto' type='replace' component={ViewUserPhoto} />
         </Scene>
       </Router>
     );

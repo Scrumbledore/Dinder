@@ -78,6 +78,9 @@ export default StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
+  phototaken: {
+    fontSize: 24
+  },
 
 ////+++++ Favorites +++++
 

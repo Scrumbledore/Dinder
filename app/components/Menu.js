@@ -68,8 +68,7 @@ export default class Menu extends Component {
         key={item.id}
         style={{ width: itemSize, height: itemSize }}
         onPress={ () => {
-          //redirect to larger
-          // console.log(item.url);
+          Actions.viewuserphoto({url: item.url});
         }}>
         <Image
           resizeMode = "cover"
