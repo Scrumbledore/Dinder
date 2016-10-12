@@ -203,11 +203,11 @@ export default StyleSheet.create({
   },
   yup: {
     backgroundColor: 'hsl(120.9,92.1%,59.6%)',
-    right: -(width * 0.375)
+    right: -(width * 0.25)
   },
   nope: {
     backgroundColor: 'hsl(0.9,92.1%,59.6%)',
-    left: -(width * 0.375)
+    left: -(width * 0.25)
   },
   popText: {
     fontSize: 20,
