@@ -48,44 +48,47 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.props.backdrop()}
+      <View style={{flex: 1}}>
+
         <Text style={styles.welcome}>
           Welcome to DinDin! Sign Up here!
         </Text>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>email:</Text>
-          <TextInput
-            placeholder='user@dinderdore.com'
-            autoCorrect={false}
-            autoCapitalize='none'
-            style={styles.textInputBox}
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>password:</Text>
-          <TextInput
-            placeholder="password"
-            secureTextEntry={true}
-            autoCorrect={false}
-            style={styles.textInputBox}
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
+        <View style={styles.container}>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>email:</Text>
+
+            <TextInput
+              placeholder='user@dinderdore.com'
+              autoCorrect={false}
+              autoCapitalize='none'
+              style={styles.textInputBox}
+              value={this.state.email}
+              onChangeText={email => this.setState({ email })} />
           </View>
 
-          <View>
-            <Button
-              onPress={this.userSignUp.bind(this)}
-              buttonStyle={styles.buttonBlue}
-              title='Sign Up'
-            />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>password:</Text>
+            <TextInput
+              placeholder="password"
+              secureTextEntry={true}
+              autoCorrect={false}
+              style={styles.textInputBox}
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })} />
           </View>
+
+          <Button
+            onPress={this.userSignUp.bind(this)}
+            buttonStyle={styles.buttonBlue}
+            title='Sign Up'/>
+
           <Text style={styles.errorTextStyle}>{this.state.error}</Text>
           <Text onPress={Actions.signin}>Already have an account? Sign in here!</Text>
+
+        </View>
+
       </View>
     );
   }

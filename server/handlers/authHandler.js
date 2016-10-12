@@ -10,6 +10,8 @@ module.exports = {
     const email = req.body.email;
     const password = req.body.password;
 
+    console.log(email, password);
+
     // PostgreSQL performs error checking on the user model
 
     User.create ({
@@ -18,8 +20,7 @@ module.exports = {
     })
     .then(newUser => res.json({
       token: jwt.encode({
-        id: newUser.id,
-        email: newUser.email
+        id: newUser.id
       }, config.JWT_SECRET)
     }))
     .catch(err => {
@@ -47,8 +48,7 @@ module.exports = {
           console.log('login successful');
           res.json({
             token: jwt.encode({
-              id: user.id,
-              email: newUser.email
+              id: user.id
             }, config.JWT_SECRET)
           });
         } else if (err) {

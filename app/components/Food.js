@@ -84,7 +84,7 @@ export default class Food extends Component {
       .then((data) => data.json())
       .then((photos) => {
         this.setState({
-          cards: this.shuffle(photos),
+          cards: photos,
           loaded: true
         });
         this.fadeIn();
