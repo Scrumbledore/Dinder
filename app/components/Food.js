@@ -180,13 +180,13 @@ export default class Food extends Component {
           </TouchableOpacity>
         </Image>
         <View style={styles.touchBar} >
-          <TouchableOpacity  onPress={() => this.judge('no')} >
+          <TouchableOpacity onPress={() => this.judge('no')} >
             <Icon style={{textAlign: 'center'}} name='times-circle' color={crossColor} size={size} />
           </TouchableOpacity>
-          <TouchableOpacity  onPress={() => this.fave()} >
+          <TouchableOpacity onPress={() => this.fave()} >
             <Icon style={{textAlign: 'center'}} name='star' color={starColor} size={size} />
           </TouchableOpacity>
-          <TouchableOpacity  onPress={() => this.judge('yes')} >
+          <TouchableOpacity onPress={() => this.judge('yes')} >
             <Icon style={{textAlign: 'center'}} name='check-circle' color={checkColor} size={size} />
           </TouchableOpacity>
         </View>
