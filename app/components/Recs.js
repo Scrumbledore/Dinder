@@ -89,16 +89,14 @@ export default class Recs extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-
-        <Text style={styles.welcome}>Recommended For You</Text>
-
-        {!this.state.recs || this.state.recs.getRowCount() === 0
-          ? this.renderEmpty()
-          : <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>}
-
-        {this.props.nav()}
-
+       <View style={{flex: 1}}>
+        <Text style={styles.welcome}> Recommended For You</Text>
+        <View style={styles.container}>
+            {!this.state.recs || this.state.recs.getRowCount() === 0
+              ? this.renderEmpty()
+              : <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>}
+            {this.props.nav()}
+        </View>
       </View>
     );
   }
