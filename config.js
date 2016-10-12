@@ -6,10 +6,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = {
   apiRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
-  androidLocalRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
-  iosLocalRoot: 'http://ec2-54-187-168-239.us-west-2.compute.amazonaws.com',
-  // androidLocalRoot: 'http://10.0.2.2',
-  // iosLocalRoot: 'http://localhost',
+  androidLocalRoot: 'http://10.0.2.2',
+  iosLocalRoot: 'http://localhost',
   port: 1337,
   yelpRoot: 'https://api.yelp.com/v3/',
   DB_USERNAME: process.env.DB_USERNAME || secrets.DB_USERNAME,

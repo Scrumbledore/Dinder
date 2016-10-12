@@ -93,7 +93,6 @@ export default class Menu extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        {this.props.backdrop()}
         <Text style={styles.welcome}>My DinDin</Text>
         <View style={styles.container}>
           <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch'}}>
