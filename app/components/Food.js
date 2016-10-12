@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/styles.js';
 
 var config = require('../../config.js');
-var SWIPE_THRESHOLD = 96;
+var SWIPE_THRESHOLD = 100;
 
 export default class Food extends Component {
   constructor (props) {
@@ -84,7 +84,7 @@ export default class Food extends Component {
       .then((data) => data.json())
       .then((photos) => {
         this.setState({
-          cards: photos,
+          cards: this.shuffle(photos),
           loaded: true
         });
         this.fadeIn();
@@ -97,6 +97,18 @@ export default class Food extends Component {
       timeout: 2000,
       maxinumAge: 1000
     });
+  }
+
+  shuffle (cards) {
+    let c = cards.length;
+    while (c > 0) {
+      let r = Math.floor(Math.random() * c);
+      c--;
+      let tmp = cards[c];
+      cards[c] = cards[r];
+      cards[r] = temp;
+    }
+    return cards;
   }
 
   popCard () {
@@ -210,20 +222,36 @@ export default class Food extends Component {
     let pan = this.state.swipe;
     let yupStyle = {
       opacity: pan.x.interpolate({
-        inputRange: [0, 80],
+        inputRange: [0, 120],
         outputRange: [0, 0.6]
-      })
+      }),
+      transform: [
+        {
+          scale: pan.x.interpolate({
+            inputRange: [0, 120],
+            outputRange: [0, 1]
+          })
+        }
+      ]
     };
     let nopeStyle = {
       opacity: pan.x.interpolate({
-        inputRange: [-80, 0],
+        inputRange: [-120, 0],
         outputRange: [0.6, 0]
-      })
+      }),
+      transform: [
+        {
+          scale: pan.x.interpolate({
+            inputRange: [-120, 0],
+            outputRange: [1, 0]
+          })
+        }
+      ]
     };
     return (
       <View style={{flex: 1}}>
         {this.props.backdrop()}
-        <Text style={styles.welcome}>Food Near You</Text>
+        <Text style={styles.welcome}>Foods Near Me</Text>
         <View style={styles.container}>
           {!this.state.loaded ?
             <Image source={require('./assets/loadingRed.gif')} resizeMode="cover" style={styles.menuLoading}/>

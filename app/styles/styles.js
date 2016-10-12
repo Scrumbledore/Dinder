@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
@@ -195,19 +195,19 @@ export default StyleSheet.create({
   },
   pop: {
     position: 'absolute',
-    width: width * 0.75,
-    height: width * 0.75,
-    top: height - (width * 0.75),
-    borderRadius: width / 2,
+    width: width * 0.5,
+    height: width * 0.5,
+    top: height * 0.25,
+    borderRadius: width * 0.5,
     justifyContent: 'center'
   },
   yup: {
     backgroundColor: 'hsl(120.9,92.1%,59.6%)',
-    right: -(width * 0.375)
+    right: -(width * 0.25)
   },
   nope: {
     backgroundColor: 'hsl(0.9,92.1%,59.6%)',
-    left: -(width * 0.375)
+    left: -(width * 0.25)
   },
   popText: {
     fontSize: 20,
@@ -239,7 +239,8 @@ export default StyleSheet.create({
   profile: {
     height: 100,
     width: 100,
-    borderRadius: 50
+    borderRadius: 50,
+    margin: 16
   },
 
 //++++++++++++++++++++++++++
@@ -252,17 +253,21 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   welcome: {
-    marginTop: 17,
     flexDirection: 'row',
-    textAlign:'center',
-    fontFamily:'Avenir-Book',
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Avenir-Book',
+    fontWeight: 'bold',
+    alignSelf: 'stretch',
     width: null,
     fontSize: 24,
-    paddingVertical: 5,
+    paddingTop: Platform.OS === 'android' ? 3 : 15,
+    paddingBottom: 5,
     paddingHorizontal: 8,
-    fontWeight: 'bold',
-    color: 'hsl(240.9,20%,10%)',
-    backgroundColor: 'hsl(240.9,20%,96%)'
+    color: 'hsl(0,0%,100%)',
+    backgroundColor: 'hsla(202.8,89.1%,53.1%,0.75)',
+    textShadowColor: 'hsl(202.8,89.1%,40%)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3
   },
   errorTextStyle: {
     fontSize: 20,

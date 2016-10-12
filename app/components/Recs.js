@@ -138,7 +138,7 @@ export default class Recs extends Component {
               height: 50,
               marginRight: 0,
               borderRadius: 6,
-              backgroundColor: '#1da1f2',
+              backgroundColor: 'hsl(202.8,89.1%,53.1%)',
             }}
             title='Uber Here' />
         </View>
