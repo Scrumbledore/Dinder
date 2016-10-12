@@ -250,7 +250,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'hsl(0,0%,94%)'
   },
   welcome: {
     flexDirection: 'row',
@@ -303,7 +304,7 @@ export default StyleSheet.create({
     opacity: 0.5,
     position: 'absolute',
     top: -200,
-    right: 0,
+    right: -5,
     bottom: 0,
     alignSelf: 'stretch',
     left: -100,

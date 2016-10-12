@@ -73,7 +73,7 @@ export default class Food extends Component {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
       let long = position.coords.longitude;
-      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/tacos`, // fixme: dummy data
+      fetch(`${this.props.apiRoot}/api/photo/${lat}/${long}/food`, // fixme: dummy data
         {
           method: 'GET',
           headers: {
