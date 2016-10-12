@@ -81,10 +81,6 @@ export default StyleSheet.create({
   phototaken: {
     fontSize: 24
   },
-  newPhotoDisplay: {
-    height: 300,
-    width: 300
-  },
 
 ////+++++ Favorites +++++
 
