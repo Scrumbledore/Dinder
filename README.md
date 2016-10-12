@@ -24,7 +24,7 @@ _Enter DinDin_
 
 Now you can have your cake and eat it too. Finding the next place to eat is as easy as pie. With our in-app integrated machine learning and personalized, place-based recommendations, DinDin gets to know you - and we know you're hungry! When you're in a pickle, don't reach for the same-old slice of half-baked carry out. With DinDin you'll be feeling cool as a cucumber - go bananas with our intuitive swipe-cards interface, and pretty soon you'll agree with our in-house team of hunger experts when they say, "DinDin - that's the greatest thing since sliced bread!"
 
-DinDin is a cross-platform mobile app for both iOS and Android devices. Everyone can have a slice of this pie!
+DinDin is a cross-platform mobile app for both iOS and Android devices. Everyone can have a piece of this pie!
 
 ## Requirements
 
@@ -45,7 +45,7 @@ react-native link react-native-vector-icons
 ```
 
 ### Development
-This app is built in Javascript using React-Native. Before contributing please consider taking some time and familiarizing with [React-Native](https://facebook.github.io/react-native/).
+This app is built in Javascript using React-Native. Before contributing please consider taking some time to familiarize yourself with [React-Native](https://facebook.github.io/react-native/).
 
 #### Running a Local API Server
 Start a local API server instance using nodemon, and watch for changes in the `./server` directory:
@@ -54,7 +54,7 @@ Start a local API server instance using nodemon, and watch for changes in the `.
 npm run server
 ```
 
-secrets.json file is location for API keys and not commited as part of this repo. Contributers are expected to acquire their own API keys for local development. API keys current sign on server instance and are called when referenced.
+The secrets.json file is the location for API keys and not committed as part of this repo. Contributors are expected to acquire their own API keys for local development. API keys current sign on server instance and are called when referenced.
 
 #### Compiling and Deploying with the React-Native Package Manager
 This project targets both Android and iOS devices, and as such requires slightly different methods for compiling and installing. Follow the [recommended guidelines](https://facebook.github.io/react-native/releases/0.21/docs/getting-started.html) to setup your dev environment.
@@ -62,7 +62,7 @@ This project targets both Android and iOS devices, and as such requires slightly
 See the file `config.js` for a complete listing of environment variables required by this project. In development, local variables may be sourced from within a `secrets.json` in the root directory.
 
 ##### iOS
-Project can be run through Xcode on a local simulator or attached device. Build files are not included in the repo code and the following steps/permissions are needed to get app up and running.
+The project can be run through Xcode on a local simulator or attached device. Build files are not included in the repo code and the following steps/permissions are needed to get app up and running.
 
 1. Enable non https calls to production server (when/if connecting to production server)
 [here](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33)
@@ -73,14 +73,14 @@ Project can be run through Xcode on a local simulator or attached device. Build 
 3. Enable external linking, in this case for uber.
 [here](https://developer.uber.com/docs/rides/deep-linking)
 
-Outside of those build specificy items, to buil and install the application, run:
+Outside of those build specific items, to build and install the application, run:
 
 ```
 react-native run-ios
 ```
 
 ##### Android
-The following steps are consistent regardless of if you're running an emulator (using the Android SDK is recommended) or testing with a physical device. From the project root directory, to build and install the application, run:
+The following steps are consistent regardless of whether you're running an emulator (using the Android SDK is recommended) or testing with a physical device. From the project root directory, to build and install the application, run:
 
 ```
 react-native run-android
