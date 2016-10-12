@@ -109,7 +109,6 @@ export default class Favorites extends Component {
 
     return (
       <View style={{flex: 1}}>
-        {this.props.backdrop()}
         <Text style={styles.welcome}>My Favorite Photos</Text>
         <View style={styles.container}>
           {!this.state.faves ?

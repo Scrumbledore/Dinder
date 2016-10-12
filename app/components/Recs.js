@@ -90,7 +90,6 @@ export default class Recs extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.props.backdrop()}
         <Text style={styles.welcome}>Recommended For You</Text>
         {!this.state.recs || this.state.recs.getRowCount() === 0
           ? this.renderEmpty()

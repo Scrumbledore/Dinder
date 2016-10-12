@@ -250,7 +250,6 @@ export default class Food extends Component {
     };
     return (
       <View style={{flex: 1}}>
-        {this.props.backdrop()}
         <Text style={styles.welcome}>Foods Near Me</Text>
         <View style={styles.container}>
           {!this.state.loaded ?
