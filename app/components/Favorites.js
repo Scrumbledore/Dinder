@@ -109,12 +109,14 @@ export default class Favorites extends Component {
   render() {
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>My Favorite Photos</Text>
-        {!this.state.faves || this.state.faves.getRowCount() === 0
-          ? this.renderEmpty()
-          : <ListView dataSource={this.state.faves} renderRow={(favorite) => this.favoriteEntry(favorite)} />}
-        {this.props.nav()}
+      <View style={{flex: 1}}>
+          <Text style={styles.welcome}>My Favorite Photos</Text>
+          <View style={styles.container}>
+            {!this.state.faves || this.state.faves.getRowCount() === 0
+              ? this.renderEmpty()
+              : <ListView dataSource={this.state.faves} renderRow={(favorite) => this.favoriteEntry(favorite)} />}
+            {this.props.nav()}
+        </View>
       </View>
     );
   }
