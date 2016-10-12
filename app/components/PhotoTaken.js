@@ -11,7 +11,7 @@ export default class PhotoTaken extends Component {
     super(props);
   }
 
-render() {
+  render() {
     return (
       <View style={{flex: 1}}>
         <Text style={styles.welcome}>Photo Saved!</Text>
