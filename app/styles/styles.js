@@ -78,6 +78,13 @@ export default StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
+  phototaken: {
+    fontSize: 24
+  },
+  newPhotoDisplay: {
+    height: 300,
+    width: 300
+  },
 
 ////+++++ Favorites +++++
 

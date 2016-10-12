@@ -16,6 +16,8 @@ import Camera from 'react-native-camera';
 import styles from '../styles/styles';
 import config from '../../config';
 
+const photourl = '';
+
 export default class RNCamera extends Component {
   constructor(props) {
     super(props);
@@ -67,6 +69,8 @@ export default class RNCamera extends Component {
 
         // upload image to s3 using signed url from server
         .then(options =>{
+          photourl = options.url;
+          console.log("photourl: ", photourl)
         RNS3.put(file, options)
           .then(response => {
             if (response.status !== 201) {
@@ -85,7 +89,7 @@ export default class RNCamera extends Component {
                 url: response.body.postResponse.location,
               })
             })//fetch userimages   
-          })//thenresponse
+          }).then(() => Actions.phototaken({url: photourl}))
         })//thenoptions
       })//thendata
       .catch(err => console.error(err));
