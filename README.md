@@ -41,6 +41,9 @@ react-native link
 ### Development
 This app is built in Javascript using React-Native. Before contributing please consider taking some time to familiarize yourself with [React-Native](https://facebook.github.io/react-native/).
 
+### Database
+DinDin relies on a PostgreSQL database that can be running either locally or on the cloud - _the choice is yours._
+
 #### Running a Local API Server
 Start a local API server instance using nodemon, and watch for changes in the `./server` directory:
 ```
