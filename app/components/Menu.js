@@ -92,34 +92,33 @@ export default class Menu extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-
+      <View style={{flex: 1}}>
         <Text style={styles.welcome}>My DinDin</Text>
+        <View style={styles.container}>
+          <View style={styles.menuContainer}>
 
-        <View style={styles.menuContainer}>
+          <Button
+              onPress={this.userLogout}
+              buttonStyle={{
+                width: 100,
+                height: 50,
+                borderRadius: 6,
+                margin: 5,
+                backgroundColor: '#1da1f2',
+              }}
+              title='Log out' />
 
-        <Button
-            onPress={this.userLogout}
-            buttonStyle={{
-              width: 100,
-              height: 50,
-              borderRadius: 6,
-              margin: 5,
-              backgroundColor: '#1da1f2',
-            }}
-            title='Log out' />
+              <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
 
-            <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
+              <Text>My Saved Photos</Text>
 
-            <Text>My Saved Photos</Text>
+              {!this.state.loaded ? <Text>Loading...</Text>
+          : (this.state.items.length ? this.renderGrid() : this.renderEmpty())}
 
-            {!this.state.loaded ? <Text>Loading...</Text>
-        : (this.state.items.length ? this.renderGrid() : this.renderEmpty())}
+          </View>
 
+          {this.props.nav()}
         </View>
-
-        {this.props.nav()}
-
       </View>
     );
   }
