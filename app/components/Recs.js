@@ -89,14 +89,13 @@ export default class Recs extends Component {
 
   render() {
     return (
-       <View style={{flex: 1}}>
-        <Text style={styles.welcome}> Recommended For You</Text>
-        <View style={styles.container}>
-            {!this.state.recs || this.state.recs.getRowCount() === 0
-              ? this.renderEmpty()
-              : <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>}
-            {this.props.nav()}
-        </View>
+      <View style={styles.container}>
+        {this.props.backdrop()}
+        <Text style={styles.welcome}>Recommended For You</Text>
+        {!this.state.recs || this.state.recs.getRowCount() === 0
+          ? this.renderEmpty()
+          : <ListView n={this.state.n} dataSource={this.state.recs} renderRow={(rec) => this.recEntry(rec)}/>}
+        {this.props.nav()}
       </View>
     );
   }
@@ -122,18 +121,15 @@ export default class Recs extends Component {
             <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
           </TouchableOpacity>
         </Image>
-        <View style={[styles.cardRowStyle, {alignItems: 'center'}]} >
+        <View style={styles.cardRowStyle} >
           <View style={{flexDirection: 'column'}}>
             <Text>{rec.address}</Text>
             <Text>{rec.city}, {rec.state}</Text>
             <Text>{rec.zip}</Text>
-            <TouchableOpacity onPress={() => Linking.openURL('tel:' + rec.phone).catch(err => console.error('An error occurred', err)) }>
-              <Text>Call Now! <Text style={styles.phone}>{rec.phone}</Text></Text>
-            </TouchableOpacity>
           </View>
           <View>
-            <Text style={{textAlign: 'center', fontSize: 16, color: 'hsl(120.9,92.1%,59.6%)', fontWeight: '900'}}>{rec.price}</Text>
-            <Text style={{textAlign: 'right', fontStyle: 'italic'}}>~{rec.dist}</Text>
+            <Text style={{fontSize: 16, color: 'hsl(120.9,92.1%,59.6%)', fontWeight: '900'}}>{rec.price}</Text>
+            <Text style={{fontStyle: 'italic'}}>~{rec.dist}</Text>
           </View>
           <Button
             onPress={(() => this.getUber(rec.name, rec.address, rec.city, rec.state, rec.lat, rec.lon, rec.zip))}
@@ -142,10 +138,13 @@ export default class Recs extends Component {
               height: 50,
               marginRight: 0,
               borderRadius: 6,
-              backgroundColor: '#1da1f2',
+              backgroundColor: 'hsl(202.8,89.1%,53.1%)',
             }}
             title='Uber Here' />
         </View>
+        <TouchableOpacity onPress={() => Linking.openURL('tel:' + rec.phone).catch(err => console.error('An error occurred', err)) }>
+          <Text>Call Now! <Text style={styles.phone}>{rec.phone}</Text></Text>
+        </TouchableOpacity>
       </View>
     );
   }

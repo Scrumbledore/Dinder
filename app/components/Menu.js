@@ -5,13 +5,13 @@ import { Actions } from 'react-native-router-flux';
 import styles from '../styles/styles.js';
 import PhotoGrid from 'react-native-photo-grid';
 
-
 export default class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: undefined,
       token: '',
+      email: '',
       loaded: false
     };
   }
@@ -93,32 +93,28 @@ export default class Menu extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        {this.props.backdrop()}
         <Text style={styles.welcome}>My DinDin</Text>
         <View style={styles.container}>
-          <View style={styles.menuContainer}>
-
+          <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch'}}>
+            <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
+            <Text style={{fontSize: 24}}>My Saved Photos</Text>
+          </View>
+          {!this.state.loaded ? <Text>Loading...</Text>
+            : (this.state.items.length ? this.renderGrid()
+              : this.renderEmpty())}
           <Button
               onPress={this.userLogout}
               buttonStyle={{
                 width: 100,
                 height: 50,
                 borderRadius: 6,
-                margin: 5,
-                backgroundColor: '#1da1f2',
+                margin: 16,
+                backgroundColor: 'hsl(202.8,89.1%,53.1%)',
               }}
               title='Log out' />
-
-              <Image source={require('./assets/busby.jpg')} resizeMode="cover" style={styles.profile}/>
-
-              <Text>My Saved Photos</Text>
-
-              {!this.state.loaded ? <Text>Loading...</Text>
-          : (this.state.items.length ? this.renderGrid() : this.renderEmpty())}
-
           </View>
-
-          {this.props.nav()}
-        </View>
+        {this.props.nav()}
       </View>
     );
   }

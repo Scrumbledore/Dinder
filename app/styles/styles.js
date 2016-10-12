@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
@@ -162,11 +162,11 @@ export default StyleSheet.create({
   foodCard: {
     width: width - 8,
     height: width - 8,
-    marginVertical: 8,
+    marginVertical: 5,
     padding: 8,
     backgroundColor: 'hsl(0,0%,100%)',
-    borderWidth: 1,
-    borderRadius: 3,
+    borderWidth: 3,
+    borderRadius: 5,
     borderColor: 'hsl(240.9,24%,80%)',
     borderStyle: 'solid',
     alignSelf: 'center',
@@ -198,7 +198,7 @@ export default StyleSheet.create({
     width: width * 0.5,
     height: width * 0.5,
     top: height * 0.25,
-    borderRadius: width / 2,
+    borderRadius: width * 0.5,
     justifyContent: 'center'
   },
   yup: {
@@ -239,7 +239,8 @@ export default StyleSheet.create({
   profile: {
     height: 100,
     width: 100,
-    borderRadius: 50
+    borderRadius: 50,
+    margin: 16
   },
 
 //++++++++++++++++++++++++++
@@ -249,20 +250,24 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'hsl(240.9,20%,96%)'
+    alignItems: 'center'
   },
   welcome: {
-    marginTop: 17,
     flexDirection: 'row',
-    textAlign:'center',
-    fontFamily:'Avenir-Book',
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Avenir-Book',
+    fontWeight: 'bold',
+    alignSelf: 'stretch',
     width: null,
     fontSize: 24,
+    paddingTop: Platform.OS === 'android' ? 3 : 15,
+    paddingBottom: 5,
     paddingHorizontal: 8,
-    fontWeight: 'bold',
     color: 'hsl(0,0%,100%)',
-    backgroundColor: 'hsl(240.9,10%,20%)'
+    backgroundColor: 'hsla(202.8,89.1%,53.1%,0.75)',
+    textShadowColor: 'hsl(202.8,89.1%,40%)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3
   },
   errorTextStyle: {
     fontSize: 20,
@@ -313,8 +318,21 @@ export default StyleSheet.create({
   },
   navBar: {
     flexDirection: 'row',
+    backgroundColor: 'hsl(215,24%,40%)',
+    alignSelf: 'stretch',
+    width: null,
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderTopWidth: 2,
+    borderColor: 'hsl(215,24%,35%)',
+    borderStyle: 'solid'
+  },
+  navBar: {
+    flexDirection: 'row',
     backgroundColor: 'hsl(0.9,100%,59.6%)',
     alignSelf: 'stretch',
+    alignItems: 'center',
     width: null,
     justifyContent: 'space-between',
     paddingHorizontal: 30,

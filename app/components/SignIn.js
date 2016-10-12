@@ -47,6 +47,7 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {this.props.backdrop()}
         <View>
          <Image source={require('./assets/food.png')} style={styles.coverImage}/>
           <Text style={{fontFamily: 'Noteworthy-light', fontSize: 80, top: -110, backgroundColor: 'transparent'}}>

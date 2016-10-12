@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AsyncStorage,
+  Image,
   Platform,
   Text,
   TouchableOpacity,
@@ -24,6 +25,7 @@ import RNCamera from './components/Camera';
 import PhotoTaken from './components/PhotoTaken';
 import ViewUserPhoto from './components/ViewUserPhoto';
 
+const Dimensions = require('Dimensions');
 const config = require('../config.js');
 
 console.disableYellowBox = true;
@@ -35,11 +37,12 @@ export default class DinDin extends Component {
     var apiRoot = config.apiRoot;
 
     // for testing locally with npm run server
-    if (process.env.NODE_ENV !== 'production') {
-      apiRoot = Platform.OS === 'android'
-              ? config.androidLocalRoot
-              : config.iosLocalRoot;
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //   apiRoot = Platform.OS === 'android'
+    //           ? config.androidLocalRoot
+    //           : config.iosLocalRoot;
+    // }
+
     apiRoot += ':'
             + config.port;
 
@@ -50,9 +53,9 @@ export default class DinDin extends Component {
 
   componentWillMount() {
     AsyncStorage.getItem('jwt')
-    .then((value) => {
-      if (value) {
-        console.log(value);
+    .then((token) => {
+      if (token) {
+        console.log(token);
         Actions.food();
       }
     }).done();
@@ -64,7 +67,7 @@ export default class DinDin extends Component {
     return (
       <View style={styles.navBar}>
         <TouchableOpacity onPress={Actions.photos}>
-          <Icon name='camera' style={{textAlign: 'center'}} color={color} size={size} />
+          <Icon name='camera-retro' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.favorites}>
           <Icon name='star' style={{textAlign: 'center'}} color={color} size={size} />
@@ -73,7 +76,7 @@ export default class DinDin extends Component {
           <Icon name='cutlery' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.recs}>
-          <Icon name='search' style={{textAlign: 'center'}} color={color} size={size} />
+          <Icon name='bolt' style={{textAlign: 'center'}} color={color} size={size} />
         </TouchableOpacity>
         <TouchableOpacity onPress={Actions.menu}>
           <Icon name='bars' style={{textAlign: 'center'}} color={color} size={size} />
@@ -82,11 +85,39 @@ export default class DinDin extends Component {
     );
   }
 
+  renderBackdrop() {
+    const {width, height} = Dimensions.get('window');
+    let scale = 32;
+    let tiles = [];
+    for (let r = 0; r < Math.ceil(height / scale); r ++) {
+      for (let c = 0; c < Math.ceil(width / scale); c ++) {
+        tiles.push({
+          row: r,
+          col: c
+        });
+      }
+    }
+    return (
+      tiles.map((pos) => {
+        let tileStyle = {
+          width: scale,
+          height: scale,
+          top: pos.row * scale,
+          left: pos.col * scale,
+          position: 'absolute'
+        };
+        return (
+          <Image source={require('./components/assets/stripe.png')} style={tileStyle} />
+        );
+      })
+    );
+  }
+
   render() {
     return (
-      <Router hideNavBar={true} nav={this.renderNav} apiRoot={this.state.apiRoot} >
+      <Router hideNavBar={true} nav={this.renderNav} backdrop={this.renderBackdrop} apiRoot={this.state.apiRoot} >
         <Scene key='root' >
-          <Scene key='signin' type='replace' component={SignIn} initial={true}/>
+          <Scene key='signin' type='replace' component={SignIn} initial={true} />
           <Scene key='signup' type='replace' component={SignUp} />
           <Scene key='photos' type='replace' component={RNCamera} />
           <Scene key='favorites' type='replace' component={Favorites} />

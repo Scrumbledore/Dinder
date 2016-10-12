@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/styles.js';
 
 var config = require('../../config.js');
-var SWIPE_THRESHOLD = 96;
+var SWIPE_THRESHOLD = 100;
 
 export default class Food extends Component {
   constructor (props) {
@@ -99,6 +99,18 @@ export default class Food extends Component {
     });
   }
 
+  shuffle (cards) {
+    let c = cards.length;
+    while (c > 0) {
+      let r = Math.floor(Math.random() * c);
+      c--;
+      let tmp = cards[c];
+      cards[c] = cards[r];
+      cards[r] = temp;
+    }
+    return cards;
+  }
+
   popCard () {
     this.state.swipe.setValue({
       x: 0,
@@ -168,9 +180,9 @@ export default class Food extends Component {
     };
 
     let size = 50;
-    let checkColor = 'hsl(120.9,92.1%,59.6%)';
-    let crossColor = 'hsl(0.9,92.1%,59.6%)';
-    let starColor = this.state.faved ? 'hsl(45.8,100%,49.8%)' : 'hsl(0,0%,59.6%)';
+    let checkColor = 'hsl(95.6,92.5%,46.9%)';
+    let crossColor = 'hsl(5.4,92.5%,46.9%)';
+    let starColor = this.state.faved ? 'hsl(45.6,92.5%,58.4%)' : 'hsl(0,0%,58.4%)';
 
     return (
       <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
@@ -210,19 +222,36 @@ export default class Food extends Component {
     let pan = this.state.swipe;
     let yupStyle = {
       opacity: pan.x.interpolate({
-        inputRange: [0, 80],
+        inputRange: [0, 120],
         outputRange: [0, 0.6]
-      })
+      }),
+      transform: [
+        {
+          scale: pan.x.interpolate({
+            inputRange: [0, 120],
+            outputRange: [0, 1]
+          })
+        }
+      ]
     };
     let nopeStyle = {
       opacity: pan.x.interpolate({
-        inputRange: [-80, 0],
+        inputRange: [-120, 0],
         outputRange: [0.6, 0]
-      })
+      }),
+      transform: [
+        {
+          scale: pan.x.interpolate({
+            inputRange: [-120, 0],
+            outputRange: [1, 0]
+          })
+        }
+      ]
     };
     return (
       <View style={{flex: 1}}>
-        <Text style={styles.welcome}>Food Near You</Text>
+        {this.props.backdrop()}
+        <Text style={styles.welcome}>Foods Near Me</Text>
         <View style={styles.container}>
           {!this.state.loaded ?
             <Image source={require('./assets/loadingRed.gif')} resizeMode="cover" style={styles.menuLoading}/>

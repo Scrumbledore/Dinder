@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 
@@ -14,12 +14,22 @@ export default class PhotoTaken extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        {this.props.backdrop()}
         <Text style={styles.welcome}>Photo Saved!</Text>
         <View style={styles.container}>
           <View style={styles.foodCard}>
             <Image source={{uri: this.props.url}} style={styles.foodImg}/>
           </View>
-          <Text style={styles.phototaken}>View all of your photos on your profile page <Icon name='long-arrow-right' onPress={Actions.menu} size={40} color={'#1da1f2'}/> </Text>   
+          <Button
+              onPress={Actions.menu}
+              buttonStyle={{
+                width: 200,
+                height: 50,
+                borderRadius: 6,
+                margin: 16,
+                backgroundColor: 'hsl(202.8,89.1%,53.1%)',
+              }}
+              title='View Your Photos' />
         </View>
         {this.props.nav()}
       </View>
