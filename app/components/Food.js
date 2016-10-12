@@ -174,10 +174,11 @@ export default class Food extends Component {
 
     return (
       <Animated.View style={[styles.foodCard, animatedCardstyles]} {...this.panResponder.panHandlers}>
-        <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
-          <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
-        </TouchableOpacity>
-        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={{flex: 1, alignSelf: 'stretch', width: null, borderRadius: 3}} />
+        <Image source={{uri: this.state.cards[0].url}} resizeMode="cover" style={styles.foodImg} >
+          <TouchableOpacity onPress={ () => Linking.openURL('http://www.yelp.com/').catch(err => console.error('An error occurred', err)) }>
+            <Image source={require('./assets/yelp-sm.png')} style={styles.yelpLogo} />
+          </TouchableOpacity>
+        </Image>
         <View style={styles.touchBar} >
           <TouchableOpacity onPress={() => this.judge('no')} >
             <Icon style={{textAlign: 'center'}} name='times-circle' color={crossColor} size={size} />
@@ -221,6 +222,7 @@ export default class Food extends Component {
     };
     return (
       <View style={{flex: 1}}>
+        {this.props.backdrop()}
         <Text style={styles.welcome}>Food Near You</Text>
         <View style={styles.container}>
           {!this.state.loaded ?

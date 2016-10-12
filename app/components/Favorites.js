@@ -100,7 +100,7 @@ export default class Favorites extends Component {
         <View style={[styles.cardRowStyle, {alignItems: 'center'}]} >
           <Text style={{fontSize: 20, fontFamily: 'Noteworthy'}}>{this.randomQuote()}</Text>
           <TouchableOpacity style={styles.foodIcon} onPress = {() => this.unFavorite(favorite.id)}>
-            <Icon name='minus-square' color='hsl(0,0%,59.6%)' size={20} />
+            <Icon name='ban' color='hsl(0,0%,59.6%)' size={20} />
           </TouchableOpacity>
         </View>
       </View>
@@ -109,14 +109,13 @@ export default class Favorites extends Component {
   render() {
 
     return (
-      <View style={{flex: 1}}>
-          <Text style={styles.welcome}>My Favorite Photos</Text>
-          <View style={styles.container}>
-            {!this.state.faves || this.state.faves.getRowCount() === 0
-              ? this.renderEmpty()
-              : <ListView dataSource={this.state.faves} renderRow={(favorite) => this.favoriteEntry(favorite)} />}
-            {this.props.nav()}
-        </View>
+      <View style={styles.container}>
+        {this.props.backdrop()}
+        <Text style={styles.welcome}>My Favorite Photos</Text>
+        {!this.state.faves || this.state.faves.getRowCount() === 0
+          ? this.renderEmpty()
+          : <ListView dataSource={this.state.faves} renderRow={(favorite) => this.favoriteEntry(favorite)} />}
+        {this.props.nav()}
       </View>
     );
   }

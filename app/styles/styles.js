@@ -162,11 +162,11 @@ export default StyleSheet.create({
   foodCard: {
     width: width - 8,
     height: width - 8,
-    marginVertical: 8,
+    marginVertical: 5,
     padding: 8,
     backgroundColor: 'hsl(0,0%,100%)',
-    borderWidth: 1,
-    borderRadius: 3,
+    borderWidth: 3,
+    borderRadius: 5,
     borderColor: 'hsl(240.9,24%,80%)',
     borderStyle: 'solid',
     alignSelf: 'center',
@@ -195,19 +195,19 @@ export default StyleSheet.create({
   },
   pop: {
     position: 'absolute',
-    width: width * 0.5,
-    height: width * 0.5,
-    top: height * 0.25,
+    width: width * 0.75,
+    height: width * 0.75,
+    top: height - (width * 0.75),
     borderRadius: width / 2,
     justifyContent: 'center'
   },
   yup: {
     backgroundColor: 'hsl(120.9,92.1%,59.6%)',
-    right: -(width * 0.25)
+    right: -(width * 0.375)
   },
   nope: {
     backgroundColor: 'hsl(0.9,92.1%,59.6%)',
-    left: -(width * 0.25)
+    left: -(width * 0.375)
   },
   popText: {
     fontSize: 20,
@@ -249,8 +249,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'hsl(240.9,20%,96%)'
+    alignItems: 'center'
   },
   welcome: {
     marginTop: 17,
@@ -259,10 +258,11 @@ export default StyleSheet.create({
     fontFamily:'Avenir-Book',
     width: null,
     fontSize: 24,
+    paddingVertical: 5,
     paddingHorizontal: 8,
     fontWeight: 'bold',
-    color: 'hsl(0,0%,100%)',
-    backgroundColor: 'hsl(240.9,10%,20%)'
+    color: 'hsl(240.9,20%,10%)',
+    backgroundColor: 'hsl(240.9,20%,96%)'
   },
   errorTextStyle: {
     fontSize: 20,
@@ -327,6 +327,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'hsl(0.9,100%,59.6%)',
     alignSelf: 'stretch',
+    alignItems: 'center',
     width: null,
     justifyContent: 'space-between',
     paddingHorizontal: 30,

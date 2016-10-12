@@ -18,7 +18,8 @@ module.exports = {
     })
     .then(newUser => res.json({
       token: jwt.encode({
-        id: newUser.id
+        id: newUser.id,
+        email: newUser.email
       }, config.JWT_SECRET)
     }))
     .catch(err => {
@@ -46,7 +47,8 @@ module.exports = {
           console.log('login successful');
           res.json({
             token: jwt.encode({
-              id: user.id
+              id: user.id,
+              email: newUser.email
             }, config.JWT_SECRET)
           });
         } else if (err) {

@@ -49,6 +49,7 @@ export default class SignUp extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {this.props.backdrop()}
         <Text style={styles.welcome}>
           Welcome to DinDin! Sign Up here!
         </Text>
